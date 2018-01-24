@@ -14,6 +14,13 @@ const double S_PER_DAY = S_PER_HOUR * 24;
 const double S_PER_MONTH = S_PER_DAY * 30;
 const double S_PER_YEAR = S_PER_DAY * 365.256;
 
+double sq(
+        double v
+)
+{
+    return v * v;
+}
+
 std::ostream &
 operator<<(
         std::ostream &os,

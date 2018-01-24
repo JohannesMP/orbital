@@ -3,6 +3,7 @@
 //
 
 #include <cmath>
+#include <iostream>
 #include "Body.h"
 
 Body::Body(
@@ -18,6 +19,8 @@ Body::Body(
         , mA{a}
         , mE{e}
 {
+    mB = mA * sqrt(1 - mE * mE);
+
     /*
      * Position orbiting body (determined by a) to the near focal point of this' trajectory:
      *
@@ -73,10 +76,20 @@ Body::step(
     auto v_complex = complex{mPosition.x, mPosition.y} * complex{0, 1};
     vec v = glm::normalize(vec{v_complex.real(), v_complex.imag()}) * calculateV(M);
 
-    // Advance position:
+    // Advance position by straight line:
     mPosition += v * dt;
 
-    // Todo: Fix error, by mapping the new position back to the ellipse
+    /*
+     * Map position back to ellipse:
+     * https://math.stackexchange.com/questions/22064/calculating-a-point-that-lies-on-an-ellipse-given-an-angle
+     *
+     * x = ± (ab cos θ) / sqrt((b cos θ)² + (a cos θ)²)
+     * y = ± (ab sin θ) / sqrt((b cos θ)² + (a cos θ)²)
+     */
+    double theta = atan(mPosition.y / mPosition.x);
+    double denominator = sqrt(sq(mB * cos(theta)) + sq(mA * sin(theta))) / mA / mB;
+    mPosition.x = copysign(cos(theta) / denominator, mPosition.x);
+    mPosition.y = copysign(sin(theta) / denominator, mPosition.y);
 }
 
 const vec &

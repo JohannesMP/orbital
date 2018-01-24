@@ -37,6 +37,10 @@ extern const double S_PER_DAY;
 extern const double S_PER_MONTH;
 extern const double S_PER_YEAR;
 
+double sq(
+        double v
+);
+
 /**
  * Serialize a complex number: [real]+[imag]i
  */

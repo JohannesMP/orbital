@@ -19,9 +19,9 @@ main()
         system.stepSimulation();
 
         // Render:
-        //graphics.clear();
+        graphics.clear();
         system.foreach([&](Body &body) {
-            graphics.pixel(body.getPosition(), body.getName()[0]);
+            graphics.label(body.getPosition(), body.getName());
         });
         graphics.border();
         graphics.present();
