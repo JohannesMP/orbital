@@ -19,6 +19,11 @@ Body::Body(
         , mA{a}
         , mE{e}
 {
+    if (0 == mA)
+    {
+        mA = ZERO;
+    }
+
     mB = mA * sqrt(1 - mE * mE);
 
     /*
@@ -28,8 +33,17 @@ Body::Body(
      *   = a - (e / a)
      *   = a ( 1 - e)
      */
-    mPosition.x = a * (1 - e), 0;
+    mPosition.x = mA * (1 - mE);
 
+    /*
+     * Increasing x-axis value:
+     * - aphelion
+     * - far focal point
+     * - trajectory-center
+     * - focal point = system center = (0|0)
+     * - perihelion
+     */
+    mTrajectoryCenter.x = -mE * mA;
 }
 
 const std::string &
@@ -70,14 +84,16 @@ Body::step(
         double dt
 )
 {
+    vec p = mPosition - mTrajectoryCenter;
+
     // Calculate velocity in current position.
     // Calculate normalized velocity direction (perpendicular on position vector).
     // Rotate by 90°, using complex number multiplication:
-    auto v_complex = complex{mPosition.x, mPosition.y} * complex{0, 1};
+    auto v_complex = complex{p.x, p.y} * complex{0, 1};
     vec v = glm::normalize(vec{v_complex.real(), v_complex.imag()}) * calculateV(M);
 
     // Advance position by straight line:
-    mPosition += v * dt;
+    p += v * dt;
 
     /*
      * Map position back to ellipse:
@@ -86,10 +102,10 @@ Body::step(
      * x = ± (ab cos θ) / sqrt((b cos θ)² + (a cos θ)²)
      * y = ± (ab sin θ) / sqrt((b cos θ)² + (a cos θ)²)
      */
-    double theta = atan(mPosition.y / mPosition.x);
+    double theta = atan(p.y / p.x);
     double denominator = sqrt(sq(mB * cos(theta)) + sq(mA * sin(theta))) / mA / mB;
-    mPosition.x = copysign(cos(theta) / denominator, mPosition.x);
-    mPosition.y = copysign(sin(theta) / denominator, mPosition.y);
+    mPosition.x = copysign(cos(theta) / denominator, p.x) + mTrajectoryCenter.x;
+    mPosition.y = copysign(sin(theta) / denominator, p.y) + mTrajectoryCenter.y;
 }
 
 const vec &

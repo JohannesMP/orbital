@@ -1,0 +1,103 @@
+
+test:
+
+  central-body:
+    name: Sun
+    mass: 1.9884e30
+    radius: 348171
+    a: 0
+    e: 0
+
+  bodies:
+    -
+      name: A
+      mass: 2.2e14
+      radius: 10
+      a: 1
+      e: 0.9
+    -
+      name: B
+      mass: 2.2e15
+      radius: 10
+      a: 1
+      e: 0
+
+
+solar-system:
+
+  central-body:
+    name: Sun
+    mass: 1.9884e30
+    radius: 348171
+    a: 0
+    e: 0
+
+  bodies:
+    -
+      name: Mercury
+      mass: 3.302e23
+      radius: 2439.64
+      a: 0.38709893
+      e: 0.20563069
+    -
+      name: Venus
+      mass: 4.8690e24
+      radius: 6051.59
+      a: 0.72333199
+      e: 0.00677323
+    -
+      name: Earth
+      mass: 5.9737e24
+      radius: 6378.1
+      a: 1.00000011
+      e: 0.01671022
+    -
+      name: Mars
+      mass: 6.4191e23
+      radius: 3397
+      a: 1.52366231
+      e: 0.09341233
+    -
+      name: Jupiter
+      mass: 1.8987e27
+      radius: 71492.68
+      a: 5.20336301
+      e: 0.04839266
+    -
+      name: Saturn
+      mass: 5.6851e26
+      radius: 60267.14
+      a: 9.53707032
+      e: 0.05415060
+    -
+      name: Uranus
+      mass: 8.6849e25
+      radius: 25557.25
+      a: 19.19126393
+      e: 0.04716771
+    -
+      name: Neptune
+      mass: 1.0244e26
+      radius: 24766.36
+      a: 30.06896348
+      e: 0.00858587
+    -
+      name: Pluto
+      mass: 1.305e22
+      radius: 1190
+      a: 39.482
+      e: 0.24880766
+    -
+      name: Ceres
+      mass: 9.39e20
+      radius: 473
+      a: 2.766
+      e: 0.080
+
+    -
+      name: Halley
+      mass: 2.2e14
+      radius: 10
+      a: 17.834
+      e: 0.96714
+

@@ -4,17 +4,17 @@
 #include "System.h"
 #include "Graphics.h"
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wmissing-noreturn"
 int
 main()
 {
-    Graphics graphics{40, 120};
-    System system{{"Sun", 1.9884e30, 348171, ZERO, 0}, S_PER_DAY * 2};
+    Graphics graphics{31, 121};
+    System system{"planets.yml", "solar-system", S_PER_HOUR * 2};
 
-    graphics.scale(1 / (3 * AU));
+    graphics.scale(1 / (2 * AU));
 
-    system.addBody({"Earth", 5.9737e27, 3189, 1.00000011 * AU, 0.01671022});
-
-    for (int i = 0; i < 365; i++)
+    for (;;)
     {
         system.stepSimulation();
 
@@ -29,3 +29,5 @@ main()
         std::this_thread::sleep_for(std::chrono::milliseconds(50));
     }
 }
+
+#pragma clang diagnostic pop

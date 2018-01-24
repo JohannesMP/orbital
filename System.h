@@ -21,6 +21,23 @@ public:
             double dt
     );
 
+    /**
+     * Create a system based on a Yaml archive file.
+     *
+     * a [AU]
+     * radius [km]
+     * mass [kg]
+     *
+     * @param systemArchiveFile Archive to load.
+     * @param systemName Name of system to load from archive.
+     * @param dt Time step size.
+     */
+    System(
+            const std::string &systemArchiveFile,
+            const std::string &systemName,
+            double dt
+    );
+
     Body &
     addBody(const Body &body);
 

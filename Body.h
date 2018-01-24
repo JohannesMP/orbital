@@ -13,6 +13,8 @@ class Body
 
 public:
 
+    Body() = default;
+
     /**
      * Create a new body.
      * @param mass Planet mass
@@ -40,6 +42,23 @@ public:
     const vec &
     getPosition() const;
 
+    void
+    step(
+            double M,
+            double dt
+    );
+
+private:
+
+    std::string mName;
+    double mMass{};      ///< [kg]   Planet mass (m > 0)
+    double mRadius{};    ///< [m]    Planet radius (r > 0)
+    double mA{};         ///< [m]    Major semi-axis (a > 0)
+    double mB{};         ///< [m]    Minor semi-axis (b > 0)
+    double mE{};         ///< []     Eccentricity (0 <= e < 1)
+    vec mPosition;       ///< [m]    Position of body mass center
+    vec mTrajectoryCenter;
+
     /**
      * Calculate the length of the velocity vector,
      * which implicitly is perpendicular on the vector (position - centerPosition).
@@ -52,21 +71,5 @@ public:
     calculateV(
             double M
     ) const;
-
-    void
-    step(
-            double M,
-            double dt
-    );
-
-private:
-
-    std::string mName;
-    double mMass;               ///< [kg]   Planet mass (m > 0)
-    double mRadius;             ///< [m]    Planet radius (r > 0)
-    double mA;                  ///< [m]    Major semi-axis (a > 0)
-    double mB;                  ///< [m]    Minor semi-axis (b > 0)
-    double mE;                  ///< []     Eccentricity (0 <= e < 1)
-    vec mPosition;              ///< [m]    Position of body mass center
 
 };
