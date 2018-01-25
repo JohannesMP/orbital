@@ -62,7 +62,11 @@ Graphics::pixel(
         return;
     }
 
-    mScanlines.at(static_cast<unsigned long>(loc.y)).at(static_cast<unsigned long>(loc.x)) = c;
+    char &target = mScanlines.at(static_cast<unsigned long>(loc.y)).at(static_cast<unsigned long>(loc.x));
+    if(mOverwrite || (!mOverwrite && ' ' == target))
+    {
+        target = c;
+    }
 }
 
 void
@@ -79,7 +83,21 @@ Graphics::label(
         return;
     }
 
-    std::copy(text.begin(), text.begin() + span, mScanlines[loc.y].begin() + loc.x);
+    if(mOverwrite)
+    {
+        std::copy(text.begin(), text.begin() + span, mScanlines[loc.y].begin() + loc.x);
+    }
+    else
+    {
+        for(int i = 0; i < span; i++)
+        {
+            char &target = mScanlines.at(static_cast<unsigned long>(loc.y)).at(static_cast<unsigned long>(loc.x));
+            if(' ' == target)
+            {
+                target = text[i];
+            }
+        }
+    }
 }
 
 glm::ivec2
@@ -234,4 +252,10 @@ Graphics::stepper(
         // Paint pixel:
         pixel(vs, '+');
     }
+}
+
+void
+Graphics::overwrite(bool b)
+{
+    mOverwrite = b;
 }

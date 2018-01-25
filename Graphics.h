@@ -30,6 +30,11 @@ public:
     void
     clear();
 
+    void
+    overwrite(
+            bool b
+    );
+
     /**
      * Map framebuffer coordinates to transform space coordinates, i.e. the transformed coordinated which would map
      * to this framebuffer coordinate.
@@ -112,6 +117,7 @@ private:
     std::list<Transform> mTransformStack;
     glm::mat3 mProjection;
     glm::mat3 mTransform;
+    bool mOverwrite;
 
     /**
      * Row major scan-line framebuffer

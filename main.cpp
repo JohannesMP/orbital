@@ -10,7 +10,7 @@
 int
 main()
 {
-    Graphics graphics{31, 121};
+    Graphics graphics{45, 141};
 
     System system{"planets.yml", "solar-system", S_PER_HOUR};
 
@@ -35,7 +35,9 @@ main()
 
             graphics.push();
             graphics.translate(-vec{ellipseFoci(body.getA(), body.getE()) / 2 / AU, 0});
+            graphics.overwrite(false);
             graphics.ellipse(body.getA(), body.getE());
+            graphics.overwrite(true);
             graphics.pop();
 
             graphics.label(body.getPosition(), body.getName());
