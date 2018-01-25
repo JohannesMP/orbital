@@ -37,7 +37,7 @@ System::System(
     mCentralBody = deserialize(data["central-body"]);
     for(int i = 0; i < data["bodies"].size(); i++)
     {
-        mBodies.emplace_back(deserialize(data["bodies"][i]));
+        add(deserialize(data["bodies"][i]));
     }
 }
 
@@ -52,7 +52,7 @@ System::stepSimulation()
 }
 
 Body &
-System::addBody(const Body &body)
+System::add(const Body &body)
 {
     mBodies.emplace_back(body);
     return mBodies.back();
@@ -66,4 +66,27 @@ System::foreach(std::function<void(Body &)> &&l)
     {
         l(body);
     }
+}
+
+Body &
+System::find(
+        const std::string &name
+)
+{
+    if(name == mCentralBody.getName())
+    {
+        return mCentralBody;
+    }
+
+    auto iter = std::find_if(mBodies.begin(), mBodies.end(), [&name](Body &body)
+    {
+        return body.getName() == name;
+    });
+
+    if(mBodies.end() == iter)
+    {
+        throw std::runtime_error("No such body in system");
+    }
+
+    return *iter;
 }

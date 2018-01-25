@@ -6,17 +6,25 @@
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wmissing-noreturn"
+
 int
 main()
 {
     Graphics graphics{31, 121};
     System system{"planets.yml", "solar-system", S_PER_HOUR * 2};
 
-    graphics.scale(1 / (2 * AU));
+    auto &earth = system.find("Earth");
 
     for (;;)
     {
         system.stepSimulation();
+
+        // Set graphics transform to track earth:
+        {
+            graphics.resetTransform();
+            graphics.scale(1 / (2 * AU));
+            graphics.translate(-earth.getPosition());
+        }
 
         // Render:
         graphics.clear();

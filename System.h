@@ -39,7 +39,7 @@ public:
     );
 
     Body &
-    addBody(const Body &body);
+    add(const Body &body);
 
     void
     stepSimulation();
@@ -48,6 +48,12 @@ public:
     foreach(
             std::function<void(Body &)> &&l
     );
+
+    Body &
+    find(
+            const std::string &name
+    );
+
 
 private:
 
