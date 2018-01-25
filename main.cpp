@@ -12,19 +12,13 @@ main()
 {
     Graphics graphics{31, 121};
 
-    double a = integral([](double x) {
-        return 2 * sin(x * x);
-    }, 0, PI / 2, 20);
-
-    std::cout << a << std::endl;
-
     //graphics.scale(2);
-    //graphics.translate({-1, 0});
-    /*{
-        graphics.ellipse(1, 0);
+    //graphics.translate({-1, 0.87});
+    {
+        graphics.ellipse(1, 0.5);
         graphics.border();
         graphics.present();
-    }*/
+    }
 
     /*System system{"planets.yml", "solar-system", S_PER_HOUR * 2};
 

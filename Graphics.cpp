@@ -205,8 +205,56 @@ Graphics::ellipse(
     glm::vec2 focalPoints[2]{{}};
     focalPoints[0].x = a * e;
     focalPoints[1].x = a * -e;
+    stepper(a, ellipseB(a, e), 0, 2 * PI, 1);
+}
 
-    auto stepper = [&](int t0, int t1) {
+void
+Graphics::stepper(
+        double a,
+        double b,
+        double tStart,
+        double tEnd,
+        double tMin
+)
+{
+    double len = arcLen(a, b, tStart, tEnd, 10);
 
-    };
+    static int inv = 0;
+    printf("[%d]    start: %lf     end: %lf     len: %lf\n", inv, tStart, tEnd, len);
+    inv++;
+
+    if(len > tMin) {
+        // Invoke stepper for the two halves:
+        stepper(a, b, tStart, tStart + (tEnd - tStart) / 2, tMin);
+        stepper(a, b, tStart + (tEnd - tStart) / 2, tEnd, tMin);
+    }
+
+    else {
+        double t = tStart;
+        double x = a * cos(t);
+        double y = b * sin(t);
+        glm::ivec2 loc = mapToFramebuffer({x, y});
+        if(withinFramebufferBounds(loc))
+        {
+            mScanlines[loc.y][loc.x] = '#';
+            printf("!!! Ellipse at %d|%d\n", loc.x, loc.y);
+        }
+    }
+}
+
+double
+Graphics::arcLen(
+        double a,
+        double b,
+        double tStart,
+        double tEnd,
+        double resolution
+)
+{
+    return integral(
+            [&](double x) {
+                // sqrt( a² sin²x + b² cos²x )
+                return sqrt(sq(a) * sq(sin(x)) + sq(b) * sq(cos(x)));
+            }, tStart, tEnd, resolution
+    );
 }

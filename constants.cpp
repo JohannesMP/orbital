@@ -75,6 +75,15 @@ integral(
         double resolution
 )
 {
+    bool reverse = false;
+    if(low > high)
+    {
+        double tmp = low;
+        low = high;
+        high = tmp;
+        reverse = true;
+    }
+
     double step = 1 / resolution;
     auto steps = static_cast<int>((high - low) / step);
     double sum = 0.0;                    // Area size accumulation
@@ -86,5 +95,14 @@ integral(
         x += step;
     }
 
-    return sum;
+    return !reverse ? sum : -sum;
+}
+
+double
+ellipseB(
+        double a,
+        double e
+)
+{
+    return a * sqrt(1 - sq(e));
 }

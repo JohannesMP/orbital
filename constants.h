@@ -6,6 +6,7 @@
 
 #include <glm/glm.hpp>
 #include <complex>
+#include <functional>
 
 using vec = glm::dvec2;
 
@@ -81,4 +82,10 @@ integral(
         double low,
         double high,
         double resolution
+);
+
+double
+ellipseB(
+        double a,
+        double e
 );
