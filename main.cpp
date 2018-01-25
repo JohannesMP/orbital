@@ -11,7 +11,16 @@ int
 main()
 {
     Graphics graphics{31, 121};
-    System system{"planets.yml", "solar-system", S_PER_HOUR * 2};
+
+    std::cout << graphics.mapToTransformed({60, 15}) << std::endl;
+
+    {
+        graphics.ellipse(1, 0.6);
+        graphics.border();
+        graphics.present();
+    }
+
+    /*System system{"planets.yml", "solar-system", S_PER_HOUR * 2};
 
     auto &earth = system.find("Earth");
 
@@ -36,6 +45,7 @@ main()
 
         std::this_thread::sleep_for(std::chrono::milliseconds(50));
     }
+     */
 }
 
 #pragma clang diagnostic pop

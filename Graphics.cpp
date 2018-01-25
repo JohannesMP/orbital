@@ -35,7 +35,7 @@ Graphics::Graphics(
     mProjection = glm::scale(glm::mat3{1}, {cols / 2.0, rows / 2.0});               // Span over whole viewport
     mProjection = glm::translate(mProjection, glm::vec2{1, 1});                     // Origin should sit in the center
     mProjection = glm::scale(mProjection, {1, -1});                                 // Y-Axis should point upwards
-    mProjection = glm::scale(mProjection, {rows / (double)cols / CHAR_RATIO, 1});   // Scale against viewport distort
+    mProjection = glm::scale(mProjection, {rows / (double) cols / CHAR_RATIO, 1});   // Scale against viewport distort
 
     push();
     updateTransform();
@@ -57,7 +57,7 @@ Graphics::pixel(
 )
 {
     auto loc = mapToFramebuffer(pos);
-    if(!withinFramebufferBounds(loc))
+    if (!withinFramebufferBounds(loc))
     {
         return;
     }
@@ -86,7 +86,14 @@ glm::ivec2
 Graphics::mapToFramebuffer(const vec &v)
 {
     glm::vec3 transformed = mTransform * glm::vec3{v, 1.0};
-    return {transformed.x, transformed.y};
+    return transformed;
+}
+
+vec
+Graphics::mapToTransformed(const glm::ivec2 &loc)
+{
+    glm::vec3 v = glm::inverse(mTransform) * glm::vec3{loc, 1.0};
+    return v;
 }
 
 void
@@ -131,7 +138,7 @@ void
 Graphics::updateTransform()
 {
     glm::mat3 view{1};
-    for(auto iter = mTransformStack.rbegin(); iter != mTransformStack.rend(); iter++)
+    for (auto iter = mTransformStack.rbegin(); iter != mTransformStack.rend(); iter++)
     {
         view *= iter->transformation();
     }
@@ -154,7 +161,7 @@ Graphics::resetTransform()
 void
 Graphics::present()
 {
-    for (auto &scanline : mScanlines)
+    for (auto &scanline : *this)
     {
         std::cout << scanline << std::endl;
     }
@@ -182,4 +189,35 @@ const glm::mat3 &
 Graphics::transformation()
 {
     return mTransform;
+}
+
+void
+Graphics::ellipse(
+        float a,
+        float e
+)
+{
+    vec focalPoints[2]{{}};
+    focalPoints[0].x = a * e;
+    focalPoints[1].x = a * -e;
+
+    for (int row = 0; row < mScanlines.size(); row++)
+    {
+        for (int col = 0; col < columns(); col++)
+        {
+            vec p = mapToTransformed({col, row});
+
+            float d0 = glm::distance(p, focalPoints[0]);
+            float d1 = glm::distance(p, focalPoints[1]);
+            auto d = static_cast<int>(d0 + d1);
+
+            std::cout << "row=" << row << "  col=" << col << "  p=" << p << "   d0=" << d0 << "   d1=" << d1
+                      << std::endl;
+
+            if (d == 2 * a)
+            {
+                mScanlines[row][col] = '#';
+            }
+        }
+    }
 }

@@ -30,6 +30,17 @@ public:
     void
     clear();
 
+    /**
+     * Map framebuffer coordinates to transform space coordinates, i.e. the transformed coordinated which would map
+     * to this framebuffer coordinate.
+     * @param loc Framebuffer coordinate
+     * @return Mapped to transformed space.
+     */
+    vec
+    mapToTransformed(
+            const glm::ivec2 &loc
+    );
+
     void
     label(
             vec pos,
@@ -40,6 +51,12 @@ public:
     pixel(
             vec pos,
             char c
+    );
+
+    void
+    ellipse(
+            float a,
+            float e
     );
 
     void
