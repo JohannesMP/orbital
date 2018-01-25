@@ -2,12 +2,19 @@
 // Created by jim on 24.01.18.
 //
 
-#include <vector>
+#include <list>
 #include <string>
+#include <vector>
 #include "constants.h"
+#include "Transform.h"
 
 #pragma once
 
+/**
+ * Paints text graphics into a framebuffer.
+ * Provides a transformation stack, whereas the final transform matrix is built top-to-bottom, exposing a fresh,
+ * untransformed coordinate system to the uppermost transform.
+ */
 class Graphics
 {
 
@@ -36,6 +43,12 @@ public:
     );
 
     void
+    push();
+
+    void
+    pop();
+
+    void
     resetTransform();
 
     void
@@ -59,12 +72,14 @@ public:
     int
     columns() const;
 
-    auto begin()
+    auto
+    begin()
     {
         return mScanlines.begin();
     }
 
-    auto end()
+    auto
+    end()
     {
         return mScanlines.end();
     }
@@ -72,11 +87,12 @@ public:
     void
     present();
 
+    const glm::mat3 &
+    transformation();
+
 private:
 
-    glm::mat3 mTranslation{1};
-    glm::mat3 mScale{1};
-    glm::mat3 mRotation{1};
+    std::list<Transform> mTransformStack;
     glm::mat3 mProjection;
     glm::mat3 mTransform;
 

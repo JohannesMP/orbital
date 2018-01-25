@@ -3,6 +3,7 @@
 //
 
 #include "constants.h"
+#include <glm/gtc/type_ptr.hpp>
 
 const double G = 6.6738e-11;
 const double AU = 1.496e11;
@@ -38,6 +39,23 @@ operator<<(
 )
 {
     os << '(' << v.x << '|' << v.y << ')';
+    return os;
+}
+
+std::ostream &
+operator<<(
+        std::ostream &os,
+        const glm::mat3 &m
+)
+{
+    for(int col = 0; col < 3; col++)
+    {
+        for(int row = 0; row < 2; row++)
+        {
+            os << m[col][row]  << " , ";
+        }
+        os << m[col][2] << std::endl;
+    }
     return os;
 }
 

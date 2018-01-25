@@ -15,7 +15,7 @@ main()
 
     auto &earth = system.find("Earth");
 
-    for (;;)
+    for (int i = 0; i < 10000000; i++)
     {
         system.stepSimulation();
 

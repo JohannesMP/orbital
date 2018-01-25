@@ -37,6 +37,7 @@ Graphics::Graphics(
     mProjection = glm::scale(mProjection, {1, -1});                                 // Y-Axis should point upwards
     mProjection = glm::scale(mProjection, {rows / (double)cols / CHAR_RATIO, 1});   // Scale against viewport distort
 
+    push();
     updateTransform();
 }
 
@@ -108,28 +109,33 @@ Graphics::border()
 void
 Graphics::translate(const vec &v)
 {
-    mTranslation = glm::translate(mTranslation, glm::vec2{v});
+    mTransformStack.back().translate(v);
     updateTransform();
 }
 
 void
 Graphics::scale(double s)
 {
-    mScale = glm::scale(mScale, glm::vec2{s, s});
+    mTransformStack.back().scale(s);
     updateTransform();
 }
 
 void
 Graphics::rotate(float degrees)
 {
-    mRotation = glm::rotate(mRotation, glm::radians(degrees));
+    mTransformStack.back().rotate(degrees);
     updateTransform();
 }
 
 void
 Graphics::updateTransform()
 {
-    mTransform = mProjection * mRotation * mScale * mTranslation;
+    glm::mat3 view{1};
+    for(auto iter = mTransformStack.rbegin(); iter != mTransformStack.rend(); iter++)
+    {
+        view *= iter->transformation();
+    }
+    mTransform = mProjection * view;
 }
 
 int
@@ -141,7 +147,7 @@ Graphics::columns() const
 void
 Graphics::resetTransform()
 {
-    mRotation = mScale = mTranslation = glm::mat3{1};
+    mTransformStack.back().reset();
     updateTransform();
 }
 
@@ -158,4 +164,22 @@ bool
 Graphics::withinFramebufferBounds(const glm::ivec2 &v)
 {
     return v.y >= 0 && v.y < mScanlines.size() && v.x >= 0 && v.x < mScanlines[0].length();
+}
+
+void
+Graphics::push()
+{
+    mTransformStack.emplace_back();
+}
+
+void
+Graphics::pop()
+{
+    mTransformStack.pop_back();
+}
+
+const glm::mat3 &
+Graphics::transformation()
+{
+    return mTransform;
 }

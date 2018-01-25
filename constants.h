@@ -56,6 +56,12 @@ operator<<(
         const vec &v
 );
 
+std::ostream &
+operator<<(
+        std::ostream &os,
+        const glm::mat3 &m
+);
+
 double length(
         const vec &v
 );
