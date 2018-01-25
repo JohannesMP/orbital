@@ -191,33 +191,22 @@ Graphics::transformation()
     return mTransform;
 }
 
+/*
+ * Implement as recursive stepper:
+ * Take an interval, if the sliced arc is longer than 1 (in framebuffer-coords),
+ * re-invoke the stepper on the two halves of the interval.
+ */
 void
 Graphics::ellipse(
         float a,
         float e
 )
 {
-    vec focalPoints[2]{{}};
+    glm::vec2 focalPoints[2]{{}};
     focalPoints[0].x = a * e;
     focalPoints[1].x = a * -e;
 
-    for (int row = 0; row < mScanlines.size(); row++)
-    {
-        for (int col = 0; col < columns(); col++)
-        {
-            vec p = mapToTransformed({col, row});
+    auto stepper = [&](int t0, int t1) {
 
-            float d0 = glm::distance(p, focalPoints[0]);
-            float d1 = glm::distance(p, focalPoints[1]);
-            auto d = static_cast<int>(d0 + d1);
-
-            std::cout << "row=" << row << "  col=" << col << "  p=" << p << "   d0=" << d0 << "   d1=" << d1
-                      << std::endl;
-
-            if (d == 2 * a)
-            {
-                mScanlines[row][col] = '#';
-            }
-        }
-    }
+    };
 }

@@ -66,3 +66,25 @@ length(
 {
     return sqrt(v.x * v.x + v.y * v.y);
 }
+
+double
+integral(
+        std::function<double(double)> &&f,
+        double low,
+        double high,
+        double resolution
+)
+{
+    double step = 1 / resolution;
+    auto steps = static_cast<int>((high - low) / step);
+    double sum = 0.0;                    // Area size accumulation
+    double x = low;                      // x starts at the lower bound
+
+    for(int i = 0; i < steps; i++)
+    {
+        sum += f(x + step * 0.5) * step;
+        x += step;
+    }
+
+    return sum;
+}

@@ -65,3 +65,20 @@ operator<<(
 double length(
         const vec &v
 );
+
+
+/**
+ * Integrate a function over a given range.
+ * @param f Function to integrate on.
+ * @param low Lower integration bound.
+ * @param high Upper integration bound.
+ * @param resolution Resolution per x stepping, i.e. number of function invocations per x.
+ * @return Area of integral.
+ */
+double
+integral(
+        std::function<double(double)> &&f,
+        double low,
+        double high,
+        double resolution
+);
