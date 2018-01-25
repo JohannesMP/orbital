@@ -131,22 +131,12 @@ private:
             const glm::ivec2 &v
     );
 
-    double
-    arcLen(
-            double a,
-            double b,
-            double tStart,
-            double tEnd,
-            double resolution
-    );
-
     void
     stepper(
             double a,
             double b,
-            double tStart,
-            double tEnd,
-            double tMin
+            double ts,
+            double te
     );
 
 };

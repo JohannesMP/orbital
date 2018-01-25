@@ -12,8 +12,8 @@ main()
 {
     Graphics graphics{31, 121};
 
-    //graphics.scale(2);
-    //graphics.translate({-1, 0.87});
+    graphics.scale(2);
+    graphics.translate({-1, 0.87});
     {
         graphics.ellipse(1, 0.5);
         graphics.border();

@@ -67,6 +67,10 @@ double length(
         const vec &v
 );
 
+double distance(
+        const vec &v0,
+        const vec &v1
+);
 
 /**
  * Integrate a function over a given range.
@@ -88,4 +92,26 @@ double
 ellipseB(
         double a,
         double e
+);
+
+double
+ellipseFoci(
+        double a,
+        double e
+);
+
+vec
+ellipseT(
+        double a,
+        double b,
+        double t
+);
+
+double
+arcLen(
+        double a,
+        double b,
+        double tStart,
+        double tEnd,
+        double resolution
 );

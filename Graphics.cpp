@@ -72,7 +72,7 @@ Graphics::label(
 )
 {
     auto loc = mapToFramebuffer(pos);
-    auto span = std::min<int>(static_cast<int>(text.length()), static_cast<int>(columns() - loc.x));
+    auto span = std::min<int>(static_cast<int>(text.length()), columns() - loc.x);
 
     if (0 >= span || !withinFramebufferBounds(loc))
     {
@@ -191,70 +191,46 @@ Graphics::transformation()
     return mTransform;
 }
 
-/*
- * Implement as recursive stepper:
- * Take an interval, if the sliced arc is longer than 1 (in framebuffer-coords),
- * re-invoke the stepper on the two halves of the interval.
- */
 void
 Graphics::ellipse(
         float a,
         float e
 )
 {
-    glm::vec2 focalPoints[2]{{}};
-    focalPoints[0].x = a * e;
-    focalPoints[1].x = a * -e;
-    stepper(a, ellipseB(a, e), 0, 2 * PI, 1);
+    // Since the stepper calculates the pixel distance based on vector subtraction and *not* on ellipse arc length,
+    // the ellipse must be divided into 4 quarters
+    stepper(a, ellipseB(a, e), 0, PI * 0.5);
+    stepper(a, ellipseB(a, e), PI * 0.5, PI);
+    stepper(a, ellipseB(a, e), PI, PI * 1.5);
+    stepper(a, ellipseB(a, e), PI * 1.5, 2 * PI);
 }
 
 void
 Graphics::stepper(
         double a,
         double b,
-        double tStart,
-        double tEnd,
-        double tMin
+        double ts,
+        double te
 )
 {
-    double len = arcLen(a, b, tStart, tEnd, 10);
+    // Calculate distance the painted pixels of the start and end arc would have within the framebuffer:
+    vec vs = ellipseT(a, b, ts);
+    vec ve = ellipseT(a, b, te);
+    double d = distance({mapToFramebuffer(ve)}, {mapToFramebuffer(vs)});
 
-    static int inv = 0;
-    printf("[%d]    start: %lf     end: %lf     len: %lf\n", inv, tStart, tEnd, len);
-    inv++;
-
-    if(len > tMin) {
-        // Invoke stepper for the two halves:
-        stepper(a, b, tStart, tStart + (tEnd - tStart) / 2, tMin);
-        stepper(a, b, tStart + (tEnd - tStart) / 2, tEnd, tMin);
+    // 1.4142... is the distance between to diagonal pixels:
+    if (1.5 < d)
+    {
+        // Distance between painted pixels in framebuffers spans over at least one pixel,
+        // continue stepping in smaller steps:
+        double tHalf = (te - ts) / 2;
+        stepper(a, b, ts, ts + tHalf);
+        stepper(a, b, ts + tHalf, te);
     }
 
-    else {
-        double t = tStart;
-        double x = a * cos(t);
-        double y = b * sin(t);
-        glm::ivec2 loc = mapToFramebuffer({x, y});
-        if(withinFramebufferBounds(loc))
-        {
-            mScanlines[loc.y][loc.x] = '#';
-            printf("!!! Ellipse at %d|%d\n", loc.x, loc.y);
-        }
+    else
+    {
+        // Paint pixel:
+        pixel(vs, '#');
     }
-}
-
-double
-Graphics::arcLen(
-        double a,
-        double b,
-        double tStart,
-        double tEnd,
-        double resolution
-)
-{
-    return integral(
-            [&](double x) {
-                // sqrt( a² sin²x + b² cos²x )
-                return sqrt(sq(a) * sq(sin(x)) + sq(b) * sq(cos(x)));
-            }, tStart, tEnd, resolution
-    );
 }

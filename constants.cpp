@@ -67,6 +67,14 @@ length(
     return sqrt(v.x * v.x + v.y * v.y);
 }
 
+double distance(
+        const vec &v0,
+        const vec &v1
+)
+{
+    return length(v1 - v0);
+}
+
 double
 integral(
         std::function<double(double)> &&f,
@@ -105,4 +113,43 @@ ellipseB(
 )
 {
     return a * sqrt(1 - sq(e));
+}
+
+double
+ellipseFoci(
+        double a,
+        double e
+)
+{
+    return a * e;
+}
+
+vec
+ellipseT(
+        double a,
+        double b,
+        double t
+)
+{
+    return {
+            a * cos(t),
+            b * sin(t)
+    };
+}
+
+double
+arcLen(
+        double a,
+        double b,
+        double tStart,
+        double tEnd,
+        double resolution
+)
+{
+    return integral(
+            [&](double x) {
+                // sqrt( a² sin²x + b² cos²x )
+                return sqrt(sq(a) * sq(sin(x)) + sq(b) * sq(cos(x)));
+            }, tStart, tEnd, resolution
+    );
 }
