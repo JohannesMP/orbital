@@ -12,15 +12,7 @@ main()
 {
     Graphics graphics{31, 121};
 
-    graphics.scale(2);
-    graphics.translate({-1, 0.87});
-    {
-        graphics.ellipse(1, 0.5);
-        graphics.border();
-        graphics.present();
-    }
-
-    /*System system{"planets.yml", "solar-system", S_PER_HOUR * 2};
+    System system{"planets.yml", "solar-system", S_PER_HOUR};
 
     auto &earth = system.find("Earth");
 
@@ -37,15 +29,23 @@ main()
 
         // Render:
         graphics.clear();
+
+        // Paint body names:
         system.foreach([&](Body &body) {
+
+            graphics.push();
+            graphics.translate(-vec{ellipseFoci(body.getA(), body.getE()) / 2 / AU, 0});
+            graphics.ellipse(body.getA(), body.getE());
+            graphics.pop();
+
             graphics.label(body.getPosition(), body.getName());
         });
+
         graphics.border();
         graphics.present();
 
         std::this_thread::sleep_for(std::chrono::milliseconds(50));
     }
-     */
 }
 
 #pragma clang diagnostic pop

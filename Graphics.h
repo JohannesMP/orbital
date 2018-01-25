@@ -55,8 +55,8 @@ public:
 
     void
     ellipse(
-            float a,
-            float e
+            double a,
+            double e
     );
 
     void

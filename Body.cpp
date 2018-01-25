@@ -113,3 +113,15 @@ Body::getPosition() const
 {
     return mPosition;
 }
+
+double
+Body::getA() const
+{
+    return mA;
+}
+
+double
+Body::getE() const
+{
+    return mE;
+}

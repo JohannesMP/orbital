@@ -183,6 +183,7 @@ void
 Graphics::pop()
 {
     mTransformStack.pop_back();
+    updateTransform();
 }
 
 const glm::mat3 &
@@ -193,8 +194,8 @@ Graphics::transformation()
 
 void
 Graphics::ellipse(
-        float a,
-        float e
+        double a,
+        double e
 )
 {
     // Since the stepper calculates the pixel distance based on vector subtraction and *not* on ellipse arc length,
@@ -231,6 +232,6 @@ Graphics::stepper(
     else
     {
         // Paint pixel:
-        pixel(vs, '#');
+        pixel(vs, '+');
     }
 }

@@ -42,6 +42,12 @@ public:
     const vec &
     getPosition() const;
 
+    double
+    getA() const;
+
+    double
+    getE() const;
+
     void
     step(
             double M,
