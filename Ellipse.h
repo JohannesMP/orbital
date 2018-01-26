@@ -71,6 +71,20 @@ public:
     );
 
     /**
+     * Checks whether a rectangle is completely inside the ellipse.
+     * @param p Lower-left point of rectangle.
+     * @param w Rectangle width.
+     * @param h Rectangle height.
+     * @return True if completely inside ellipse.
+     */
+    bool
+    contains(
+            const vec &p,
+            double w,
+            double h
+    );
+
+    /**
      * Calculate the length of an arc slice within `ts` and `te`.
      * @param ts Start parameter of arc.
      * @param te End parameter of arc.
