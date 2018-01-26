@@ -47,7 +47,9 @@ Ellipse::fociPoints() const
 }
 
 vec
-Ellipse::point(double t) const
+Ellipse::point(
+        double t
+) const
 {
     return {mA * cos(t), mB * sin(t)};
 }
@@ -57,7 +59,7 @@ Ellipse::arcLength(
         double ts,
         double te,
         double resolution
-)
+) const
 {
     double sqA = sq(mA);
     double sqB = sq(mB);
@@ -68,7 +70,9 @@ Ellipse::arcLength(
 }
 
 vec
-Ellipse::pointAngle(double radians)
+Ellipse::pointAngle(
+        double radians
+) const
 {
     // sqrt( b² + a² tan² θ )
     double denominator = sqrt(sq(mB) + sq(mA) * sq(tan(radians)));
@@ -81,7 +85,9 @@ Ellipse::pointAngle(double radians)
 }
 
 bool
-Ellipse::contains(const vec &p)
+Ellipse::contains(
+        const vec &p
+) const
 {
     /*
      * Calculate t for given x, then check whether the given y is smaller/greater than the
@@ -109,7 +115,7 @@ Ellipse::contains(
         const vec &p,
         double w,
         double h
-)
+) const
 {
     return contains(p) && contains({p.x + w, p.y}) && contains({p.x, p.y + h}) && contains({p.x + w, p.y + h});
 }

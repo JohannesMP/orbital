@@ -13,8 +13,7 @@
 
 /**
  * Paints text graphics into a framebuffer.
- * Provides a transformation stack, whereas the final transform matrix is built top-to-bottom, exposing a fresh,
- * untransformed coordinate system to the uppermost transform.
+ * Provides a transformation stack, whereas the final transform matrix is built bottom-to-top.
  */
 class Graphics
 {
@@ -91,6 +90,9 @@ public:
 
     int
     columns() const;
+
+    int
+    rows() const;
 
     auto
     begin()

@@ -58,7 +58,7 @@ public:
     vec
     pointAngle(
             double radians
-    );
+    ) const;
 
     /**
      * Check whether a point is contained by the ellipse covered area.
@@ -68,7 +68,7 @@ public:
     bool
     contains(
             const vec &p
-    );
+    ) const;
 
     /**
      * Checks whether a rectangle is completely inside the ellipse.
@@ -82,7 +82,7 @@ public:
             const vec &p,
             double w,
             double h
-    );
+    ) const;
 
     /**
      * Calculate the length of an arc slice within `ts` and `te`.
@@ -96,7 +96,7 @@ public:
             double ts,
             double te,
             double resolution
-    );
+    )  const;
 
     /**
      * @return Two foci as x-values.

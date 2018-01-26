@@ -156,9 +156,9 @@ void
 Graphics::updateTransform()
 {
     glm::mat3 view{1};
-    for (auto iter = mTransformStack.rbegin(); iter != mTransformStack.rend(); iter++)
+    for (auto transform : mTransformStack)
     {
-        view *= iter->transformation();
+        view *= transform.transformation();
     }
     mTransform = mProjection * view;
 }
@@ -188,7 +188,7 @@ Graphics::present()
 bool
 Graphics::withinFramebufferBounds(const glm::ivec2 &v)
 {
-    return v.y >= 0 && v.y < mScanlines.size() && v.x >= 0 && v.x < mScanlines[0].length();
+    return v.y >= 0 && v.y < rows() && v.x >= 0 && v.x < mScanlines[0].length();
 }
 
 void
@@ -213,6 +213,15 @@ Graphics::transformation()
 void
 Graphics::ellipse(const Ellipse &ellipse)
 {
+    // Skip ellipse rendering if the viewport is completely contained by the ellipse shape,
+    // i.e. no lines are visible anyway.
+    vec ll = mapToTransformed({0, rows() - 1});
+    vec ur = mapToTransformed({columns() - 1, 0});
+    if(ellipse.contains(ll, ur.x - ll.x, ur.y - ll.y))
+    {
+        return;
+    }
+
     // Since the stepper calculates the pixel distance based on vector subtraction and *not* on ellipse arc length,
     // the ellipse must be divided into 4 quarters
     stepper(ellipse, 0, PI * 0.5);
@@ -254,4 +263,10 @@ void
 Graphics::overwrite(bool b)
 {
     mOverwrite = b;
+}
+
+int
+Graphics::rows() const
+{
+    return static_cast<int>(mScanlines.size());
 }
