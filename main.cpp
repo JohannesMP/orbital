@@ -34,9 +34,9 @@ main()
         system.foreach([&](Body &body) {
 
             graphics.push();
-            graphics.translate(-vec{ellipseFoci(body.getA(), body.getE()) / 2 / AU, 0});
+            graphics.translate(body.getTrajectory().fociPoints()[0] / 2.0 / AU);
             graphics.overwrite(false);
-            graphics.ellipse(body.getA(), body.getE());
+            graphics.ellipse(body.getTrajectory());
             graphics.overwrite(true);
             graphics.pop();
 

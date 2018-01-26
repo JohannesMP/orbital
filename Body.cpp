@@ -16,16 +16,8 @@ Body::Body(
         : mName{std::move(name)}
         , mMass{mass}
         , mRadius{radius}
-        , mA{a}
-        , mE{e}
+        , mTrajectory{a != 0 ? a : ZERO, e}
 {
-    if (0 == mA)
-    {
-        mA = ZERO;
-    }
-
-    mB = mA * sqrt(1 - mE * mE);
-
     /*
      * Position orbiting body (determined by a) to the near focal point of this' trajectory:
      *
@@ -33,7 +25,7 @@ Body::Body(
      *   = a - (e / a)
      *   = a ( 1 - e)
      */
-    mPosition.x = mA * (1 - mE);
+    mPosition.x = mTrajectory.foci()[1]; //mA * (1 - mE);
 
     /*
      * Increasing x-axis value:
@@ -43,7 +35,7 @@ Body::Body(
      * - focal point = system center = (0|0)
      * - perihelion
      */
-    mTrajectoryCenter.x = -mE * mA;
+    mTrajectoryCenter.x = -mTrajectory.e() * mTrajectory.a(); //-mE * mA;
 }
 
 const std::string &
@@ -75,7 +67,7 @@ Body::calculateV(
      * v = sqrt(G M(2/d - 1/a))
      */
     double d = length(mPosition);
-    return sqrt(G * M * (2 / d - 1 / mA));
+    return sqrt(G * M * (2 / d - 1 / mTrajectory.a()));
 }
 
 void
@@ -103,7 +95,8 @@ Body::step(
      * y = ± (ab sin θ) / sqrt((b cos θ)² + (a cos θ)²)
      */
     double theta = atan(p.y / p.x);
-    double denominator = sqrt(sq(mB * cos(theta)) + sq(mA * sin(theta))) / mA / mB;
+    double denominator = sqrt(sq(mTrajectory.b() * cos(theta)) + sq(mTrajectory.a() * sin(theta))) / mTrajectory.a() /
+            mTrajectory.b();
     mPosition.x = copysign(cos(theta) / denominator, p.x) + mTrajectoryCenter.x;
     mPosition.y = copysign(sin(theta) / denominator, p.y) + mTrajectoryCenter.y;
 }
@@ -114,14 +107,8 @@ Body::getPosition() const
     return mPosition;
 }
 
-double
-Body::getA() const
+const Ellipse &
+Body::getTrajectory() const
 {
-    return mA;
-}
-
-double
-Body::getE() const
-{
-    return mE;
+    return mTrajectory;
 }

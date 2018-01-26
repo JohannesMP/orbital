@@ -7,6 +7,7 @@
 #include <glm/gtx/transform.hpp>
 #include <iostream>
 #include "Graphics.h"
+#include "Ellipse.h"
 
 const double Graphics::CHAR_RATIO = 1 / 2.0;
 
@@ -211,30 +212,26 @@ Graphics::transformation()
 }
 
 void
-Graphics::ellipse(
-        double a,
-        double e
-)
+Graphics::ellipse(const Ellipse &ellipse)
 {
     // Since the stepper calculates the pixel distance based on vector subtraction and *not* on ellipse arc length,
     // the ellipse must be divided into 4 quarters
-    stepper(a, ellipseB(a, e), 0, PI * 0.5);
-    stepper(a, ellipseB(a, e), PI * 0.5, PI);
-    stepper(a, ellipseB(a, e), PI, PI * 1.5);
-    stepper(a, ellipseB(a, e), PI * 1.5, 2 * PI);
+    stepper(ellipse, 0, PI * 0.5);
+    stepper(ellipse, PI * 0.5, PI);
+    stepper(ellipse, PI, PI * 1.5);
+    stepper(ellipse, PI * 1.5, 2 * PI);
 }
 
 void
 Graphics::stepper(
-        double a,
-        double b,
+        const Ellipse &ellipse,
         double ts,
         double te
 )
 {
     // Calculate distance the painted pixels of the start and end arc would have within the framebuffer:
-    vec vs = ellipseT(a, b, ts);
-    vec ve = ellipseT(a, b, te);
+    vec vs = ellipse.point(ts); // ellipseT(a, b, ts);
+    vec ve = ellipse.point(te); // ellipseT(a, b, te);
     double d = distance({mapToFramebuffer(ve)}, {mapToFramebuffer(vs)});
 
     // 1.4142... is the distance between to diagonal pixels:
@@ -243,8 +240,8 @@ Graphics::stepper(
         // Distance between painted pixels in framebuffers spans over at least one pixel,
         // continue stepping in smaller steps:
         double tHalf = (te - ts) / 2;
-        stepper(a, b, ts, ts + tHalf);
-        stepper(a, b, ts + tHalf, te);
+        stepper(ellipse, ts, ts + tHalf);
+        stepper(ellipse, ts + tHalf, te);
     }
 
     else

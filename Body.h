@@ -7,6 +7,7 @@
 #include <memory>
 #include <glm/glm.hpp>
 #include "constants.h"
+#include "Ellipse.h"
 
 class Body
 {
@@ -42,11 +43,8 @@ public:
     const vec &
     getPosition() const;
 
-    double
-    getA() const;
-
-    double
-    getE() const;
+    const Ellipse &
+    getTrajectory() const;
 
     void
     step(
@@ -59,10 +57,8 @@ private:
     std::string mName;
     double mMass{};      ///< [kg]   Planet mass (m > 0)
     double mRadius{};    ///< [m]    Planet radius (r > 0)
-    double mA{};         ///< [m]    Major semi-axis (a > 0)
-    double mB{};         ///< [m]    Minor semi-axis (b > 0)
-    double mE{};         ///< []     Eccentricity (0 <= e < 1)
     vec mPosition;       ///< [m]    Position of body mass center
+    Ellipse mTrajectory;
     vec mTrajectoryCenter;
 
     /**

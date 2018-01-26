@@ -7,6 +7,7 @@
 #include <vector>
 #include "constants.h"
 #include "Transform.h"
+#include "Ellipse.h"
 
 #pragma once
 
@@ -59,10 +60,7 @@ public:
     );
 
     void
-    ellipse(
-            double a,
-            double e
-    );
+    ellipse(const Ellipse &ellipse);
 
     void
     push();
@@ -139,8 +137,7 @@ private:
 
     void
     stepper(
-            double a,
-            double b,
+            const Ellipse &ellipse,
             double ts,
             double te
     );

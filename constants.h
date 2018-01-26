@@ -87,31 +87,3 @@ integral(
         double high,
         double resolution
 );
-
-double
-ellipseB(
-        double a,
-        double e
-);
-
-double
-ellipseFoci(
-        double a,
-        double e
-);
-
-vec
-ellipseT(
-        double a,
-        double b,
-        double t
-);
-
-double
-arcLen(
-        double a,
-        double b,
-        double tStart,
-        double tEnd,
-        double resolution
-);

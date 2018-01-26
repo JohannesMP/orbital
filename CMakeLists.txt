@@ -3,7 +3,7 @@ PROJECT(orbit)
 
 SET(CMAKE_CXX_STANDARD 14)
 
-ADD_EXECUTABLE(orbit main.cpp System.cpp System.h constants.h constants.cpp Body.cpp Body.h Graphics.cpp Graphics.h Transform.cpp Transform.h)
+ADD_EXECUTABLE(orbit main.cpp System.cpp System.h constants.h constants.cpp Body.cpp Body.h Graphics.cpp Graphics.h Transform.cpp Transform.h Ellipse.cpp Ellipse.h)
 TARGET_LINK_LIBRARIES(orbit yaml-cpp)
 
 # Copy planets file:
