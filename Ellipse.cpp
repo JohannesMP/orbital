@@ -112,10 +112,23 @@ Ellipse::contains(
 
 bool
 Ellipse::contains(
-        const vec &p,
-        double w,
-        double h
+        const Rectangle &rect
 ) const
 {
-    return contains(p) && contains({p.x + w, p.y}) && contains({p.x, p.y + h}) && contains({p.x + w, p.y + h});
+    return contains(rect.lowerLeft()) && contains(rect.lowerRight()) && contains(rect.upperLeft()) &&
+            contains(rect.upperRight());
+}
+
+void
+Ellipse::clip(
+        const Rectangle &rect,
+        double &ts,
+        double &te
+) const
+{
+    /*
+     * - Split ellipse into 4 quarters
+     * - Resolve the x-y-t equation system for each of them
+     */
+
 }

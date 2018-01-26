@@ -4,6 +4,7 @@
 
 #include <array>
 #include "constants.h"
+#include "Rectangle.h"
 
 #pragma once
 
@@ -79,9 +80,14 @@ public:
      */
     bool
     contains(
-            const vec &p,
-            double w,
-            double h
+            const Rectangle &rect
+    ) const;
+
+    void
+    clip(
+            const Rectangle &rect,
+            double &ts,
+            double &te
     ) const;
 
     /**

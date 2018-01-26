@@ -219,8 +219,10 @@ Graphics::ellipse(const Ellipse &ellipse)
     vec ur = mapToTransformed({columns() - 1, 0});
     if(ellipse.contains(ll, ur.x - ll.x, ur.y - ll.y))
     {
+        std::cout << "Skip ellipse rendering" << std::endl;
         return;
     }
+    std::cout << "Render ellipse ..." << std::endl;
 
     // Since the stepper calculates the pixel distance based on vector subtraction and *not* on ellipse arc length,
     // the ellipse must be divided into 4 quarters
