@@ -70,3 +70,19 @@ Ellipse::arcLength(
             }, ts, te, resolution
     );
 }
+
+vec
+Ellipse::pointAngle(double radians)
+{
+    // sqrt( b² + a² tan² θ )
+    double denominator = sqrt(sq(mB) + sq(mA) * sq(tan(radians)));
+    vec p{
+            mA * mB / denominator,
+            mA * mB * tan(radians) / denominator
+    };
+    if(0.5 * PI < radians && 1.5 * PI > radians)
+    {
+        p = -p;
+    }
+    return p;
+}

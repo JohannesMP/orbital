@@ -7,7 +7,6 @@
 #include <glm/gtx/transform.hpp>
 #include <iostream>
 #include "Graphics.h"
-#include "Ellipse.h"
 
 const double Graphics::CHAR_RATIO = 1 / 2.0;
 

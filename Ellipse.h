@@ -55,6 +55,11 @@ public:
             double t
     ) const;
 
+    vec
+    pointAngle(
+            double radians
+    );
+
     /**
      * Calculate the length of an arc slice within `ts` and `te`.
      * @param ts Start parameter of arc.

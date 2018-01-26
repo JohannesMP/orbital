@@ -10,6 +10,14 @@
 int
 main()
 {
+    {
+        Ellipse e{2, 0.5};
+        auto p = e.pointAngle(4 * PI);
+        std::cout << p << std::endl;
+    }
+
+
+
     Graphics graphics{45, 141};
 
     System system{"planets.yml", "solar-system", S_PER_HOUR};
@@ -44,9 +52,9 @@ main()
         });
 
         graphics.border();
-        graphics.present();
+        //graphics.present();
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(50));
+        std::this_thread::sleep_for(std::chrono::milliseconds{50});
     }
 }
 
