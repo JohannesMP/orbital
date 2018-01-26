@@ -61,6 +61,16 @@ public:
     );
 
     /**
+     * Check whether a point is contained by the ellipse covered area.
+     * @param p Point to check.
+     * @return True if inside.
+     */
+    bool
+    contains(
+            const vec &p
+    );
+
+    /**
      * Calculate the length of an arc slice within `ts` and `te`.
      * @param ts Start parameter of arc.
      * @param te End parameter of arc.

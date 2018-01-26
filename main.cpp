@@ -12,10 +12,9 @@ main()
 {
     {
         Ellipse e{2, 0.5};
-        auto p = e.pointAngle(4 * PI);
-        std::cout << p << std::endl;
+        std::cout << std::boolalpha << e.contains({1.5, 1.2}) << std::endl;
+        return 0;
     }
-
 
 
     Graphics graphics{45, 141};

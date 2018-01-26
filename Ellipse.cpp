@@ -3,6 +3,8 @@
 //
 
 #include "Ellipse.h"
+#include <glm/gtx/vector_angle.hpp>
+#include <iostream>
 
 Ellipse::Ellipse(
         double a,
@@ -85,4 +87,12 @@ Ellipse::pointAngle(double radians)
         p = -p;
     }
     return p;
+}
+
+bool
+Ellipse::contains(const vec &p)
+{
+    double angle = acos(p.x / length(p));
+    vec onEllipse = pointAngle(angle);
+    return p.x <= onEllipse.x && p.y <= onEllipse.y;
 }
