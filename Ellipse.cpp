@@ -83,12 +83,25 @@ Ellipse::pointAngle(double radians)
 bool
 Ellipse::contains(const vec &p)
 {
-    double angle = atan2(length(p), p.x);
-    vec onEllipse = pointAngle(angle);
+    /*
+     * Calculate t for given x, then check whether the given y is smaller/greater than the
+     * calculated Y of t, depending whether y is positive or negative.
+     *
+     * x = a cos t
+     * t = acos (x/a)
+     *
+     * Y = b sin t
+     *
+     * y > 0 && y < Y    => inside (with positive y value)
+     * y < 0 && y > Y    => inside (with negative y value)
+     */
+    double t = acos(p.x / mA);
 
-    std::cout << "angle: " << (angle / PI * 180) << "°    on-ellipse: " << onEllipse << std::endl;
+    // Flip result of t if y is negative, so the ellipse point is mapped to the lower half of the ellipse body:
+    t = copysign(t, p.y);
 
-    return p.x <= onEllipse.x && p.y <= onEllipse.y;
+    double Y = mB * sin(t);
+    return (p.y > 0 && p.y < Y) || (p.y < 0 && p.y > Y);
 }
 
 bool
@@ -98,10 +111,5 @@ Ellipse::contains(
         double h
 )
 {
-    //return contains(p) && contains({p.x + w, p.y}) && contains({p.x, p.y + h}) && contains({p.x + w, p.y + h});
-    bool ll = contains(p);
-    bool lr = contains({p.x + w, p.y});
-    bool ur = contains({p.x, p.y + h});
-    bool ul = contains({p.x + w, p.y + h});
-    return ll && lr && ul && ur;
+    return contains(p) && contains({p.x + w, p.y}) && contains({p.x, p.y + h}) && contains({p.x + w, p.y + h});
 }

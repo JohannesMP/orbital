@@ -12,9 +12,10 @@ main()
 {
     {
         Ellipse e{2, 0.5};
-        std::cout << e.pointAngle(1.25 * PI) << std::endl;
-        //std::cout << std::boolalpha << e.contains({-1, -1}) << std::endl;
-        //std::cout << std::boolalpha << e.contains({-1, -1}, 2, 2) << std::endl;
+        //std::cout << e.pointAngle(1.25 * PI) << std::endl;
+        //std::cout << e.point(1.6 * PI) << std::endl;
+        //std::cout << std::boolalpha << e.contains({-1.5, -1}) << std::endl;
+        std::cout << std::boolalpha << e.contains({-1, -1}, -0.1, -0.1) << std::endl;
         return 0;
     }
 
