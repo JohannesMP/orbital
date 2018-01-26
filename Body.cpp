@@ -88,7 +88,7 @@ Body::step(
     p += v * dt;
 
     /*
-     * Map position back to ellipse:
+     * Map position back to ellipse: TODO: use Ellipse methods
      * https://math.stackexchange.com/questions/22064/calculating-a-point-that-lies-on-an-ellipse-given-an-angle
      *
      * x = ± (ab cos θ) / sqrt((b cos θ)² + (a cos θ)²)

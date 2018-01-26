@@ -117,27 +117,62 @@ Ellipse::tAtX(double x) const
     return acos(x / mA);
 }
 
+double
+Ellipse::tAtY(double y) const
+{
+    /*
+     * y = b sin t
+     * t = asin (y/b)
+     */
+    return asin(y / mB);
+}
+
 bool
 Ellipse::contains(
         const Rectangle &rect
 ) const
 {
-    return contains(rect.lowerLeft()) && contains(rect.lowerRight()) && contains(rect.upperLeft()) &&
-            contains(rect.upperRight());
+    return contains(rect.bottomLeft()) && contains(rect.bottomRight()) && contains(rect.topLeft()) &&
+            contains(rect.topRight());
 }
 
-std::pair<double, double>
+std::vector<double>
 Ellipse::clip(
         const Rectangle &rect
 ) const
 {
     /*
-     * - Split ellipse into 4 quarters
+     * - Split ellipse into 4 quarters (because within each quarter, all x and y are unique)
      * - Resolve the x-y-t equation system for each of them
+     *
+     * top < b => 2 clip-points
+     * bottom > -b => 2 clip-points
      */
 
-    auto clipQuarter = [&](double ts, double te)
-    {
+    std::vector<double> result;
+    double left = rect.left();
+    double right = rect.right();
+    double top = rect.top();
+    double bottom = rect.bottom();
 
+    /*bool bl = contains(rect.bottomLeft());
+    bool br = contains(rect.bottomRight());
+    bool tl = contains(rect.topLeft());
+    bool tr = contains(rect.topRight());
+    bool l = contains(rect.leftCenter());
+    bool r = contains(rect.rightCenter());
+    bool t = contains(rect.topCenter());
+    bool b = contains(rect.bottomCenter());*/
+
+
+
+    auto clipQuarter = [&](
+            double ts,
+            double te
+    ) {
     };
+
+    clipQuarter(0, 0.5 * PI);
+
+    return {};
 }

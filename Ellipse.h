@@ -83,7 +83,7 @@ public:
             const Rectangle &rect
     ) const;
 
-    std::pair<double, double>
+    std::vector<double>
     clip(
             const Rectangle &rect
     ) const;
@@ -121,8 +121,22 @@ private:
     double mE;
     double mFoci;
 
+    /**
+     * Calculate t at x.
+     * @param x X value (-a <= x <= a)
+     * @return
+     */
     double tAtX(
             double x
+    ) const;
+
+    /**
+     * Calculate t at y.
+     * @param y Y value (-b <= x <= b)
+     * @return
+     */
+    double tAtY(
+            double y
     ) const;
 
 };

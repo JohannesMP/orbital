@@ -9,7 +9,7 @@ Rectangle::Rectangle(
         double w,
         double h
 )
-        : mLowerLeft{lowerLeft}
+        : mBottomLeft{lowerLeft}
         , mW{w}
         , mH{h}
 {
@@ -17,43 +17,97 @@ Rectangle::Rectangle(
 
 Rectangle::Rectangle(
         const vec &lowerLeft,
-        const vec &upperRight
+        const vec &topRight
 )
-        : mLowerLeft{lowerLeft}
-        , mW{upperRight.x - lowerLeft.x}
-        , mH{upperRight.y - lowerLeft.y}
+        : mBottomLeft{lowerLeft}
+        , mW{topRight.x - lowerLeft.x}
+        , mH{topRight.y - lowerLeft.y}
 {
 }
 
-vec
-Rectangle::lowerLeft() const
+double
+Rectangle::top() const
 {
-    return mLowerLeft;
+    return mBottomLeft.y + mH;
+}
+
+double
+Rectangle::bottom() const
+{
+    return mBottomLeft.y;
+}
+
+double
+Rectangle::left() const
+{
+    return mBottomLeft.x;
+}
+
+double
+Rectangle::right() const
+{
+    return mBottomLeft.x + mW;
 }
 
 vec
-Rectangle::upperLeft() const
+Rectangle::bottomLeft() const
+{
+    return mBottomLeft;
+}
+
+vec
+Rectangle::topLeft() const
 {
     return {
-            mLowerLeft.x,
-            mLowerLeft.y + mH
+            mBottomLeft.x,
+            mBottomLeft.y + mH
     };
 }
 
 vec
-Rectangle::lowerRight() const
+Rectangle::bottomRight() const
 {
     return {
-            mLowerLeft.x + mW,
-            mLowerLeft.y
+            mBottomLeft.x + mW,
+            mBottomLeft.y
     };
 }
 
 vec
-Rectangle::upperRight() const
+Rectangle::topRight() const
 {
     return {
-            mLowerLeft.x + mW,
-            mLowerLeft.y + mH
+            mBottomLeft.x + mW,
+            mBottomLeft.y + mH
     };
+}
+
+vec
+Rectangle::leftCenter() const
+{
+    return {mBottomLeft.x, mBottomLeft.y + mH / 2};
+}
+
+vec
+Rectangle::rightCenter() const
+{
+    return {mBottomLeft.x + mW, mBottomLeft.y + mH / 2};
+}
+
+vec
+Rectangle::topCenter() const
+{
+    return {mBottomLeft.x + mW / 2, mBottomLeft.y + mH};
+}
+
+vec
+Rectangle::bottomCenter() const
+{
+    return {mBottomLeft.x + mW / 2, mBottomLeft.y};
+}
+
+vec
+Rectangle::center() const
+{
+    return {mBottomLeft.x + mW / 2, mBottomLeft.y + mH / 2};
 }

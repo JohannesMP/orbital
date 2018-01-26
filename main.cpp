@@ -10,10 +10,15 @@
 int
 main()
 {
+    Ellipse ellipse{2, 0.5};
+    ellipse.clip({{-2, 1}, 5, 1});
+
+    /*
     Graphics graphics{45, 141};
 
     graphics.translate({1.5, 0});
     graphics.ellipse({0, -1});
+    */
 
     /*
     System system{"planets.yml", "solar-system", S_PER_HOUR};

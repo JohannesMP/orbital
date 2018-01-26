@@ -19,24 +19,51 @@ public:
 
     Rectangle(
             const vec &lowerLeft,
-            const vec &upperRight
+            const vec &topRight
     );
 
-    vec
-    lowerLeft() const;
+    double
+    top() const;
+
+    double
+    bottom() const;
+
+    double
+    left() const;
+
+    double
+    right() const;
 
     vec
-    upperLeft() const;
+    bottomLeft() const;
 
     vec
-    lowerRight() const;
+    topLeft() const;
 
     vec
-    upperRight() const;
+    bottomRight() const;
+
+    vec
+    topRight() const;
+
+    vec
+    leftCenter() const;
+
+    vec
+    rightCenter() const;
+
+    vec
+    topCenter() const;
+
+    vec
+    bottomCenter() const;
+
+    vec
+    center() const;
 
 private:
 
-    vec mLowerLeft;
+    vec mBottomLeft;
     double mW;
     double mH;
 

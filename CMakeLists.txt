@@ -3,8 +3,11 @@ PROJECT(orbit)
 
 SET(CMAKE_CXX_STANDARD 14)
 
+ADD_SUBDIRECTORY(3rd-party/fmt)
+INCLUDE_DIRECTORIES(3rd-party/fmt)
+
 ADD_EXECUTABLE(orbit main.cpp System.cpp System.h constants.h constants.cpp Body.cpp Body.h Graphics.cpp Graphics.h Transform.cpp Transform.h Ellipse.cpp Ellipse.h Rectangle.cpp Rectangle.h)
-TARGET_LINK_LIBRARIES(orbit yaml-cpp)
+TARGET_LINK_LIBRARIES(orbit yaml-cpp fmt)
 
 # Copy planets file:
 ADD_CUSTOM_COMMAND(
