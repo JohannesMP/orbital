@@ -217,7 +217,7 @@ Graphics::ellipse(const Ellipse &ellipse)
     // i.e. no lines are visible anyway.
     vec ll = mapToTransformed({0, rows() - 1});
     vec ur = mapToTransformed({columns() - 1, 0});
-    if(ellipse.contains(ll, ur.x - ll.x, ur.y - ll.y))
+    if(ellipse.contains(Rectangle{ll, ur}))
     {
         std::cout << "Skip ellipse rendering" << std::endl;
         return;
@@ -240,8 +240,8 @@ Graphics::stepper(
 )
 {
     // Calculate distance the painted pixels of the start and end arc would have within the framebuffer:
-    vec vs = ellipse.point(ts); // ellipseT(a, b, ts);
-    vec ve = ellipse.point(te); // ellipseT(a, b, te);
+    vec vs = ellipse.point(ts);
+    vec ve = ellipse.point(te);
     double d = distance({mapToFramebuffer(ve)}, {mapToFramebuffer(vs)});
 
     // 1.4142... is the distance between to diagonal pixels:

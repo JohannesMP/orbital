@@ -83,11 +83,9 @@ public:
             const Rectangle &rect
     ) const;
 
-    void
+    std::pair<double, double>
     clip(
-            const Rectangle &rect,
-            double &ts,
-            double &te
+            const Rectangle &rect
     ) const;
 
     /**
@@ -122,6 +120,10 @@ private:
     double mB;
     double mE;
     double mFoci;
+
+    double tAtX(
+            double x
+    ) const;
 
 };
 

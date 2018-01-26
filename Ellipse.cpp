@@ -93,21 +93,28 @@ Ellipse::contains(
      * Calculate t for given x, then check whether the given y is smaller/greater than the
      * calculated Y of t, depending whether y is positive or negative.
      *
-     * x = a cos t
-     * t = acos (x/a)
-     *
      * Y = b sin t
      *
      * y > 0 && y < Y    => inside (with positive y value)
      * y < 0 && y > Y    => inside (with negative y value)
      */
-    double t = acos(p.x / mA);
+    double t = tAtX(p.x);
 
     // Flip result of t if y is negative, so the ellipse point is mapped to the lower half of the ellipse body:
     t = copysign(t, p.y);
 
     double Y = mB * sin(t);
     return (p.y > 0 && p.y < Y) || (p.y < 0 && p.y > Y);
+}
+
+double
+Ellipse::tAtX(double x) const
+{
+    /*
+     * x = a cos t
+     * t = acos (x/a)
+     */
+    return acos(x / mA);
 }
 
 bool
@@ -119,11 +126,9 @@ Ellipse::contains(
             contains(rect.upperRight());
 }
 
-void
+std::pair<double, double>
 Ellipse::clip(
-        const Rectangle &rect,
-        double &ts,
-        double &te
+        const Rectangle &rect
 ) const
 {
     /*
@@ -131,4 +136,8 @@ Ellipse::clip(
      * - Resolve the x-y-t equation system for each of them
      */
 
+    auto clipQuarter = [&](double ts, double te)
+    {
+
+    };
 }
