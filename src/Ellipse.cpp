@@ -89,6 +89,22 @@ Ellipse::contains(
         const vec &p
 ) const
 {
+    if(p.x == 0 && p.y == 0)
+    {
+        // The center is guaranteed to be contained:
+        return true;
+    }
+    if(p.y == 0 && p.x <= mA && p.x >= -mA)
+    {
+        // p lies on the x-axis covered be the ellipse:
+        return true;
+    }
+    if(p.x == 0 && p.y <= mB && p.y >= -mB)
+    {
+        // p lies on the y-axis covered by the ellipse:
+        return true;
+    }
+
     /*
      * Calculate t for given x, then check whether the given y is smaller/greater than the
      * calculated Y of t, depending whether y is positive or negative.
@@ -104,7 +120,7 @@ Ellipse::contains(
     t = copysign(t, p.y);
 
     double Y = mB * sin(t);
-    return (p.y > 0 && p.y < Y) || (p.y < 0 && p.y > Y);
+    return (p.y >= 0 && p.y <= Y) || (p.y <= 0 && p.y >= Y);
 }
 
 double

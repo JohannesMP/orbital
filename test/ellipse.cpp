@@ -70,7 +70,7 @@ TEST(Ellipse, ParameterExtraction)
     ASSERT_NEAR(ellipse.tAtY(1.22), 0.25_pi, 0.01);
 
     // 0.5 π
-    ASSERT_NEAR(ellipse.tAtX(0.00), 0.5_pi, 0.01);
+    ASSERT_NEAR(ellipse.tAtX(0), 0.5_pi, 0.01);
     ASSERT_NEAR(ellipse.tAtY(1.732), 0.5_pi, 0.01);
 
     // 0.75 π
@@ -90,5 +90,19 @@ TEST(Ellipse, PointContainment)
 {
     Ellipse ellipse{2, 0.5};
 
-    //ASSERT_TRUE(ellipse.contains(vec(0, 0)));
+    ASSERT_TRUE(ellipse.contains(vec(0, 0)));
+    ASSERT_TRUE(ellipse.contains(vec(2, 0)));
+    ASSERT_TRUE(ellipse.contains(vec(-2, 0)));
+    ASSERT_TRUE(ellipse.contains(vec(0, 0.5)));
+    ASSERT_TRUE(ellipse.contains(vec(0, -0.5)));
+
+    ASSERT_TRUE(ellipse.contains(vec(1, 1)));
+    ASSERT_TRUE(ellipse.contains(vec(-1, 1)));
+    ASSERT_TRUE(ellipse.contains(vec(1, -1)));
+    ASSERT_TRUE(ellipse.contains(vec(-1, -1)));
+
+    ASSERT_FALSE(ellipse.contains(vec(1.5, 1.5)));
+    ASSERT_FALSE(ellipse.contains(vec(-1.5, 1.5)));
+    ASSERT_FALSE(ellipse.contains(vec(1.5, -1.5)));
+    ASSERT_FALSE(ellipse.contains(vec(-1.5, -1.5)));
 }
