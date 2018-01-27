@@ -136,43 +136,96 @@ Ellipse::contains(
             contains(rect.topRight());
 }
 
+// TODO: Clip points *must* increase with index position
+// TODO: How to specify no-clip/all-clip
 std::vector<double>
-Ellipse::clip(
+Ellipse::clipOld(
         const Rectangle &rect
 ) const
 {
-    /*
-     * - Split ellipse into 4 quarters (because within each quarter, all x and y are unique)
-     * - Resolve the x-y-t equation system for each of them
-     *
-     * top < b => 2 clip-points
-     * bottom > -b => 2 clip-points
-     */
-
     std::vector<double> result;
+
     double left = rect.left();
     double right = rect.right();
     double top = rect.top();
     double bottom = rect.bottom();
 
-    /*bool bl = contains(rect.bottomLeft());
-    bool br = contains(rect.bottomRight());
-    bool tl = contains(rect.topLeft());
-    bool tr = contains(rect.topRight());
-    bool l = contains(rect.leftCenter());
-    bool r = contains(rect.rightCenter());
-    bool t = contains(rect.topCenter());
-    bool b = contains(rect.bottomCenter());*/
+    if (top > mB && bottom < mB)
+    {
+        // Covers vertical slice:
 
+        if (left < -mA && right > -mA)
+        {
+            // Clips left:
+            result.emplace_back(tAtY(right));
+            result.emplace_back(2 * PI - tAtY(right));
+        }
 
+        else if (left > -mA && right < -mA)
+        {
+            // Clips middle:
+            result.emplace_back(tAtY(right));
+            result.emplace_back(tAtY(left));
+            result.emplace_back(2 * PI - tAtY(left));
+            result.emplace_back(2 * PI - tAtY(right));
+        }
 
-    auto clipQuarter = [&](
-            double ts,
-            double te
-    ) {
-    };
+        else if (left < mA && right > mA)
+        {
+            // Clips right:
+            result.emplace_back(2 * PI - tAtY(left));
+            result.emplace_back(2 * PI + tAtY(left));
+        }
+    }
 
-    clipQuarter(0, 0.5 * PI);
+    else if (top < mB && bottom > -mB)
+    {
+        // Covers part in middle:
 
-    return {};
+        if (left < -mA && right > mA && right < mA)
+        {
+            // Clips left:
+            result.emplace_back(tAtX(top));
+            result.emplace_back(tAtX(bottom));
+        }
+
+        else if (left > -mA && left < mA && right > mA)
+        {
+            // Clips right:
+            result.emplace_back(tAtX(bottom));
+            result.emplace_back(tAtX(2 * PI + top));
+        }
+    }
+
+    else if(left < -mA && right > mA)
+    {
+        // Covers horizontal slice:
+
+        if(top > mB && bottom < mB && bottom > -mB)
+        {
+            // Clips top:
+            double t = tAtY(bottom);
+            result.emplace_back(t);
+            result.emplace_back(PI - t);
+        }
+
+        else if(top < mB && top > -mB && bottom > -mB)
+        {
+            // Clips middle:
+            result.emplace_back(PI - tAtX(top));
+        }
+
+    }
+
+    return result;
+}
+
+std::vector<double>
+Ellipse::clip(const Rectangle &rect) const
+{
+    std::vector<double> result;
+
+    if(abs(rect.right()) < mA)
+    {
+    }
 }

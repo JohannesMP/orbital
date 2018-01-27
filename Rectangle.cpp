@@ -5,23 +5,21 @@
 #include "Rectangle.h"
 
 Rectangle::Rectangle(
-        const vec &lowerLeft,
+        const vec &p,
         double w,
         double h
 )
-        : mBottomLeft{lowerLeft}
-        , mW{w}
-        , mH{h}
+        : Rectangle{p, {p.x + w, p.y + h}}
 {
 }
 
 Rectangle::Rectangle(
-        const vec &lowerLeft,
-        const vec &topRight
+        const vec &p,
+        const vec &q
 )
-        : mBottomLeft{lowerLeft}
-        , mW{topRight.x - lowerLeft.x}
-        , mH{topRight.y - lowerLeft.y}
+        : mBottomLeft{std::min(p.x, q.x), std::min(p.y, q.y)}
+        , mW{std::abs(q.x - p.x)}
+        , mH{std::abs(q.y - p.y)}
 {
 }
 
@@ -58,28 +56,19 @@ Rectangle::bottomLeft() const
 vec
 Rectangle::topLeft() const
 {
-    return {
-            mBottomLeft.x,
-            mBottomLeft.y + mH
-    };
+    return {mBottomLeft.x, mBottomLeft.y + mH};
 }
 
 vec
 Rectangle::bottomRight() const
 {
-    return {
-            mBottomLeft.x + mW,
-            mBottomLeft.y
-    };
+    return {mBottomLeft.x + mW, mBottomLeft.y};
 }
 
 vec
 Rectangle::topRight() const
 {
-    return {
-            mBottomLeft.x + mW,
-            mBottomLeft.y + mH
-    };
+    return {mBottomLeft.x + mW, mBottomLeft.y + mH};
 }
 
 vec

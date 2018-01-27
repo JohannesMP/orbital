@@ -11,7 +11,7 @@ int
 main()
 {
     Ellipse ellipse{2, 0.5};
-    ellipse.clip({{-2, 1}, 5, 1});
+    ellipse.clipOld({{-2, 1}, 5, 1});
 
     /*
     Graphics graphics{45, 141};
