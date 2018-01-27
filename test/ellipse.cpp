@@ -29,17 +29,33 @@ TEST(Ellipse, ParametricForm)
     ASSERT_EQ(ellipse.point(0).x, "2"_c);
     ASSERT_EQ(ellipse.point(0).y, "0"_c);
 
+    // 0.25 π
+    ASSERT_EQ(ellipse.point(0.25 * PI).x, "1.41"_c);
+    ASSERT_EQ(ellipse.point(0.25 * PI).y, "1.22"_c);
+
     // 0.5 π
     ASSERT_EQ(ellipse.point(0.5 * PI).x, "0"_c);
     ASSERT_EQ(ellipse.point(0.5 * PI).y, "1.73"_c);
+
+    // 0.75 π
+    ASSERT_EQ(ellipse.point(0.75 * PI).x, "-1.41"_c);
+    ASSERT_EQ(ellipse.point(0.75 * PI).y, "1.22"_c);
 
     // 1 π
     ASSERT_EQ(ellipse.point(PI).x, "-2"_c);
     ASSERT_EQ(ellipse.point(PI).y, "0"_c);
 
+    // 1.25 π
+    ASSERT_EQ(ellipse.point(1.25 * PI).x, "-1.41"_c);
+    ASSERT_EQ(ellipse.point(1.25 * PI).y, "-1.22"_c);
+
     // 1.5 π
     ASSERT_EQ(ellipse.point(1.5 * PI).x, "0"_c);
     ASSERT_EQ(ellipse.point(1.5 * PI).y, "-1.73"_c);
+
+    // 1.75 π
+    ASSERT_EQ(ellipse.point(1.75 * PI).x, "1.41"_c);
+    ASSERT_EQ(ellipse.point(1.75 * PI).y, "-1.22"_c);
 }
 
 TEST(Ellipse, PointContainment)
