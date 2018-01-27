@@ -66,7 +66,24 @@ TEST(Ellipse, ParameterExtraction)
     ASSERT_NEAR(ellipse.tAtY(0), 0, 0.01);
 
     // 0.25 π
-    //ASSERT_DOUBLE_EQ(FPC(ellipse.tAtX(1.41), 2), 0.25_pi);
+    ASSERT_NEAR(ellipse.tAtX(1.41), 0.25_pi, 0.01);
+    ASSERT_NEAR(ellipse.tAtY(1.22), 0.25_pi, 0.01);
+
+    // 0.5 π
+    ASSERT_NEAR(ellipse.tAtX(0.00), 0.5_pi, 0.01);
+    ASSERT_NEAR(ellipse.tAtY(1.732), 0.5_pi, 0.01);
+
+    // 0.75 π
+    ASSERT_NEAR(ellipse.tAtX(-1.41), 0.75_pi, 0.01);
+
+    // 1 π
+    ASSERT_NEAR(ellipse.tAtX(-2), 1_pi, 0.01);
+
+    // 1.5 π
+    ASSERT_NEAR(ellipse.tAtY(-1.732), -0.5_pi, 0.01);
+
+    // 1.75 π
+    ASSERT_NEAR(ellipse.tAtY(-1.22), -0.25_pi, 0.01);
 }
 
 TEST(Ellipse, PointContainment)

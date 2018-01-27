@@ -39,6 +39,17 @@ operator ""_pi(
 }
 
 /**
+ * Literal suffix to multiply a number by PI.
+ */
+constexpr long double
+operator ""_pi(
+        unsigned long long v
+)
+{
+    return PI * v;
+}
+
+/**
  * Smallest value, to use for 0 in cases 0 is forbidden
  */
 extern const double ZERO;
