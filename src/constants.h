@@ -25,7 +25,7 @@ constexpr double AU = 1.496e11;
 /**
  * Pi
  */
-constexpr double PI = 3.141592653589793;
+constexpr long double PI = 3.141592653589793;
 
 /**
  * Literal suffix to multiply a number by PI.

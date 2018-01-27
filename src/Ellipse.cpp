@@ -77,7 +77,7 @@ Ellipse::pointAngle(
     // sqrt( b² + a² tan² θ )
     double denominator = sqrt(sq(mB) + sq(mA) * sq(tan(radians)));
     vec p{mA * mB / denominator, mA * mB * tan(radians) / denominator};
-    if (0.5 * PI < radians && 1.5 * PI > radians)
+    if (0.5_pi < radians && 1.5_pi > radians)
     {
         p = -p;
     }
@@ -174,7 +174,7 @@ Ellipse::clipOld(
         {
             // Clips left:
             result.emplace_back(tAtY(right));
-            result.emplace_back(2 * PI - tAtY(right));
+            result.emplace_back(2_pi - tAtY(right));
         }
 
         else if (left > -mA && right < -mA)
@@ -182,15 +182,15 @@ Ellipse::clipOld(
             // Clips middle:
             result.emplace_back(tAtY(right));
             result.emplace_back(tAtY(left));
-            result.emplace_back(2 * PI - tAtY(left));
-            result.emplace_back(2 * PI - tAtY(right));
+            result.emplace_back(2_pi - tAtY(left));
+            result.emplace_back(2_pi - tAtY(right));
         }
 
         else if (left < mA && right > mA)
         {
             // Clips right:
-            result.emplace_back(2 * PI - tAtY(left));
-            result.emplace_back(2 * PI + tAtY(left));
+            result.emplace_back(2_pi - tAtY(left));
+            result.emplace_back(2_pi + tAtY(left));
         }
     }
 
@@ -209,7 +209,7 @@ Ellipse::clipOld(
         {
             // Clips right:
             result.emplace_back(tAtX(bottom));
-            result.emplace_back(tAtX(2 * PI + top));
+            result.emplace_back(tAtX(2_pi + top));
         }
     }
 

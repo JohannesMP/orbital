@@ -229,7 +229,7 @@ Graphics::ellipse(const Ellipse &ellipse)
     stepper(ellipse, 0, PI * 0.5);
     stepper(ellipse, PI * 0.5, PI);
     stepper(ellipse, PI, PI * 1.5);
-    stepper(ellipse, PI * 1.5, 2 * PI);
+    stepper(ellipse, PI * 1.5, 2_pi);
 }
 
 void

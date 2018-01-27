@@ -106,3 +106,41 @@ TEST(Ellipse, PointContainment)
     ASSERT_FALSE(ellipse.contains(vec(1.5, -1.5)));
     ASSERT_FALSE(ellipse.contains(vec(-1.5, -1.5)));
 }
+
+TEST(Ellipse, AngleFromParameter)
+{
+    Ellipse ellipse{2, 0.5};
+
+    // 0 π
+    ASSERT_NEAR(ellipse.point(0).x, 2, 0.01);
+    ASSERT_NEAR(ellipse.point(0).y, 0, 0.01);
+
+    // 0.25 π
+    ASSERT_NEAR(ellipse.point(0.25_pi).x, 1.41, 0.01);
+    ASSERT_NEAR(ellipse.point(0.25_pi).y, 1.22, 0.01);
+
+    // 0.5 π
+    ASSERT_NEAR(ellipse.point(0.5_pi).x, 0, 0.01);
+    ASSERT_NEAR(ellipse.point(0.5_pi).y, 1.73, 0.01);
+
+    // 0.75 π
+    ASSERT_NEAR(ellipse.point(0.75_pi).x, -1.41, 0.01);
+    ASSERT_NEAR(ellipse.point(0.75_pi).y, 1.22, 0.01);
+
+    // 1 π
+    ASSERT_NEAR(ellipse.point(1_pi).x, -2, 0.01);
+    ASSERT_NEAR(ellipse.point(1_pi).y, 0, 0.01);
+
+    // 1.25 π
+    ASSERT_NEAR(ellipse.point(1.25_pi).x, -1.41, 0.01);
+    ASSERT_NEAR(ellipse.point(1.25_pi).y, -1.22, 0.01);
+
+    // 1.5 π
+    ASSERT_NEAR(ellipse.point(1.5_pi).x, 0, 0.01);
+    ASSERT_NEAR(ellipse.point(1.5_pi).y, -1.73, 0.01);
+
+    // 1.75 π
+    ASSERT_NEAR(ellipse.point(1.75_pi).x, 1.41, 0.01);
+    ASSERT_NEAR(ellipse.point(1.75_pi).y, -1.22, 0.01);
+
+}
