@@ -28,7 +28,7 @@ constexpr double AU = 1.496e11;
 constexpr long double PI = 3.141592653589793;
 
 /**
- * Literal suffix to multiply a number by PI.
+ * Literal suffix to multiply a number by π.
  */
 constexpr long double
 operator ""_pi(
@@ -39,7 +39,7 @@ operator ""_pi(
 }
 
 /**
- * Literal suffix to multiply a number by PI.
+ * Literal suffix to multiply a number by π.
  */
 constexpr long double
 operator ""_pi(

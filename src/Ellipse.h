@@ -50,13 +50,18 @@ public:
     /**
      * Calculate position of a point on the ellipse using the parametric form.
      * @param t Parameter [0,2π]
-     * @return Major semi-axis.
+     * @return Point on ellipse.
      */
     vec
     point(
             double t
     ) const;
 
+    /**
+     * Calculate position of a point on the ellipse from a given angle.
+     * @param radians Angle intersecting point
+     * @return Point on ellipse.
+     */
     vec
     pointAngle(
             double radians
