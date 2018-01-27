@@ -3,6 +3,7 @@
 //
 
 #include <array>
+#include <vector>
 #include "constants.h"
 #include "Rectangle.h"
 

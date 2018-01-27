@@ -7,7 +7,6 @@
 #include <glm/glm.hpp>
 #include <complex>
 #include <functional>
-#include <fmt/printf.h>
 
 using vec = glm::dvec2;
 

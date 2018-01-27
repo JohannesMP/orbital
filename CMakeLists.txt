@@ -3,12 +3,6 @@ PROJECT(orbit)
 
 SET(CMAKE_CXX_STANDARD 14)
 
-ADD_SUBDIRECTORY(3rd-party/fmt)
-INCLUDE_DIRECTORIES(3rd-party/fmt)
-
-ADD_EXECUTABLE(orbit main.cpp System.cpp System.h constants.h constants.cpp Body.cpp Body.h Graphics.cpp Graphics.h Transform.cpp Transform.h Ellipse.cpp Ellipse.h Rectangle.cpp Rectangle.h)
-TARGET_LINK_LIBRARIES(orbit yaml-cpp fmt)
-
 # Copy planets file:
 ADD_CUSTOM_COMMAND(
         OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/planets.yml"
@@ -16,4 +10,15 @@ ADD_CUSTOM_COMMAND(
         DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/planets.yml"
 )
 ADD_CUSTOM_TARGET(planets DEPENDS planets.yml)
-ADD_DEPENDENCIES(orbit planets)
+
+# Build src:
+ADD_SUBDIRECTORY(src)
+
+# Build main executable:
+SET(ORBIT_MAIN orbit_main)
+ADD_EXECUTABLE(${ORBIT_MAIN} main.cpp)
+TARGET_LINK_LIBRARIES(${ORBIT_MAIN} orbit_lib)
+ADD_DEPENDENCIES(${ORBIT_MAIN} planets)
+
+# Build tests:
+ADD_SUBDIRECTORY(test)
