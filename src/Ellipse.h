@@ -120,13 +120,6 @@ public:
     std::array<vec, 2>
     fociPoints() const;
 
-private:
-
-    double mA;
-    double mB;
-    double mE;
-    double mFoci;
-
     /**
      * Calculate t at x.
      * @param x X value (-a <= x <= a)
@@ -144,6 +137,13 @@ private:
     double tAtY(
             double y
     ) const;
+
+private:
+
+    double mA;
+    double mB;
+    double mE;
+    double mFoci;
 
 };
 
