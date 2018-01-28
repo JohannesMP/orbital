@@ -23,6 +23,9 @@
  * Dot operator:    ⊙
  * Comparators:     < > ≦ ≧
  * Integral:        ∫
+ *
+ * https://en.wikipedia.org/wiki/List_of_gravitationally_rounded_objects_of_the_Solar_System
+ *
  * Planets:         ☉ ☿ ♀ ⊕ ♂ ♃ ♄ ⛢ ♆ ♇
  */
 
