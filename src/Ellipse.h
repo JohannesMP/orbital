@@ -25,26 +25,26 @@ public:
      * @param e Numeric eccentricity.
      */
     Ellipse(
-            double a,
-            double e
+            long double a,
+            long double e
     );
 
     /**
      * @return Major semi-axis.
      */
-    double
+    long double
     a() const;
 
     /**
      * @return Minor semi-axis.
      */
-    double
+    long double
     b() const;
 
     /**
      * @return Numeric eccentricity.
      */
-    double
+    long double
     e() const;
 
     /**
@@ -54,7 +54,7 @@ public:
      */
     vec
     point(
-            double t
+            long double t
     ) const;
 
     /**
@@ -64,7 +64,7 @@ public:
      */
     vec
     pointAngle(
-            double radians
+            long double radians
     ) const;
 
     /**
@@ -89,7 +89,7 @@ public:
             const Rectangle &rect
     ) const;
 
-    std::vector<double>
+    std::vector<long double>
     clip(
             const Rectangle &rect
     ) const;
@@ -101,17 +101,17 @@ public:
      * @param resolution The higher the resolution, the more accurate the result.
      * @return Arc length.
      */
-    double
+    long double
     arcLength(
-            double ts,
-            double te,
-            double resolution
+            long double ts,
+            long double te,
+            long double resolution
     )  const;
 
     /**
      * @return Two foci as x-values.
      */
-    std::array<double, 2>
+    std::array<long double, 2>
     foci() const;
 
     /**
@@ -125,8 +125,8 @@ public:
      * @param x X value (-a <= x <= a)
      * @return
      */
-    double tAtX(
-            double x
+    long double tAtX(
+            long double x
     ) const;
 
     /**
@@ -134,16 +134,16 @@ public:
      * @param y Y value (-b <= x <= b)
      * @return
      */
-    double tAtY(
-            double y
+    long double tAtY(
+            long double y
     ) const;
 
 private:
 
-    double mA;
-    double mB;
-    double mE;
-    double mFoci;
+    long double mA;
+    long double mB;
+    long double mE;
+    long double mFoci;
 
 };
 

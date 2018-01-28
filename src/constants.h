@@ -5,6 +5,7 @@
 #pragma once
 
 #include <glm/glm.hpp>
+#include <glm/detail/type_vec.hpp>
 #include <complex>
 #include <functional>
 
@@ -29,19 +30,19 @@
  * Planets:         ☉ ☿ ♀ ⊕ ♂ ♃ ♄ ⛢ ♆ ♇
  */
 
-using vec = glm::dvec2;
+using vec = glm::tvec2<long double>;
 
-using complex = std::complex<double>;
+using complex = std::complex<long double>;
 
 /**
  * Gravitational constant: [m³ kg s⁻²]
  */
-constexpr double G = 6.6738e-11;
+constexpr long double G = 6.6738e-11;
 
 /**
  * Factor to convert astronomic units to meters.
  */
-constexpr double AU = 1.496e11;
+constexpr long double AU = 1.496e11;
 
 /**
  * Pi
@@ -73,31 +74,32 @@ operator ""_pi(
 /**
  * Smallest value, to use for 0 in cases 0 is forbidden
  */
-extern const double ZERO;
+//extern const long double ZERO;
+constexpr long double ZERO = std::numeric_limits<double>::epsilon();
 
-constexpr double S_PER_MIN = 60;
-constexpr double S_PER_HOUR = S_PER_MIN * 60;
-constexpr double S_PER_DAY = S_PER_HOUR * 24;
-constexpr double S_PER_MONTH = S_PER_DAY * 30;
-constexpr double S_PER_YEAR = S_PER_DAY * 365.256;
+constexpr long double S_PER_MIN = 60;
+constexpr long double S_PER_HOUR = S_PER_MIN * 60;
+constexpr long double S_PER_DAY = S_PER_HOUR * 24;
+constexpr long double S_PER_MONTH = S_PER_DAY * 30;
+constexpr long double S_PER_YEAR = S_PER_DAY * 365.256;
 
-constexpr double
+constexpr long double
 sq(
-        double v
+        long double v
 )
 {
     return v * v;
 }
 
-constexpr double
+constexpr long double
 length(
         const vec &v
 )
 {
-    return sqrt(v.x * v.x + v.y * v.y);
+    return std::sqrt(v.x * v.x + v.y * v.y);
 }
 
-constexpr double
+constexpr long double
 distance(
         const vec &v0,
         const vec &v1
@@ -135,10 +137,10 @@ operator<<(
  * @param resolution Resolution per x stepping, i.e. number of function invocations per x.
  * @return Area of integral.
  */
-double
+long double
 integral(
-        std::function<double(double)> &&f,
-        double low,
-        double high,
-        double resolution
+        std::function<long double(long double)> &&f,
+        long double low,
+        long double high,
+        long double resolution
 );

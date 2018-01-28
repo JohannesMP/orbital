@@ -196,6 +196,11 @@ TEST(Ellipse, PointFromAngle)
 
 }
 
+TEST(Ellipse, ArcLength)
+{
+
+}
+
 TEST(Ellipse, RectangularClip)
 {
     Ellipse ellipse{2, 0.5};

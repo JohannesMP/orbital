@@ -8,7 +8,7 @@
 
 System::System(
         const Body &centralBody,
-        double dt
+        long double dt
 )
         : mCentralBody{centralBody}
         , mDt{dt}
@@ -18,7 +18,7 @@ System::System(
 System::System(
         const std::string &systemArchiveFile,
         const std::string &systemName,
-        double dt
+        long double dt
 )
     : mDt{dt}
 {
@@ -27,10 +27,10 @@ System::System(
     auto deserialize = [](YAML::Node node) {
         return Body{
                 node["name"].as<std::string>(),
-                node["mass"].as<double>() * 1000.0,
-                node["radius"].as<double>() * 1000.0,
-                node["a"].as<double>() * AU,
-                node["e"].as<double>()
+                node["mass"].as<long double>() * 1000.0,
+                node["radius"].as<long double>() * 1000.0,
+                node["a"].as<long double>() * AU,
+                node["e"].as<long double>()
         };
     };
 

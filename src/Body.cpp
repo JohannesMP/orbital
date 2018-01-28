@@ -8,10 +8,10 @@
 
 Body::Body(
         std::string name,
-        double mass,
-        double radius,
-        double a,
-        double e
+        long double mass,
+        long double radius,
+        long double a,
+        long double e
 )
         : mName{std::move(name)}
         , mMass{mass}
@@ -44,21 +44,21 @@ Body::getName() const
     return mName;
 }
 
-double
+long double
 Body::getMass() const
 {
     return mMass;
 }
 
-double
+long double
 Body::getRadius() const
 {
     return mRadius;
 }
 
-double
+long double
 Body::calculateV(
-        double M
+        long double M
 ) const
 {
     /*
@@ -66,14 +66,14 @@ Body::calculateV(
      *
      * v = √( G M (2/d - a⁻¹) )
      */
-    double d = length(mPosition);
-    return sqrt(G * M * (2 / d - 1 / mTrajectory.a()));
+    long double d = length(mPosition);
+    return std::sqrt(G * M * (2 / d - 1 / mTrajectory.a()));
 }
 
 void
 Body::step(
-        double M,
-        double dt
+        long double M,
+        long double dt
 )
 {
     vec p = mPosition - mTrajectoryCenter;
@@ -94,11 +94,11 @@ Body::step(
      * x = ± (ab cos θ) / √((b cos θ)² + (a cos θ)²)
      * y = ± (ab sin θ) / √((b cos θ)² + (a cos θ)²)
      */
-    double theta = atan(p.y / p.x);
-    double denominator = sqrt(sq(mTrajectory.b() * cos(theta)) + sq(mTrajectory.a() * sin(theta))) / mTrajectory.a() /
+    long double theta = std::atan(p.y / p.x); // TODO: use atan2 ?
+    long double denominator = std::sqrt(sq(mTrajectory.b() * std::cos(theta)) + sq(mTrajectory.a() * std::sin(theta))) / mTrajectory.a() /
             mTrajectory.b();
-    mPosition.x = copysign(cos(theta) / denominator, p.x) + mTrajectoryCenter.x;
-    mPosition.y = copysign(sin(theta) / denominator, p.y) + mTrajectoryCenter.y;
+    mPosition.x = std::copysign(std::cos(theta) / denominator, p.x) + mTrajectoryCenter.x;
+    mPosition.y = std::copysign(std::sin(theta) / denominator, p.y) + mTrajectoryCenter.y;
 }
 
 const vec &
