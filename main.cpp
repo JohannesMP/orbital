@@ -16,7 +16,7 @@ main()
     ellipse.clip({{-2, 1}, 5, 1});
     */
 
-    Graphics graphics{45, 141};
+    Graphics graphics{35, 121};
     System system{"planets.yml", "solar-system", S_PER_HOUR};
 
     auto &earth = system.find("Earth");
