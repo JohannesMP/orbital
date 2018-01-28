@@ -8,12 +8,29 @@
 #include <complex>
 #include <functional>
 
+/*
+ * http://xahlee.info/comp/unicode_math_operators.html
+ *
+ * Greek alphabet:  α β γ δ ε ζ η θ ι κ λ μ ν ξ ο π ρ ς τ υ φ χ ψ ω
+ * Super-script:    ⁰ ¹ ² ³ ⁴ ⁵ ⁶ ⁷ ⁸ ⁹ ⁺ ⁻ ⁼ ⁽ ⁾ ⁿ ⁱ
+ * Sub-script:      ₀ ₁ ₂ ₃ ₄ ₅ ₆ ₇ ₈ ₉ ₊ ₋ ₌ ₍ ₎ ₐ ₑ ₕ ᵢ ⱼ ₖ ₗ ₘ ₙ ₒ ₚ ᵣ ₛ ₜ ᵤ ᵥ ₓ ₔ
+ * Roots:           √ ∛ ∜
+ * Sets:            ℕ ℤ ℚ ℝ ℂ ∈ ∋ ∉ ∌ ∪ ∩
+ * Imaginary:       ⅈ
+ * Euler's number:  ℯ
+ * Infinity:        ∞
+ * Cross operator:  ⨯
+ * Dot operator:    ⊙
+ * Comparators:     < > ≦ ≧
+ * Integral:        ∫
+ */
+
 using vec = glm::dvec2;
 
 using complex = std::complex<double>;
 
 /**
- * Gravitational constant: [m^3 kg / s^2]
+ * Gravitational constant: [m³ kg s⁻²]
  */
 constexpr double G = 6.6738e-11;
 

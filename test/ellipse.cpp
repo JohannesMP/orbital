@@ -41,8 +41,8 @@ TEST(Ellipse, ParametricForm)
     ASSERT_NEAR(ellipse.point(0.75_pi).y, 1.22, 0.01);
 
     // 1 π
-    ASSERT_NEAR(ellipse.point(PI).x, -2, 0.01);
-    ASSERT_NEAR(ellipse.point(PI).y, 0, 0.01);
+    ASSERT_NEAR(ellipse.point(1_pi).x, -2, 0.01);
+    ASSERT_NEAR(ellipse.point(1_pi).y, 0, 0.01);
 
     // 1.25 π
     ASSERT_NEAR(ellipse.point(1.25_pi).x, -1.41, 0.01);
@@ -193,5 +193,12 @@ TEST(Ellipse, PointFromAngle)
     // 2 π
     ASSERT_NEAR(ellipse.pointAngle(2_pi).x, 2, 0.01);
     ASSERT_NEAR(ellipse.pointAngle(2_pi).y, 0, 0.01);
+
+}
+
+TEST(Ellipse, RectangularClip)
+{
+    Ellipse ellipse{2, 0.5};
+
 
 }

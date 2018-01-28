@@ -226,10 +226,10 @@ Graphics::ellipse(const Ellipse &ellipse)
 
     // Since the stepper calculates the pixel distance based on vector subtraction and *not* on ellipse arc length,
     // the ellipse must be divided into 4 quarters
-    stepper(ellipse, 0, PI * 0.5);
-    stepper(ellipse, PI * 0.5, PI);
-    stepper(ellipse, PI, PI * 1.5);
-    stepper(ellipse, PI * 1.5, 2_pi);
+    stepper(ellipse, 0, 0.5_pi);
+    stepper(ellipse, 0.5_pi, 1_pi);
+    stepper(ellipse, 1_pi, 1.5_pi);
+    stepper(ellipse, 1.5_pi, 2_pi);
 }
 
 void

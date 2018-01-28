@@ -25,7 +25,7 @@ Body::Body(
      *   = a - (e / a)
      *   = a ( 1 - e)
      */
-    mPosition.x = mTrajectory.foci()[1]; //mA * (1 - mE);
+    mPosition.x = mTrajectory.foci()[1];
 
     /*
      * Increasing x-axis value:
@@ -35,7 +35,7 @@ Body::Body(
      * - focal point = system center = (0|0)
      * - perihelion
      */
-    mTrajectoryCenter.x = -mTrajectory.e() * mTrajectory.a(); //-mE * mA;
+    mTrajectoryCenter.x = -mTrajectory.e() * mTrajectory.a();
 }
 
 const std::string &
@@ -64,7 +64,7 @@ Body::calculateV(
     /*
      * Trajectory velocity:
      *
-     * v = sqrt(G M(2/d - 1/a))
+     * v = √( G M (2/d - a⁻¹) )
      */
     double d = length(mPosition);
     return sqrt(G * M * (2 / d - 1 / mTrajectory.a()));
@@ -91,8 +91,8 @@ Body::step(
      * Map position back to ellipse: TODO: use Ellipse methods
      * https://math.stackexchange.com/questions/22064/calculating-a-point-that-lies-on-an-ellipse-given-an-angle
      *
-     * x = ± (ab cos θ) / sqrt((b cos θ)² + (a cos θ)²)
-     * y = ± (ab sin θ) / sqrt((b cos θ)² + (a cos θ)²)
+     * x = ± (ab cos θ) / √((b cos θ)² + (a cos θ)²)
+     * y = ± (ab sin θ) / √((b cos θ)² + (a cos θ)²)
      */
     double theta = atan(p.y / p.x);
     double denominator = sqrt(sq(mTrajectory.b() * cos(theta)) + sq(mTrajectory.a() * sin(theta))) / mTrajectory.a() /

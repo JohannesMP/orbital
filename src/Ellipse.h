@@ -90,11 +90,6 @@ public:
     ) const;
 
     std::vector<double>
-    clipOld(
-            const Rectangle &rect
-    ) const;
-
-    std::vector<double>
     clip(
             const Rectangle &rect
     ) const;

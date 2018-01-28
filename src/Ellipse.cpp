@@ -12,7 +12,7 @@ Ellipse::Ellipse(
 {
     mA = a;
     mE = e;
-    mB = a * sqrt(1 - sq(e));   // b = a sqrt( 1 - e² )
+    mB = a * sqrt(1 - sq(e));   // b = a √( 1 - e² )
     mFoci = a * e;
 }
 
@@ -64,7 +64,7 @@ Ellipse::arcLength(
     double sqA = sq(mA);
     double sqB = sq(mB);
     return integral([&](double x) {
-        // sqrt( a² sin²x + b² cos²x )
+        // √( a² sin²x + b² cos²x )
         return sqrt(sqA * sq(sin(x)) + sqB * sq(cos(x)));
     }, ts, te, resolution);
 }
@@ -78,14 +78,14 @@ Ellipse::pointAngle(
      * Point from given angle θ:
      *
      * (
-     *  ab / sqrt( b² + a² tan² θ )
-     *  ab tan θ / sqrt( b² + a² tan² θ )
+     *  ab / √( b² + a² tan² θ )
+     *  ab tan θ / √( b² + a² tan² θ )
      * )
      *
-     * Negate for angles: 0.5 π < θ <= 1.5 π
+     * Negate for angles: 0.5 π < θ ≦ 1.5 π
      *
      */
-    // sqrt( b² + a² tan² θ )
+    // √( b² + a² tan² θ )
     double denominator = sqrt(sq(mB) + sq(mA) * sq(tan(radians)));
     vec p{mA * mB / denominator, mA * mB * tan(radians) / denominator};
     if (0.5_pi < radians && 1.5_pi >= radians)
@@ -166,7 +166,7 @@ Ellipse::contains(
 // TODO: Clip points *must* increase with index position
 // TODO: How to specify no-clip/all-clip
 std::vector<double>
-Ellipse::clipOld(
+Ellipse::clip(
         const Rectangle &rect
 ) const
 {
@@ -233,26 +233,16 @@ Ellipse::clipOld(
             // Clips top:
             double t = tAtY(bottom);
             result.emplace_back(t);
-            result.emplace_back(PI - t);
+            result.emplace_back(1_pi - t);
         }
 
         else if(top < mB && top > -mB && bottom > -mB)
         {
             // Clips middle:
-            result.emplace_back(PI - tAtX(top));
+            result.emplace_back(1_pi - tAtX(top));
         }
 
     }
 
     return result;
-}
-
-std::vector<double>
-Ellipse::clip(const Rectangle &rect) const
-{
-    std::vector<double> result;
-
-    if(abs(rect.right()) < mA)
-    {
-    }
 }
