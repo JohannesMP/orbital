@@ -74,7 +74,6 @@ operator ""_pi(
 /**
  * Smallest value, to use for 0 in cases 0 is forbidden
  */
-//extern const long double ZERO;
 constexpr long double ZERO = std::numeric_limits<double>::epsilon();
 
 constexpr long double S_PER_MIN = 60;

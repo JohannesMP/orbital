@@ -5,8 +5,6 @@
 #include "constants.h"
 #include <glm/gtc/type_ptr.hpp>
 
-//const long double ZERO = std::numeric_limits<double>::epsilon();
-
 std::ostream &
 operator<<(
         std::ostream &os,
