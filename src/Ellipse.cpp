@@ -172,10 +172,10 @@ Ellipse::clip(
 {
     std::vector<long double> result;
 
-    double left = rect.left();
-    double right = rect.right();
-    double top = rect.top();
-    double bottom = rect.bottom();
+    long double left = rect.left();
+    long double right = rect.right();
+    long double top = rect.top();
+    long double bottom = rect.bottom();
 
     if (top > mB && bottom < mB)
     {
