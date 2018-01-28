@@ -23,6 +23,7 @@
  * Dot operator:    ⊙
  * Comparators:     < > ≦ ≧
  * Integral:        ∫
+ * Planets:         ☉ ☿ ♀ ⊕ ♂ ♃ ♄ ⛢ ♆ ♇
  */
 
 using vec = glm::dvec2;
