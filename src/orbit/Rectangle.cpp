@@ -4,6 +4,8 @@
 
 #include "Rectangle.h"
 
+const Rectangle Rectangle::ZERO_RECTANGLE{{0, 0}, 0, 0};
+
 Rectangle::Rectangle(
         const vec &p,
         Decimal w,
@@ -116,19 +118,19 @@ Rectangle::conjunction(const Rectangle &rhs) const
 {
     if(top() <= rhs.bottom()) {
         // rhs lies above this rect
-        return {};
+        return ZERO_RECTANGLE;
     }
     if(bottom() >= rhs.top()) {
         // rhs lies below this rect
-        return {};
+        return ZERO_RECTANGLE;
     }
     if(left() >= rhs.right()) {
         // rhs lies right
-        return {};
+        return ZERO_RECTANGLE;
     }
     if(right() <= rhs.left()) {
         // rhs lies left
-        return {};
+        return ZERO_RECTANGLE;
     }
 
     return {

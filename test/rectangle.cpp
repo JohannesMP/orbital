@@ -141,26 +141,26 @@ TEST(Rectangle, ConjunctionNonOverlapping)
     Rectangle a{{}, 4, 3};
 
     Rectangle above{{2, 3}, 3, 3};
-    ASSERT_DOUBLE_EQ(a.conjunction(above).bottom(), 0);
-    ASSERT_DOUBLE_EQ(a.conjunction(above).left(), 0);
-    ASSERT_DOUBLE_EQ(a.conjunction(above).top(), 0);
-    ASSERT_DOUBLE_EQ(a.conjunction(above).right(), 0);
+    ASSERT_DOUBLE_EQ(a.conjunction(above).bottom(), Rectangle::ZERO_RECTANGLE.bottom());
+    ASSERT_DOUBLE_EQ(a.conjunction(above).left(), Rectangle::ZERO_RECTANGLE.left());
+    ASSERT_DOUBLE_EQ(a.conjunction(above).top(), Rectangle::ZERO_RECTANGLE.top());
+    ASSERT_DOUBLE_EQ(a.conjunction(above).right(), Rectangle::ZERO_RECTANGLE.right());
 
     Rectangle below{{2, -3}, 3, 3};
-    ASSERT_DOUBLE_EQ(a.conjunction(below).bottom(), 0);
-    ASSERT_DOUBLE_EQ(a.conjunction(below).left(), 0);
-    ASSERT_DOUBLE_EQ(a.conjunction(below).top(), 0);
-    ASSERT_DOUBLE_EQ(a.conjunction(below).right(), 0);
+    ASSERT_DOUBLE_EQ(a.conjunction(below).bottom(), Rectangle::ZERO_RECTANGLE.bottom());
+    ASSERT_DOUBLE_EQ(a.conjunction(below).left(), Rectangle::ZERO_RECTANGLE.left());
+    ASSERT_DOUBLE_EQ(a.conjunction(below).top(), Rectangle::ZERO_RECTANGLE.top());
+    ASSERT_DOUBLE_EQ(a.conjunction(below).right(), Rectangle::ZERO_RECTANGLE.right());
 
     Rectangle right{{2, 3}, 4, 3};
-    ASSERT_DOUBLE_EQ(a.conjunction(right).bottom(), 0);
-    ASSERT_DOUBLE_EQ(a.conjunction(right).left(), 0);
-    ASSERT_DOUBLE_EQ(a.conjunction(right).top(), 0);
-    ASSERT_DOUBLE_EQ(a.conjunction(right).right(), 0);
+    ASSERT_DOUBLE_EQ(a.conjunction(right).bottom(), Rectangle::ZERO_RECTANGLE.bottom());
+    ASSERT_DOUBLE_EQ(a.conjunction(right).left(), Rectangle::ZERO_RECTANGLE.left());
+    ASSERT_DOUBLE_EQ(a.conjunction(right).top(), Rectangle::ZERO_RECTANGLE.top());
+    ASSERT_DOUBLE_EQ(a.conjunction(right).right(), Rectangle::ZERO_RECTANGLE.right());
 
     Rectangle left{{2, 3}, -3, 3};
-    ASSERT_DOUBLE_EQ(a.conjunction(left).bottom(), 0);
-    ASSERT_DOUBLE_EQ(a.conjunction(left).left(), 0);
-    ASSERT_DOUBLE_EQ(a.conjunction(left).top(), 0);
-    ASSERT_DOUBLE_EQ(a.conjunction(left).right(), 0);
+    ASSERT_DOUBLE_EQ(a.conjunction(left).bottom(), Rectangle::ZERO_RECTANGLE.bottom());
+    ASSERT_DOUBLE_EQ(a.conjunction(left).left(), Rectangle::ZERO_RECTANGLE.left());
+    ASSERT_DOUBLE_EQ(a.conjunction(left).top(), Rectangle::ZERO_RECTANGLE.top());
+    ASSERT_DOUBLE_EQ(a.conjunction(left).right(), Rectangle::ZERO_RECTANGLE.right());
 }

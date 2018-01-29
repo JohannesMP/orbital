@@ -13,9 +13,9 @@ class Rectangle
 public:
 
     /**
-     * Create a rectangle with no dimension, sitting a the origin.
+     * A rectangle with no extent, sitting at position 0.
      */
-    Rectangle() = default;
+    static const Rectangle ZERO_RECTANGLE;
 
     /**
      * Construct a rectangle from a point, width and height.
@@ -42,7 +42,7 @@ public:
     /**
      * Create a conjunction rectangle from this and another rectangle.
      * @param rhs Other rectangle.
-     * @return Conjunction. If rectangles do not overlap, the conjunction a rectangle with extent 0 at position 0.
+     * @return Conjunction. If rectangles do not overlap, the conjunction is a zero rectangle.
      */
     Rectangle
     conjunction(

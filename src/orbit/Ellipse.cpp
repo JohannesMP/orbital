@@ -176,7 +176,7 @@ Ellipse::clip(
     auto bounds = boundingRect();
 
     if(bounds.right() <= rect.right()) {
-        // Rect lies right of ellipse
+        // Rect lies outside of ellipse
         return result;
     }
 
