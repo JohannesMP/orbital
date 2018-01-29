@@ -3,7 +3,7 @@
 //
 
 #include "common.h"
-#include <Rectangle.h>
+#include <orbit/Rectangle.h>
 
 TEST(Rectangle, ProperConstructionWithPositiveExtent)
 {

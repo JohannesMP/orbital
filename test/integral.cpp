@@ -3,7 +3,7 @@
 //
 
 #include <gtest/gtest.h>
-#include <constants.h>
+#include <orbit/constants.h>
 
 TEST(Integral, NullArea)
 {

@@ -1,8 +1,8 @@
 #include <iostream>
 #include <iomanip>
 #include <thread>
-#include "src/System.h"
-#include "src/Graphics.h"
+#include "src/orbit/System.h"
+#include "src/orbit/Graphics.h"
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wmissing-noreturn"

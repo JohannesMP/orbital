@@ -2,7 +2,7 @@
 // Created by jim on 27.01.18.
 //
 
-#include <Ellipse.h>
+#include <orbit/Ellipse.h>
 #include "common.h"
 
 TEST(Ellipse, ProperConstruction)
@@ -209,6 +209,16 @@ TEST(Ellipse, ArcLength)
     ASSERT_NEAR(ellipse.arcLength(0, 1.5_pi, 1000), 8.8, 0.01);
     ASSERT_NEAR(ellipse.arcLength(0, 1.75_pi, 1000), 10.34, 0.01);
     ASSERT_NEAR(ellipse.arcLength(0, 2_pi, 1000), 11.74, 0.01);
+
+    ASSERT_NEAR(ellipse.arcLength(1_pi, 1_pi, 100), 0.0, 0.0001);
+    ASSERT_NEAR(ellipse.arcLength(1_pi, 1.25_pi, 1000), 1.4, 0.1);
+    ASSERT_NEAR(ellipse.arcLength(1_pi, 1.5_pi, 1000), 2.93, 0.01);
+    ASSERT_NEAR(ellipse.arcLength(1_pi, 1.75_pi, 1000), 4.47, 0.01);
+    ASSERT_NEAR(ellipse.arcLength(1_pi, 2_pi, 1000), 5.87, 0.01);
+    ASSERT_NEAR(ellipse.arcLength(1_pi, 2.25_pi, 1000), 7.27, 0.01);
+    ASSERT_NEAR(ellipse.arcLength(1_pi, 2.5_pi, 1000), 8.8, 0.01);
+    ASSERT_NEAR(ellipse.arcLength(1_pi, 2.75_pi, 1000), 10.34, 0.01);
+    ASSERT_NEAR(ellipse.arcLength(1_pi, 3_pi, 1000), 11.74, 0.01);
 }
 
 TEST(Ellipse, NegativeArcLength)
@@ -224,6 +234,16 @@ TEST(Ellipse, NegativeArcLength)
     ASSERT_NEAR(ellipse.arcLength(0, -1.5_pi, 1000), -8.8, 0.01);
     ASSERT_NEAR(ellipse.arcLength(0, -1.75_pi, 1000), -10.34, 0.01);
     ASSERT_NEAR(ellipse.arcLength(0, -2_pi, 1000), -11.74, 0.01);
+
+    ASSERT_NEAR(ellipse.arcLength(-1_pi, -1_pi, 100), 0.0, 0.0001);
+    ASSERT_NEAR(ellipse.arcLength(-1_pi, -1.25_pi, 1000), -1.4, 0.1);
+    ASSERT_NEAR(ellipse.arcLength(-1_pi, -1.5_pi, 1000), -2.93, 0.01);
+    ASSERT_NEAR(ellipse.arcLength(-1_pi, -1.75_pi, 1000), -4.47, 0.01);
+    ASSERT_NEAR(ellipse.arcLength(-1_pi, -2_pi, 1000), -5.87, 0.01);
+    ASSERT_NEAR(ellipse.arcLength(-1_pi, -2.25_pi, 1000), -7.27, 0.01);
+    ASSERT_NEAR(ellipse.arcLength(-1_pi, -2.5_pi, 1000), -8.8, 0.01);
+    ASSERT_NEAR(ellipse.arcLength(-1_pi, -2.75_pi, 1000), -10.34, 0.01);
+    ASSERT_NEAR(ellipse.arcLength(-1_pi, -3_pi, 1000), -11.74, 0.01);
 }
 
 TEST(Ellipse, RectangularClip)
