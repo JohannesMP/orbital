@@ -165,6 +165,7 @@ Ellipse::contains(
 
 // TODO: Clip points *must* increase with index position
 // TODO: How to specify no-clip/all-clip
+
 std::vector<Decimal>
 Ellipse::clip(
         const Rectangle &rect
@@ -177,72 +178,7 @@ Ellipse::clip(
     Decimal top = rect.top();
     Decimal bottom = rect.bottom();
 
-    if (top > mB && bottom < mB)
-    {
-        // Covers vertical slice:
-
-        if (left < -mA && right > -mA)
-        {
-            // Clips left:
-            result.emplace_back(tAtY(right));
-            result.emplace_back(2_pi - tAtY(right));
-        }
-
-        else if (left > -mA && right < -mA)
-        {
-            // Clips middle:
-            result.emplace_back(tAtY(right));
-            result.emplace_back(tAtY(left));
-            result.emplace_back(2_pi - tAtY(left));
-            result.emplace_back(2_pi - tAtY(right));
-        }
-
-        else if (left < mA && right > mA)
-        {
-            // Clips right:
-            result.emplace_back(2_pi - tAtY(left));
-            result.emplace_back(2_pi + tAtY(left));
-        }
-    }
-
-    else if (top < mB && bottom > -mB)
-    {
-        // Covers part in middle:
-
-        if (left < -mA && right > mA && right < mA)
-        {
-            // Clips left:
-            result.emplace_back(tAtX(top));
-            result.emplace_back(tAtX(bottom));
-        }
-
-        else if (left > -mA && left < mA && right > mA)
-        {
-            // Clips right:
-            result.emplace_back(tAtX(bottom));
-            result.emplace_back(tAtX(2_pi + top));
-        }
-    }
-
-    else if (left < -mA && right > mA)
-    {
-        // Covers horizontal slice:
-
-        if (top > mB && bottom < mB && bottom > -mB)
-        {
-            // Clips top:
-            Decimal t = tAtY(bottom);
-            result.emplace_back(t);
-            result.emplace_back(1_pi - t);
-        }
-
-        else if (top < mB && top > -mB && bottom > -mB)
-        {
-            // Clips middle:
-            result.emplace_back(1_pi - tAtX(top));
-        }
-
-    }
+    Decimal t = 0_pi;
 
     return result;
 }
@@ -255,4 +191,10 @@ operator<<(
 {
     os << "a: " << ellipse.mA << " b: " << ellipse.mB << " e: " << ellipse.mE;
     return os;
+}
+
+Rectangle
+Ellipse::boundingRect() const
+{
+    return {{-mA, -mB}, {mA, mB}};
 }

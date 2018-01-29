@@ -246,10 +246,27 @@ TEST(Ellipse, NegativeArcLength)
     ASSERT_NEAR(ellipse.arcLength(-1_pi, -3_pi, 1000), -11.74, 0.01);
 }
 
+TEST(Ellipse, BoundingRect)
+{
+    Ellipse ellipse{2, 0.5};
+    ASSERT_DOUBLE_EQ(ellipse.boundingRect().right(), ellipse.a());
+    ASSERT_DOUBLE_EQ(ellipse.boundingRect().left(), -ellipse.a());
+    ASSERT_DOUBLE_EQ(ellipse.boundingRect().top(), ellipse.b());
+    ASSERT_DOUBLE_EQ(ellipse.boundingRect().bottom(), -ellipse.b());
+}
+
 TEST(Ellipse, RectangularClip)
 {
     Ellipse ellipse{2, 0.5};
-    Rectangle rect{{-2, -1}, {-0.6, 1}};
 
-    //ASSERT_EQ(ellipse.clip(rect).size(), 2);
+    {
+        Rectangle rect{{-3, -2}, {-1, 2}};
+        //ASSERT_EQ(ellipse.clip(rect).size(), 2);
+        //ASSERT_DOUBLE_EQ(ellipse.clip(rect)[0], ellipse.tAtX(-1));
+        //ASSERT_DOUBLE_EQ(ellipse.clip(rect)[1], 2_pi - ellipse.tAtX(-1));
+    }
+
+    {
+
+    }
 }

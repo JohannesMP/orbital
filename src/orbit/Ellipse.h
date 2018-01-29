@@ -141,6 +141,15 @@ public:
             Decimal y
     ) const;
 
+    /**
+     * @return Bounding rectangle.
+     */
+    Rectangle
+    boundingRect() const;
+
+    /**
+     * Serialize ellipse to stream.
+     */
     friend std::ostream &
     operator<<(
             std::ostream &os,
