@@ -4,6 +4,7 @@
 
 #include <array>
 #include <vector>
+#include <ostream>
 #include "constants.h"
 #include "Rectangle.h"
 
@@ -139,6 +140,12 @@ public:
     tAtY(
             Decimal y
     ) const;
+
+    friend std::ostream &
+    operator<<(
+            std::ostream &os,
+            const Ellipse &ellipse
+    );
 
 private:
 

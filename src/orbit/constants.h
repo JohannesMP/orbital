@@ -8,6 +8,7 @@
 #include <glm/detail/type_vec.hpp>
 #include <complex>
 #include <functional>
+#include <sstream>
 
 /*
  * http://xahlee.info/comp/unicode_math_operators.html
@@ -200,3 +201,13 @@ operator<<(
         std::ostream &os,
         const mat &m
 );
+
+template<class T>
+std::string toString(
+        const T &t
+)
+{
+    std::stringstream ss;
+    ss << t;
+    return ss.str();
+}

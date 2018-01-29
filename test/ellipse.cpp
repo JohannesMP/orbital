@@ -248,4 +248,8 @@ TEST(Ellipse, NegativeArcLength)
 
 TEST(Ellipse, RectangularClip)
 {
+    Ellipse ellipse{2, 0.5};
+    Rectangle rect{{-2, -1}, {-0.6, 1}};
+
+    //ASSERT_EQ(ellipse.clip(rect).size(), 2);
 }

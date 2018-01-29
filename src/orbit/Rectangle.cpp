@@ -100,3 +100,13 @@ Rectangle::center() const
 {
     return {mBottomLeft.x + mW / 2, mBottomLeft.y + mH / 2};
 }
+
+std::ostream &
+operator<<(
+        std::ostream &os,
+        const Rectangle &rectangle
+)
+{
+    os << "rect{" << rectangle.mBottomLeft << " -> " << rectangle.mW << 'x' << rectangle.mH << "}";
+    return os;
+}

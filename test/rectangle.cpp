@@ -31,6 +31,8 @@ TEST(Rectangle, ProperConstructionWithPositiveExtent)
     ASSERT_DOUBLE_EQ(rect.leftCenter().y, 4);
     ASSERT_DOUBLE_EQ(rect.rightCenter().x, 4);
     ASSERT_DOUBLE_EQ(rect.rightCenter().y, 4);
+    ASSERT_DOUBLE_EQ(rect.center().x, 2.5);
+    ASSERT_DOUBLE_EQ(rect.center().y, 4);
 }
 
 TEST(Rectangle, ProperConstructionWithNegativeExtent)
@@ -58,7 +60,9 @@ TEST(Rectangle, ProperConstructionWithNegativeExtent)
     ASSERT_DOUBLE_EQ(rect.leftCenter().x, 1);
     ASSERT_DOUBLE_EQ(rect.leftCenter().y, 4);
     ASSERT_DOUBLE_EQ(rect.rightCenter().x, 4);
-ASSERT_DOUBLE_EQ(rect.rightCenter().y, 4);
+    ASSERT_DOUBLE_EQ(rect.rightCenter().y, 4);
+    ASSERT_DOUBLE_EQ(rect.center().x, 2.5);
+    ASSERT_DOUBLE_EQ(rect.center().y, 4);
 }
 
 TEST(Rectangle, ProperConstructionFromTwoPoints)
@@ -86,7 +90,9 @@ TEST(Rectangle, ProperConstructionFromTwoPoints)
     ASSERT_DOUBLE_EQ(rect.leftCenter().x, 1);
     ASSERT_DOUBLE_EQ(rect.leftCenter().y, 4);
     ASSERT_DOUBLE_EQ(rect.rightCenter().x, 4);
-ASSERT_DOUBLE_EQ(rect.rightCenter().y, 4);
+    ASSERT_DOUBLE_EQ(rect.rightCenter().y, 4);
+    ASSERT_DOUBLE_EQ(rect.center().x, 2.5);
+    ASSERT_DOUBLE_EQ(rect.center().y, 4);
 }
 
 TEST(Rectangle, ProperConstructionFromTwoPointsFlipped)
@@ -115,4 +121,6 @@ TEST(Rectangle, ProperConstructionFromTwoPointsFlipped)
     ASSERT_DOUBLE_EQ(rect.leftCenter().y, 4);
     ASSERT_DOUBLE_EQ(rect.rightCenter().x, 4);
     ASSERT_DOUBLE_EQ(rect.rightCenter().y, 4);
+    ASSERT_DOUBLE_EQ(rect.center().x, 2.5);
+    ASSERT_DOUBLE_EQ(rect.center().y, 4);
 }

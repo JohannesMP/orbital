@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <ostream>
 #include "constants.h"
 
 class Rectangle
@@ -71,6 +72,12 @@ public:
 
     vec
     center() const;
+
+    friend std::ostream &
+    operator<<(
+            std::ostream &os,
+            const Rectangle &rectangle
+    );
 
 private:
 

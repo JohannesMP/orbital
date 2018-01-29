@@ -246,3 +246,13 @@ Ellipse::clip(
 
     return result;
 }
+
+std::ostream &
+operator<<(
+        std::ostream &os,
+        const Ellipse &ellipse
+)
+{
+    os << "a: " << ellipse.mA << " b: " << ellipse.mB << " e: " << ellipse.mE;
+    return os;
+}
