@@ -25,26 +25,26 @@ public:
      * @param e Numeric eccentricity.
      */
     Ellipse(
-            long double a,
-            long double e
+            Decimal a,
+            Decimal e
     );
 
     /**
      * @return Major semi-axis.
      */
-    long double
+    Decimal
     a() const;
 
     /**
      * @return Minor semi-axis.
      */
-    long double
+    Decimal
     b() const;
 
     /**
      * @return Numeric eccentricity.
      */
-    long double
+    Decimal
     e() const;
 
     /**
@@ -54,7 +54,7 @@ public:
      */
     vec
     point(
-            long double t
+            Decimal t
     ) const;
 
     /**
@@ -64,7 +64,7 @@ public:
      */
     vec
     pointAngle(
-            long double radians
+            Decimal radians
     ) const;
 
     /**
@@ -89,7 +89,7 @@ public:
             const Rectangle &rect
     ) const;
 
-    std::vector<long double>
+    std::vector<Decimal>
     clip(
             const Rectangle &rect
     ) const;
@@ -101,17 +101,17 @@ public:
      * @param resolution The higher the resolution, the more accurate the result.
      * @return Arc length.
      */
-    long double
+    Decimal
     arcLength(
-            long double ts,
-            long double te,
-            long double resolution
+            Decimal ts,
+            Decimal te,
+            Decimal resolution
     )  const;
 
     /**
      * @return Two foci as x-values.
      */
-    std::array<long double, 2>
+    std::array<Decimal, 2>
     foci() const;
 
     /**
@@ -125,8 +125,8 @@ public:
      * @param x X value (-a <= x <= a)
      * @return
      */
-    long double tAtX(
-            long double x
+    Decimal tAtX(
+            Decimal x
     ) const;
 
     /**
@@ -134,16 +134,16 @@ public:
      * @param y Y value (-b <= x <= b)
      * @return
      */
-    long double tAtY(
-            long double y
+    Decimal tAtY(
+            Decimal y
     ) const;
 
 private:
 
-    long double mA;
-    long double mB;
-    long double mE;
-    long double mFoci;
+    Decimal mA;
+    Decimal mB;
+    Decimal mE;
+    Decimal mFoci;
 
 };
 

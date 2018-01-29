@@ -37,15 +37,15 @@ Transform::translate(const vec &v)
 }
 
 void
-Transform::scale(double s)
+Transform::scale(Decimal s)
 {
     mScale = glm::scale(mScale, glm::vec2{s, s});
     update();
 }
 
 void
-Transform::rotate(float radians)
+Transform::rotate(Decimal radians)
 {
-    mRotation = glm::rotate(mRotation, radians);
+    mRotation = glm::rotate(mRotation, static_cast<float>(radians)); // TODO: implement own rotate function, which is capable of Decimal
     update();
 }

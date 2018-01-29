@@ -19,8 +19,8 @@ public:
      */
     Rectangle(
             const vec &p,
-            long double w,
-            long double h
+            Decimal w,
+            Decimal h
     );
 
     /**
@@ -33,16 +33,16 @@ public:
             const vec &q
     );
 
-    long double
+    Decimal
     top() const;
 
-    long double
+    Decimal
     bottom() const;
 
-    long double
+    Decimal
     left() const;
 
-    long double
+    Decimal
     right() const;
 
     vec
@@ -75,8 +75,8 @@ public:
 private:
 
     vec mBottomLeft;
-    long double mW;
-    long double mH;
+    Decimal mW;
+    Decimal mH;
 
 };
 

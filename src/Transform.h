@@ -22,12 +22,12 @@ public:
 
     void
     scale(
-            double s
+            Decimal s
     );
 
     void
     rotate(
-            float radians
+            Decimal radians
     );
 
     const glm::mat3 &

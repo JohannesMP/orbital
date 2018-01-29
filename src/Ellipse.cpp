@@ -6,8 +6,8 @@
 #include <iostream>
 
 Ellipse::Ellipse(
-        long double a,
-        long double e
+        Decimal a,
+        Decimal e
 )
 {
     mA = a;
@@ -16,25 +16,25 @@ Ellipse::Ellipse(
     mFoci = a * e;
 }
 
-long double
+Decimal
 Ellipse::a() const
 {
     return mA;
 }
 
-long double
+Decimal
 Ellipse::b() const
 {
     return mB;
 }
 
-long double
+Decimal
 Ellipse::e() const
 {
     return mE;
 }
 
-std::array<long double, 2>
+std::array<Decimal, 2>
 Ellipse::foci() const
 {
     return {-mFoci, mFoci};
@@ -48,22 +48,22 @@ Ellipse::fociPoints() const
 
 vec
 Ellipse::point(
-        long double t
+        Decimal t
 ) const
 {
     return {mA * std::cos(t), mB * std::sin(t)};
 }
 
-long double
+Decimal
 Ellipse::arcLength(
-        long double ts,
-        long double te,
-        long double resolution
+        Decimal ts,
+        Decimal te,
+        Decimal resolution
 ) const
 {
-    long double sqA = sq(mA);
-    long double sqB = sq(mB);
-    return integral([&](long double x) {
+    Decimal sqA = sq(mA);
+    Decimal sqB = sq(mB);
+    return integral([&](Decimal x) {
         // √( a² sin²x + b² cos²x )
         return std::sqrt(sqA * sq(std::sin(x)) + sqB * sq(std::cos(x)));
     }, ts, te, resolution);
@@ -71,7 +71,7 @@ Ellipse::arcLength(
 
 vec
 Ellipse::pointAngle(
-        long double radians
+        Decimal radians
 ) const
 {
     /*
@@ -86,7 +86,7 @@ Ellipse::pointAngle(
      *
      */
     // √( b² + a² tan² θ )
-    long double denominator = std::sqrt(sq(mB) + sq(mA) * sq(std::tan(radians)));
+    Decimal denominator = std::sqrt(sq(mB) + sq(mA) * sq(std::tan(radians)));
     vec p{mA * mB / denominator, mA * mB * std::tan(radians) / denominator};
     if (0.5_pi < radians && 1.5_pi >= radians)
     {
@@ -125,17 +125,17 @@ Ellipse::contains(
      * y > 0 && y < Y    => inside (with positive y value)
      * y < 0 && y > Y    => inside (with negative y value)
      */
-    long double t = tAtX(p.x);
+    Decimal t = tAtX(p.x);
 
     // Flip result of t if y is negative, so the ellipse point is mapped to the lower half of the ellipse body:
     t = std::copysign(t, p.y);
 
-    long double Y = mB * std::sin(t);
+    Decimal Y = mB * std::sin(t);
     return (p.y >= 0 && p.y <= Y) || (p.y <= 0 && p.y >= Y);
 }
 
-long double
-Ellipse::tAtX(long double x) const
+Decimal
+Ellipse::tAtX(Decimal x) const
 {
     /*
      * x = a cos t
@@ -144,8 +144,8 @@ Ellipse::tAtX(long double x) const
     return std::acos(x / mA);
 }
 
-long double
-Ellipse::tAtY(long double y) const
+Decimal
+Ellipse::tAtY(Decimal y) const
 {
     /*
      * y = b sin t
@@ -165,17 +165,17 @@ Ellipse::contains(
 
 // TODO: Clip points *must* increase with index position
 // TODO: How to specify no-clip/all-clip
-std::vector<long double>
+std::vector<Decimal>
 Ellipse::clip(
         const Rectangle &rect
 ) const
 {
-    std::vector<long double> result;
+    std::vector<Decimal> result;
 
-    long double left = rect.left();
-    long double right = rect.right();
-    long double top = rect.top();
-    long double bottom = rect.bottom();
+    Decimal left = rect.left();
+    Decimal right = rect.right();
+    Decimal top = rect.top();
+    Decimal bottom = rect.bottom();
 
     if (top > mB && bottom < mB)
     {
@@ -231,7 +231,7 @@ Ellipse::clip(
         if(top > mB && bottom < mB && bottom > -mB)
         {
             // Clips top:
-            long double t = tAtY(bottom);
+            Decimal t = tAtY(bottom);
             result.emplace_back(t);
             result.emplace_back(1_pi - t);
         }

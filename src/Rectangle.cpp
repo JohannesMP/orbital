@@ -6,8 +6,8 @@
 
 Rectangle::Rectangle(
         const vec &p,
-        long double w,
-        long double h
+        Decimal w,
+        Decimal h
 )
         : Rectangle{p, {p.x + w, p.y + h}}
 {
@@ -23,25 +23,25 @@ Rectangle::Rectangle(
 {
 }
 
-long double
+Decimal
 Rectangle::top() const
 {
     return mBottomLeft.y + mH;
 }
 
-long double
+Decimal
 Rectangle::bottom() const
 {
     return mBottomLeft.y;
 }
 
-long double
+Decimal
 Rectangle::left() const
 {
     return mBottomLeft.x;
 }
 
-long double
+Decimal
 Rectangle::right() const
 {
     return mBottomLeft.x + mW;

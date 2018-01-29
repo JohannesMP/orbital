@@ -18,7 +18,7 @@ public:
 
     System(
             const Body &centralBody,
-            long double dt
+            Decimal dt
     );
 
     /**
@@ -35,7 +35,7 @@ public:
     System(
             const std::string &systemArchiveFile,
             const std::string &systemName,
-            long double dt
+            Decimal dt
     );
 
     Body &
@@ -57,7 +57,7 @@ public:
 
 private:
 
-    long double mDt;                 ///< [s]    Amount of time between two steps
+    Decimal mDt;                 ///< [s]    Amount of time between two steps
     std::list<Body> mBodies;
     Body mCentralBody;
 

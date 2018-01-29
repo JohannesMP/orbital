@@ -25,19 +25,19 @@ public:
      */
     Body(
             std::string name,
-            long double mass,
-            long double radius,
-            long double a,
-            long double e
+            Decimal mass,
+            Decimal radius,
+            Decimal a,
+            Decimal e
     );
 
     const std::string &
     getName() const;
 
-    long double
+    Decimal
     getMass() const;
 
-    long double
+    Decimal
     getRadius() const;
 
     const vec &
@@ -48,15 +48,15 @@ public:
 
     void
     step(
-            long double M,
-            long double dt
+            Decimal M,
+            Decimal dt
     );
 
 private:
 
     std::string mName;
-    long double mMass{};      ///< [kg]   Planet mass (m > 0)
-    long double mRadius{};    ///< [m]    Planet radius (r > 0)
+    Decimal mMass{};      ///< [kg]   Planet mass (m > 0)
+    Decimal mRadius{};    ///< [m]    Planet radius (r > 0)
     vec mPosition;            ///< [m]    Position of body mass center
     Ellipse mTrajectory;
     vec mTrajectoryCenter;
@@ -69,9 +69,9 @@ private:
      * @param M Center mass
      * @return
      */
-    long double
+    Decimal
     calculateV(
-            long double M
+            Decimal M
     ) const;
 
 };

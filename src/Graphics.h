@@ -31,7 +31,7 @@ public:
     /**
      * Character width to height ration.
      */
-    static constexpr double CHAR_RATIO = 1 / 2.0;
+    static constexpr Decimal CHAR_RATIO = 1 / 2.0;
 
     /**
      * Create a new graphics with a given count of rows and columns.
@@ -135,7 +135,7 @@ public:
      */
     void
     scale(
-            double s
+            Decimal s
     );
 
     /**
@@ -242,8 +242,8 @@ private:
     void
     stepper(
             const Ellipse &ellipse,
-            long double ts,
-            long double te
+            Decimal ts,
+            Decimal te
     );
 
 };

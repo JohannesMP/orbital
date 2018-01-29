@@ -28,10 +28,10 @@ Graphics::Graphics(
     }
     clear();
 
-    mProjection = glm::scale(glm::mat3{1}, {cols / 2.0, rows / 2.0});               // Span over whole viewport
-    mProjection = glm::translate(mProjection, glm::vec2{1, 1});                     // Origin should sit in the center
-    mProjection = glm::scale(mProjection, {1, -1});                                 // Y-Axis should point upwards
-    mProjection = glm::scale(mProjection, {rows / (double) cols / CHAR_RATIO, 1});   // Scale against viewport distort
+    mProjection = glm::scale(glm::mat3{1}, {cols / 2.0, rows / 2.0});                 // Span over whole viewport
+    mProjection = glm::translate(mProjection, glm::vec2{1, 1});                       // Origin should sit in the center
+    mProjection = glm::scale(mProjection, {1, -1});                                   // Y-Axis should point upwards
+    mProjection = glm::scale(mProjection, {rows / (Decimal) cols / CHAR_RATIO, 1});   // Scale against viewport distort
 
     push();
     updateTransform();
@@ -139,7 +139,7 @@ Graphics::translate(const vec &v)
 }
 
 void
-Graphics::scale(double s)
+Graphics::scale(Decimal s)
 {
     mTransformStack.back().scale(s);
     updateTransform();
@@ -238,21 +238,21 @@ Graphics::ellipse(const Ellipse &ellipse)
 void
 Graphics::stepper(
         const Ellipse &ellipse,
-        long double ts,
-        long double te
+        Decimal ts,
+        Decimal te
 )
 {
     // Calculate distance the painted pixels of the start and end arc would have within the framebuffer:
     vec vs = ellipse.point(ts);
     vec ve = ellipse.point(te);
-    long double d = distance({mapToFramebuffer(ve)}, {mapToFramebuffer(vs)});
+    Decimal d = distance({mapToFramebuffer(ve)}, {mapToFramebuffer(vs)});
 
     // 1.4142... is the distance between to diagonal pixels:
     if (1.5 < d)
     {
         // Distance between painted pixels in framebuffers spans over at least one pixel,
         // continue stepping in smaller steps:
-        long double tHalf = (te - ts) / 2;
+        Decimal tHalf = (te - ts) / 2;
         stepper(ellipse, ts, ts + tHalf);
         stepper(ellipse, ts + tHalf, te);
     }

@@ -30,67 +30,91 @@
  * Planets:         ☉ ☿ ♀ ⊕ ♂ ♃ ♄ ⛢ ♆ ♇
  */
 
-using vec = glm::tvec2<long double>;
+using Decimal = double;
 
-using complex = std::complex<long double>;
+using vec = glm::tvec2<Decimal>;
+
+using complex = std::complex<Decimal>;
+
+/**
+ * Literal suffix to properly use the Decimal type-alias in literals.
+ */
+constexpr Decimal
+operator "" _df (
+        long double literal
+)
+{
+    return static_cast<Decimal>(literal);
+}
+
+/**
+ * Literal suffix to properly use the Decimal type-alias in literals.
+ */
+constexpr Decimal
+operator "" _df (
+        unsigned long long literal
+)
+{
+    return static_cast<Decimal>(literal);
+}
 
 /**
  * Gravitational constant: [m³ kg s⁻²]
  */
-constexpr long double G = 6.6738e-11;
+constexpr Decimal G = 6.6738e-11_df;
 
 /**
  * Factor to convert astronomic units to meters.
  */
-constexpr long double AU = 1.496e11;
+constexpr Decimal AU = 1.496e11_df;
 
 /**
  * Pi
  */
-constexpr long double PI = 3.141592653589793;
+constexpr Decimal PI = 3.14159265358979323846264338327950288419716939937510582097494459230781640628620899_df;
 
 /**
  * Literal suffix to multiply a number by π.
  */
-constexpr long double
-operator ""_pi(
-        long double v
+constexpr Decimal
+operator "" _pi(
+        long double literal
 )
 {
-    return PI * v;
+    return static_cast<Decimal>(literal) * PI;
 }
 
 /**
  * Literal suffix to multiply a number by π.
  */
-constexpr long double
-operator ""_pi(
-        unsigned long long v
+constexpr Decimal
+operator "" _pi(
+        unsigned long long literal
 )
 {
-    return PI * v;
+    return static_cast<Decimal>(literal) * PI;
 }
 
 /**
  * Smallest value, to use for 0 in cases 0 is forbidden
  */
-constexpr long double ZERO = std::numeric_limits<double>::epsilon();
+constexpr Decimal ZERO = std::numeric_limits<Decimal>::epsilon();
 
-constexpr long double S_PER_MIN = 60;
-constexpr long double S_PER_HOUR = S_PER_MIN * 60;
-constexpr long double S_PER_DAY = S_PER_HOUR * 24;
-constexpr long double S_PER_MONTH = S_PER_DAY * 30;
-constexpr long double S_PER_YEAR = S_PER_DAY * 365.256;
+constexpr Decimal S_PER_MIN = 60_df;
+constexpr Decimal S_PER_HOUR = S_PER_MIN * 60_df;
+constexpr Decimal S_PER_DAY = S_PER_HOUR * 24_df;
+constexpr Decimal S_PER_MONTH = S_PER_DAY * 30_df;
+constexpr Decimal S_PER_YEAR = S_PER_DAY * 365.256_df;
 
-constexpr long double
+constexpr Decimal
 sq(
-        long double v
+        Decimal v
 )
 {
     return v * v;
 }
 
-constexpr long double
+constexpr Decimal
 length(
         const vec &v
 )
@@ -98,7 +122,7 @@ length(
     return std::sqrt(v.x * v.x + v.y * v.y);
 }
 
-constexpr long double
+constexpr Decimal
 distance(
         const vec &v0,
         const vec &v1
@@ -136,10 +160,10 @@ operator<<(
  * @param resolution Resolution per x stepping, i.e. number of function invocations per x.
  * @return Area of integral.
  */
-long double
+Decimal
 integral(
-        std::function<long double(long double)> &&f,
-        long double low,
-        long double high,
-        long double resolution
+        std::function<Decimal(Decimal)> &&f,
+        Decimal low,
+        Decimal high,
+        Decimal resolution
 );

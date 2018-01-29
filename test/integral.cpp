@@ -22,7 +22,7 @@ TEST(Integral, SquareFunctionOppositeDirection)
 
 TEST(Integral, NegatedSquareFunction)
 {
-    auto negativeSq = [](long double x) {
+    auto negativeSq = [](Decimal x) {
         return -x * x;
     };
     ASSERT_NEAR(integral(negativeSq, 1, 2, 100), -2.33, 0.01);
@@ -30,7 +30,7 @@ TEST(Integral, NegatedSquareFunction)
 
 TEST(Integral, NegatedSquareFunctionOppositeDirection)
 {
-    auto negativeSq = [](long double x) {
+    auto negativeSq = [](Decimal x) {
         return -x * x;
     };
     ASSERT_NEAR(integral(negativeSq, 2, 1, 100), 2.33, 0.01);
@@ -48,7 +48,7 @@ TEST(Integral, SquareFunctionNegativeOppositeDirection)
 
 TEST(Integral, NegatedSquareFunctionNegative)
 {
-    auto negativeSq = [](long double x) {
+    auto negativeSq = [](Decimal x) {
         return -x * x;
     };
     ASSERT_NEAR(integral(negativeSq, -2, -1, 100), -2.33, 0.01);
@@ -56,7 +56,7 @@ TEST(Integral, NegatedSquareFunctionNegative)
 
 TEST(Integral, NegatedSquareFunctionNegativeOppositeDirection)
 {
-    auto negativeSq = [](long double x) {
+    auto negativeSq = [](Decimal x) {
         return -x * x;
     };
     ASSERT_NEAR(integral(negativeSq, -1, -2, 100), 2.33, 0.01);
@@ -64,7 +64,7 @@ TEST(Integral, NegatedSquareFunctionNegativeOppositeDirection)
 
 TEST(Integral, SinusSelfElimination)
 {
-    auto sin = [](long double x) {
+    auto sin = [](Decimal x) {
         return std::sin(x);
     };
     ASSERT_NEAR(integral(sin, 0, 2_pi, 100), 0, 0.00001);

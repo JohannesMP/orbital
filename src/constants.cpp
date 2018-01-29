@@ -42,27 +42,27 @@ operator<<(
     return os;
 }
 
-long double
+Decimal
 integral(
-        std::function<long double(long double)> &&f,
-        long double low,
-        long double high,
-        long double resolution
+        std::function<Decimal(Decimal)> &&f,
+        Decimal low,
+        Decimal high,
+        Decimal resolution
 )
 {
     bool reverse = false;
     if(low > high)
     {
-        long double tmp = low;
+        Decimal tmp = low;
         low = high;
         high = tmp;
         reverse = true;
     }
 
-    long double step = 1 / resolution;
+    Decimal step = 1 / resolution;
     auto steps = static_cast<int>((high - low) / step);
-    long double sum = 0.0;                    // Area size accumulation
-    long double x = low;                      // x starts at the lower bound
+    Decimal sum = 0.0;                    // Area size accumulation
+    Decimal x = low;                      // x starts at the lower bound
 
     for(int i = 0; i < steps; i++)
     {
