@@ -44,8 +44,8 @@ Transform::scale(double s)
 }
 
 void
-Transform::rotate(float degrees)
+Transform::rotate(float radians)
 {
-    mRotation = glm::rotate(mRotation, glm::radians(degrees));
+    mRotation = glm::rotate(mRotation, radians);
     update();
 }

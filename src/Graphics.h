@@ -20,16 +20,42 @@ class Graphics
 
 public:
 
-    static const double CHAR_RATIO;
+    /**
+     * A position of a pixel within the framebuffer.
+     * Can have negative values, since a framebuffer location is nothing else but an position within the framebuffer
+     * coordinate space. Whether or not the location lies within the framebuffers bounds has nothing do to with the
+     * location itself and can be tested using withinFramebufferBounds().
+     */
+    using FramebufferLocation = glm::ivec2;
 
+    /**
+     * Character width to height ration.
+     */
+    static constexpr double CHAR_RATIO = 1 / 2.0;
+
+    /**
+     * Create a new graphics with a given count of rows and columns.
+     * Pushes an initial layer of transformation.
+     * @param rows Count of rows.
+     * @param cols Count of columns.
+     */
     explicit Graphics(
             int rows = 21,
             int cols = 0
     );
 
+    /**
+     * Clear the framebuffer.
+     */
     void
     clear();
 
+    /**
+     * Set the framebuffer overwrite bit.
+     * If set, any write operation is permitted to overwrite existing content within the framebuffer.
+     * If not set, following write operations guarantee to not write to pixels which already have a value.
+     * @param b Overwrite enable bit.
+     */
     void
     overwrite(
             bool b
@@ -43,80 +69,138 @@ public:
      */
     vec
     mapToTransformed(
-            const glm::ivec2 &loc
+            const FramebufferLocation &loc
     );
 
+    /**
+     * Write a string at a position.
+     * @param pos Untransformed position.
+     * @param text Text to write.
+     */
     void
     label(
             vec pos,
             const std::string &text
     );
 
+    /**
+     * Write a single character to a position.
+     * @param pos Untransformed position.
+     * @param c Character to write.
+     */
     void
     pixel(
             vec pos,
             char c
     );
 
+    /**
+     * Draw an ellipse.
+     * @param ellipse Ellipse to draw.
+     */
     void
     ellipse(const Ellipse &ellipse);
 
+    /**
+     * Add a new layer of transformation, being marked as the current one.
+     */
     void
     push();
 
+    /**
+     * Remove the top-most transform layer, if any.
+     * Marks the second top-most layer as the current transform layer.
+     */
     void
     pop();
 
+    /**
+     * Reset any transform of the current layer.
+     */
     void
     resetTransform();
 
+    /**
+     * Add translation to the current transform.
+     * @param v Translation vector.
+     */
     void
     translate(
             const vec &v
     );
 
+    /**
+     * Add scale to the current transform.
+     * @param v Scale amount.
+     */
     void
     scale(
             double s
     );
 
+    /**
+     * Add rotation to the current transform.
+     * @param v Amount of rotation, in radians.
+     */
     void
     rotate(
-            float degrees
+            float radians
     );
 
+    /**
+     * Draws a border at the framebuffer edges.
+     * Ignores the overwrite bit.
+     */
     void
     border();
 
+    /**
+     * @return Count of framebuffer columns.
+     */
     int
     columns() const;
 
+    /**
+     * @return Count of framebuffer rows.
+     */
     int
     rows() const;
 
+    /**
+     * @return Begin random-access iterator to the internal framebuffer scanlines.
+     */
     auto
     begin()
     {
         return mScanlines.begin();
     }
 
+    /**
+     * @return End random-access iterator to the internal framebuffer scanlines.
+     */
     auto
     end()
     {
         return mScanlines.end();
     }
 
+    /**
+     * Print framebuffer to the console.
+     */
     void
     present();
 
+    /**
+     * @return Total transform, including of the whole transformation stack, i.e. considering all layers.
+     */
     const glm::mat3 &
     transformation();
 
 private:
 
-    std::list<Transform> mTransformStack;
-    glm::mat3 mProjection;
-    glm::mat3 mTransform;
+    std::list<Transform> mTransformStack;   ///< Stack of transformations.
+    glm::mat3 mProjection;                  ///< Projection matrix, calculated once.
+    glm::mat3 mTransform;                   ///< Total transform, update every time the transform stack is modified.
     bool mOverwrite;
 
     /**
@@ -124,24 +208,42 @@ private:
      */
     std::vector<std::string> mScanlines;
 
-    glm::ivec2
+    /**
+     * Maps an untransformed vector to the framebuffer coordinate space.
+     * @param v Vector to map.
+     * @return Location within framebuffer.
+     */
+    FramebufferLocation
     mapToFramebuffer(
             const vec &v
     );
 
+    /**
+     * Recalculates the total transform.
+     */
     void
     updateTransform();
 
-    bool
+    /**
+     * @param v Location to check for.
+     * @return True if framebuffer location is within the framebuffer size, and therefore legally accessible.
+     */
+    constexpr bool
     withinFramebufferBounds(
-            const glm::ivec2 &v
-    );
+            const FramebufferLocation &v
+    ) const;
 
+    /**
+     * Internal function, used to render ellipses.
+     * @param ellipse Ellipse to render.
+     * @param ts Start ellipse parameter.
+     * @param te End ellipse parameter.
+     */
     void
     stepper(
             const Ellipse &ellipse,
-            double ts,
-            double te
+            long double ts,
+            long double te
     );
 
 };

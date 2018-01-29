@@ -27,7 +27,7 @@ public:
 
     void
     rotate(
-            float degrees
+            float radians
     );
 
     const glm::mat3 &

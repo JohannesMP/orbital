@@ -2,13 +2,9 @@
 // Created by jim on 24.01.18.
 //
 
-#include <stdexcept>
-#include <glm/gtx/matrix_transform_2d.hpp>
-#include <glm/gtx/transform.hpp>
 #include <iostream>
+#include <glm/gtx/matrix_transform_2d.hpp>
 #include "Graphics.h"
-
-const double Graphics::CHAR_RATIO = 1 / 2.0;
 
 Graphics::Graphics(
         int rows,
@@ -63,7 +59,7 @@ Graphics::pixel(
     }
 
     char &target = mScanlines.at(static_cast<unsigned long>(loc.y)).at(static_cast<unsigned long>(loc.x));
-    if(mOverwrite || (!mOverwrite && ' ' == target))
+    if (mOverwrite || (!mOverwrite && ' ' == target))
     {
         target = c;
     }
@@ -83,16 +79,16 @@ Graphics::label(
         return;
     }
 
-    if(mOverwrite)
+    if (mOverwrite)
     {
         std::copy(text.begin(), text.begin() + span, mScanlines[loc.y].begin() + loc.x);
     }
     else
     {
-        for(int i = 0; i < span; i++)
+        for (int i = 0; i < span; i++)
         {
             char &target = mScanlines.at(static_cast<unsigned long>(loc.y)).at(static_cast<unsigned long>(loc.x));
-            if(' ' == target)
+            if (' ' == target)
             {
                 target = text[i];
             }
@@ -100,15 +96,19 @@ Graphics::label(
     }
 }
 
-glm::ivec2
-Graphics::mapToFramebuffer(const vec &v)
+Graphics::FramebufferLocation
+Graphics::mapToFramebuffer(
+        const vec &v
+)
 {
     glm::vec3 transformed = mTransform * glm::vec3{v, 1.0};
     return transformed;
 }
 
 vec
-Graphics::mapToTransformed(const glm::ivec2 &loc)
+Graphics::mapToTransformed(
+        const FramebufferLocation &loc
+)
 {
     glm::vec3 v = glm::inverse(mTransform) * glm::vec3{loc, 1.0};
     return v;
@@ -146,9 +146,9 @@ Graphics::scale(double s)
 }
 
 void
-Graphics::rotate(float degrees)
+Graphics::rotate(float radians)
 {
-    mTransformStack.back().rotate(degrees);
+    mTransformStack.back().rotate(radians);
     updateTransform();
 }
 
@@ -181,12 +181,15 @@ Graphics::present()
 {
     for (auto &scanline : *this)
     {
-        std::cout << scanline << std::endl;
+        std::cout << scanline << '\n';
     }
+    std::cout << std::flush;
 }
 
-bool
-Graphics::withinFramebufferBounds(const glm::ivec2 &v)
+constexpr bool
+Graphics::withinFramebufferBounds(
+        const FramebufferLocation &v
+) const
 {
     return v.y >= 0 && v.y < rows() && v.x >= 0 && v.x < mScanlines[0].length();
 }
@@ -217,12 +220,12 @@ Graphics::ellipse(const Ellipse &ellipse)
     // i.e. no lines are visible anyway.
     vec ll = mapToTransformed({0, rows() - 1});
     vec ur = mapToTransformed({columns() - 1, 0});
-    if(ellipse.contains(Rectangle{ll, ur}))
+    if (ellipse.contains(Rectangle{ll, ur}))
     {
-        std::cout << "Skip ellipse rendering" << std::endl;
+        //std::cout << "Skip ellipse rendering" << std::endl;
         return;
     }
-    std::cout << "Render ellipse ..." << std::endl;
+    //std::cout << "Render ellipse ..." << std::endl;
 
     // Since the stepper calculates the pixel distance based on vector subtraction and *not* on ellipse arc length,
     // the ellipse must be divided into 4 quarters
@@ -235,21 +238,21 @@ Graphics::ellipse(const Ellipse &ellipse)
 void
 Graphics::stepper(
         const Ellipse &ellipse,
-        double ts,
-        double te
+        long double ts,
+        long double te
 )
 {
     // Calculate distance the painted pixels of the start and end arc would have within the framebuffer:
     vec vs = ellipse.point(ts);
     vec ve = ellipse.point(te);
-    double d = distance({mapToFramebuffer(ve)}, {mapToFramebuffer(vs)});
+    long double d = distance({mapToFramebuffer(ve)}, {mapToFramebuffer(vs)});
 
     // 1.4142... is the distance between to diagonal pixels:
     if (1.5 < d)
     {
         // Distance between painted pixels in framebuffers spans over at least one pixel,
         // continue stepping in smaller steps:
-        double tHalf = (te - ts) / 2;
+        long double tHalf = (te - ts) / 2;
         stepper(ellipse, ts, ts + tHalf);
         stepper(ellipse, ts + tHalf, te);
     }
