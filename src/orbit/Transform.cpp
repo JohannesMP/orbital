@@ -14,7 +14,7 @@ Transform::Transform()
 void
 Transform::reset()
 {
-    mRotation = mScale = mTranslation = mat{1};
+    mTransform = mRotation = mScale = mTranslation = IDENTITY_MATRIX;
 }
 
 void

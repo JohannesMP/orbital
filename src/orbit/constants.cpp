@@ -5,6 +5,8 @@
 #include "constants.h"
 #include <glm/gtc/type_ptr.hpp>
 
+const mat IDENTITY_MATRIX{1};
+
 std::ostream &
 operator<<(
         std::ostream &os,

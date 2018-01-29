@@ -41,6 +41,11 @@ using mat = glm::tmat3x3<Decimal>;
 using complex = std::complex<Decimal>;
 
 /**
+ * Identity matrix.
+ */
+extern const mat IDENTITY_MATRIX;
+
+/**
  * Literal suffix to properly use the Decimal type-alias in literals.
  */
 constexpr Decimal
