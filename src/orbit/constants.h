@@ -66,7 +66,7 @@ constexpr Decimal G = 6.67408e-11_df;
 /**
  * Factor to convert astronomic units to meters.
  */
-constexpr Decimal AU = 1.49'597'870'700e11_df;
+constexpr Decimal AU = 1.49597870700e11_df;
 
 /**
  * Pi
