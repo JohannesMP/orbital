@@ -144,3 +144,12 @@ Rectangle::conjunction(const Rectangle &rhs) const
             }
     };
 }
+
+vec
+Rectangle::extent() const
+{
+    return {
+            right() - left(),
+            top() - bottom()
+    };
+}

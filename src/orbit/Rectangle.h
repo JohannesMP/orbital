@@ -49,6 +49,9 @@ public:
             const Rectangle &rhs
     ) const;
 
+    vec
+    extent() const;
+
     Decimal
     top() const;
 

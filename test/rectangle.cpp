@@ -125,6 +125,14 @@ TEST(Rectangle, ProperConstructionFromTwoPointsFlipped)
     ASSERT_DOUBLE_EQ(rect.center().y, 4);
 }
 
+TEST(Rectangle, Extent)
+{
+    Rectangle a{{1, 2}, {4, 3}};
+
+    ASSERT_DOUBLE_EQ(a.extent().x, 3);
+    ASSERT_DOUBLE_EQ(a.extent().y, 1);
+}
+
 TEST(Rectangle, Conjunction)
 {
     Rectangle a{{}, 4, 3};
