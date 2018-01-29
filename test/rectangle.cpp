@@ -124,3 +124,43 @@ TEST(Rectangle, ProperConstructionFromTwoPointsFlipped)
     ASSERT_DOUBLE_EQ(rect.center().x, 2.5);
     ASSERT_DOUBLE_EQ(rect.center().y, 4);
 }
+
+TEST(Rectangle, Conjunction)
+{
+    Rectangle a{{}, 4, 3};
+    Rectangle b{{2, 1}, 3, 3};
+
+    ASSERT_DOUBLE_EQ(a.conjunction(b).bottom(), 1);
+    ASSERT_DOUBLE_EQ(a.conjunction(b).left(), 2);
+    ASSERT_DOUBLE_EQ(a.conjunction(b).top(), 3);
+    ASSERT_DOUBLE_EQ(a.conjunction(b).right(), 4);
+}
+
+TEST(Rectangle, ConjunctionNonOverlapping)
+{
+    Rectangle a{{}, 4, 3};
+
+    Rectangle above{{2, 3}, 3, 3};
+    ASSERT_DOUBLE_EQ(a.conjunction(above).bottom(), 0);
+    ASSERT_DOUBLE_EQ(a.conjunction(above).left(), 0);
+    ASSERT_DOUBLE_EQ(a.conjunction(above).top(), 0);
+    ASSERT_DOUBLE_EQ(a.conjunction(above).right(), 0);
+
+    Rectangle below{{2, -3}, 3, 3};
+    ASSERT_DOUBLE_EQ(a.conjunction(below).bottom(), 0);
+    ASSERT_DOUBLE_EQ(a.conjunction(below).left(), 0);
+    ASSERT_DOUBLE_EQ(a.conjunction(below).top(), 0);
+    ASSERT_DOUBLE_EQ(a.conjunction(below).right(), 0);
+
+    Rectangle right{{2, 3}, 4, 3};
+    ASSERT_DOUBLE_EQ(a.conjunction(right).bottom(), 0);
+    ASSERT_DOUBLE_EQ(a.conjunction(right).left(), 0);
+    ASSERT_DOUBLE_EQ(a.conjunction(right).top(), 0);
+    ASSERT_DOUBLE_EQ(a.conjunction(right).right(), 0);
+
+    Rectangle left{{2, 3}, -3, 3};
+    ASSERT_DOUBLE_EQ(a.conjunction(left).bottom(), 0);
+    ASSERT_DOUBLE_EQ(a.conjunction(left).left(), 0);
+    ASSERT_DOUBLE_EQ(a.conjunction(left).top(), 0);
+    ASSERT_DOUBLE_EQ(a.conjunction(left).right(), 0);
+}

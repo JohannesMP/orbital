@@ -13,6 +13,11 @@ class Rectangle
 public:
 
     /**
+     * Create a rectangle with no dimension, sitting a the origin.
+     */
+    Rectangle() = default;
+
+    /**
      * Construct a rectangle from a point, width and height.
      * @param p Start point.
      * @param w Width, can be negative.
@@ -33,6 +38,16 @@ public:
             const vec &p,
             const vec &q
     );
+
+    /**
+     * Create a conjunction rectangle from this and another rectangle.
+     * @param rhs Other rectangle.
+     * @return Conjunction. If rectangles do not overlap, the conjunction a rectangle with extent 0 at position 0.
+     */
+    Rectangle
+    conjunction(
+            const Rectangle &rhs
+    ) const;
 
     Decimal
     top() const;

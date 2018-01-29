@@ -110,3 +110,35 @@ operator<<(
     os << "rect{" << rectangle.mBottomLeft << " -> " << rectangle.mW << 'x' << rectangle.mH << "}";
     return os;
 }
+
+Rectangle
+Rectangle::conjunction(const Rectangle &rhs) const
+{
+    if(top() <= rhs.bottom()) {
+        // rhs lies above this rect
+        return {};
+    }
+    if(bottom() >= rhs.top()) {
+        // rhs lies below this rect
+        return {};
+    }
+    if(left() >= rhs.right()) {
+        // rhs lies right
+        return {};
+    }
+    if(right() <= rhs.left()) {
+        // rhs lies left
+        return {};
+    }
+
+    return {
+            {
+                    std::max(left(), rhs.left()),
+                    std::max(bottom(), rhs.bottom())
+            },
+            {
+                    std::min(right(), rhs.right()),
+                    std::min(top(), rhs.top())
+            }
+    };
+}

@@ -173,10 +173,12 @@ Ellipse::clip(
 {
     std::vector<Decimal> result;
 
-    Decimal left = rect.left();
-    Decimal right = rect.right();
-    Decimal top = rect.top();
-    Decimal bottom = rect.bottom();
+    auto bounds = boundingRect();
+
+    if(bounds.right() <= rect.right()) {
+        // Rect lies right of ellipse
+        return result;
+    }
 
     Decimal t = 0_pi;
 
