@@ -61,12 +61,12 @@ operator "" _df (
 /**
  * Gravitational constant: [m³ kg s⁻²]
  */
-constexpr Decimal G = 6.6738e-11_df;
+constexpr Decimal G = 6.67408e-11_df;
 
 /**
  * Factor to convert astronomic units to meters.
  */
-constexpr Decimal AU = 1.496e11_df;
+constexpr Decimal AU = 1.49'597'870'700e11_df;
 
 /**
  * Pi
@@ -100,20 +100,30 @@ operator "" _pi(
  */
 constexpr Decimal ZERO = std::numeric_limits<Decimal>::epsilon();
 
-constexpr Decimal S_PER_MIN = 60_df;
-constexpr Decimal S_PER_HOUR = S_PER_MIN * 60_df;
-constexpr Decimal S_PER_DAY = S_PER_HOUR * 24_df;
-constexpr Decimal S_PER_MONTH = S_PER_DAY * 30_df;
-constexpr Decimal S_PER_YEAR = S_PER_DAY * 365.256_df;
+constexpr Decimal S_PER_MIN = 60_df;                        ///< Seconds per minute.
+constexpr Decimal S_PER_HOUR = S_PER_MIN * 60_df;           ///< Seconds per hour.
+constexpr Decimal S_PER_DAY = S_PER_HOUR * 24_df;           ///< Seconds per 24-hours day.
+constexpr Decimal S_PER_MONTH = S_PER_DAY * 30.436875_df;   ///< Seconds per month (using average day count of 30.436875)
+constexpr Decimal S_PER_YEAR = S_PER_DAY * 365.24219052_df; ///< Seconds per year (using average day count of 365.24219052)
 
+/**
+ * Square a number.
+ * @param x Number to square.
+ * @return Result.
+ */
 constexpr Decimal
 sq(
-        Decimal v
+        Decimal x
 )
 {
-    return v * v;
+    return x * x;
 }
 
+/**
+ * Calculate vector length, i.e.: `|v|`
+ * @param v Vector.
+ * @return Length.
+ */
 constexpr Decimal
 length(
         const vec &v
@@ -122,6 +132,12 @@ length(
     return std::sqrt(v.x * v.x + v.y * v.y);
 }
 
+/**
+ * Calculate vector distance, i.e.: `|v0 - v1|`
+ * @param v0 First vector.
+ * @param v1 Second vector.
+ * @return Distance.
+ */
 constexpr Decimal
 distance(
         const vec &v0,
@@ -130,27 +146,6 @@ distance(
 {
     return length(vec{v1.x - v0.x, v1.y - v0.y});
 }
-
-/**
- * Serialize a complex number: [real]+[imag]i
- */
-std::ostream &
-operator<<(
-        std::ostream &os,
-        const complex &c
-);
-
-std::ostream &
-operator<<(
-        std::ostream &os,
-        const vec &v
-);
-
-std::ostream &
-operator<<(
-        std::ostream &os,
-        const glm::mat3 &m
-);
 
 /**
  * Integrate a function over a given range.
@@ -166,4 +161,31 @@ integral(
         Decimal low,
         Decimal high,
         Decimal resolution
+);
+
+/**
+ * Serialize a complex number: [real]+[imag]i
+ */
+std::ostream &
+operator<<(
+        std::ostream &os,
+        const complex &c
+);
+
+/**
+ * Serialize a vector.
+ */
+std::ostream &
+operator<<(
+        std::ostream &os,
+        const vec &v
+);
+
+/**
+ * Serialize a matrix.
+ */
+std::ostream &
+operator<<(
+        std::ostream &os,
+        const glm::mat3 &m
 );

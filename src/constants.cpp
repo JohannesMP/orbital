@@ -3,6 +3,7 @@
 //
 
 #include "constants.h"
+#include <cmath>
 #include <glm/gtc/type_ptr.hpp>
 
 std::ostream &
