@@ -54,7 +54,6 @@ public:
             const std::string &name
     );
 
-
 private:
 
     Decimal mDt;                 ///< [s]    Amount of time between two steps

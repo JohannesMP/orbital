@@ -14,7 +14,7 @@ Transform::Transform()
 void
 Transform::reset()
 {
-    mRotation = mScale = mTranslation = glm::mat3{1};
+    mRotation = mScale = mTranslation = mat{1};
 }
 
 void
@@ -23,7 +23,7 @@ Transform::update()
     mTransform = mRotation * mScale * mTranslation;
 }
 
-const glm::mat3 &
+const mat &
 Transform::transformation() const
 {
     return mTransform;
@@ -32,20 +32,20 @@ Transform::transformation() const
 void
 Transform::translate(const vec &v)
 {
-    mTranslation = glm::translate(mTranslation, glm::vec2{v});
+    mTranslation = glm::translate(mTranslation, vec{v});
     update();
 }
 
 void
 Transform::scale(Decimal s)
 {
-    mScale = glm::scale(mScale, glm::vec2{s, s});
+    mScale = glm::scale(mScale, vec{s, s});
     update();
 }
 
 void
 Transform::rotate(Decimal radians)
 {
-    mRotation = glm::rotate(mRotation, static_cast<float>(radians)); // TODO: implement own rotate function, which is capable of Decimal
+    mRotation = glm::rotate(mRotation, radians);
     update();
 }

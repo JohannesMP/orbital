@@ -13,7 +13,8 @@ public:
 
     Transform();
 
-    void reset();
+    void
+    reset();
 
     void
     translate(
@@ -30,15 +31,15 @@ public:
             Decimal radians
     );
 
-    const glm::mat3 &
+    const mat &
     transformation() const;
 
 private:
 
-    glm::mat3 mTranslation;
-    glm::mat3 mScale;
-    glm::mat3 mRotation;
-    glm::mat3 mTransform;
+    mat mTranslation;
+    mat mScale;
+    mat mRotation;
+    mat mTransform;
 
     void
     update();

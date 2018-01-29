@@ -193,14 +193,14 @@ public:
     /**
      * @return Total transform, including of the whole transformation stack, i.e. considering all layers.
      */
-    const glm::mat3 &
+    const mat &
     transformation();
 
 private:
 
     std::list<Transform> mTransformStack;   ///< Stack of transformations.
-    glm::mat3 mProjection;                  ///< Projection matrix, calculated once.
-    glm::mat3 mTransform;                   ///< Total transform, update every time the transform stack is modified.
+    mat mProjection;                  ///< Projection matrix, calculated once.
+    mat mTransform;                   ///< Total transform, update every time the transform stack is modified.
     bool mOverwrite;
 
     /**

@@ -95,8 +95,9 @@ Body::step(
      * y = ± (ab sin θ) / √((b cos θ)² + (a cos θ)²)
      */
     Decimal theta = std::atan2(p.y, p.x); // TODO: use atan2 ?
-    Decimal denominator = std::sqrt(sq(mTrajectory.b() * std::cos(theta)) + sq(mTrajectory.a() * std::sin(theta))) / mTrajectory.a() /
-            mTrajectory.b();
+    Decimal denominator =
+            std::sqrt(sq(mTrajectory.b() * std::cos(theta)) + sq(mTrajectory.a() * std::sin(theta))) / mTrajectory.a() /
+                    mTrajectory.b();
     //mPosition.x = std::copysign(std::cos(theta) / denominator, p.x) + mTrajectoryCenter.x;
     //mPosition.y = std::copysign(std::sin(theta) / denominator, p.y) + mTrajectoryCenter.y;
     mPosition.x = std::cos(theta) / denominator + mTrajectoryCenter.x;

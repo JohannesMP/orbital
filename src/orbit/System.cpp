@@ -20,22 +20,17 @@ System::System(
         const std::string &systemName,
         Decimal dt
 )
-    : mDt{dt}
+        : mDt{dt}
 {
     auto data = YAML::LoadFile(systemArchiveFile)[systemName];
 
     auto deserialize = [](YAML::Node node) {
-        return Body{
-                node["name"].as<std::string>(),
-                node["mass"].as<Decimal>() * 1000.0_df,
-                node["radius"].as<Decimal>() * 1000.0_df,
-                node["a"].as<Decimal>() * AU,
-                node["e"].as<Decimal>()
-        };
+        return Body{node["name"].as<std::string>(), node["mass"].as<Decimal>() * 1000.0_df,
+                node["radius"].as<Decimal>() * 1000.0_df, node["a"].as<Decimal>() * AU, node["e"].as<Decimal>()};
     };
 
     mCentralBody = deserialize(data["central-body"]);
-    for(int i = 0; i < data["bodies"].size(); i++)
+    for (int i = 0; i < data["bodies"].size(); i++)
     {
         add(deserialize(data["bodies"][i]));
     }
@@ -45,7 +40,7 @@ System::System(
 void
 System::stepSimulation()
 {
-    for(Body &body : mBodies)
+    for (Body &body : mBodies)
     {
         body.step(mCentralBody.getMass(), mDt);
     }
@@ -62,7 +57,7 @@ void
 System::foreach(std::function<void(Body &)> &&l)
 {
     l(mCentralBody);
-    for(auto &body : mBodies)
+    for (auto &body : mBodies)
     {
         l(body);
     }
@@ -73,17 +68,16 @@ System::find(
         const std::string &name
 )
 {
-    if(name == mCentralBody.getName())
+    if (name == mCentralBody.getName())
     {
         return mCentralBody;
     }
 
-    auto iter = std::find_if(mBodies.begin(), mBodies.end(), [&name](Body &body)
-    {
+    auto iter = std::find_if(mBodies.begin(), mBodies.end(), [&name](Body &body) {
         return body.getName() == name;
     });
 
-    if(mBodies.end() == iter)
+    if (mBodies.end() == iter)
     {
         throw std::runtime_error("No such body in system");
     }

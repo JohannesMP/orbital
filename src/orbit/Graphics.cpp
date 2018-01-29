@@ -28,8 +28,8 @@ Graphics::Graphics(
     }
     clear();
 
-    mProjection = glm::scale(glm::mat3{1}, {cols / 2.0, rows / 2.0});                 // Span over whole viewport
-    mProjection = glm::translate(mProjection, glm::vec2{1, 1});                       // Origin should sit in the center
+    mProjection = glm::scale(mat{1}, {cols / 2.0, rows / 2.0});                 // Span over whole viewport
+    mProjection = glm::translate(mProjection, {1, 1});                       // Origin should sit in the center
     mProjection = glm::scale(mProjection, {1, -1});                                   // Y-Axis should point upwards
     mProjection = glm::scale(mProjection, {rows / (Decimal) cols / CHAR_RATIO, 1});   // Scale against viewport distort
 
@@ -101,7 +101,7 @@ Graphics::mapToFramebuffer(
         const vec &v
 )
 {
-    glm::vec3 transformed = mTransform * glm::vec3{v, 1.0};
+    vec3 transformed = mTransform * vec3{v, 1.0};
     return transformed;
 }
 
@@ -110,7 +110,7 @@ Graphics::mapToTransformed(
         const FramebufferLocation &loc
 )
 {
-    glm::vec3 v = glm::inverse(mTransform) * glm::vec3{loc, 1.0};
+    vec3 v = glm::inverse(mTransform) * vec3{loc, 1.0};
     return v;
 }
 
@@ -155,7 +155,7 @@ Graphics::rotate(float radians)
 void
 Graphics::updateTransform()
 {
-    glm::mat3 view{1};
+    mat view{1};
     for (auto transform : mTransformStack)
     {
         view *= transform.transformation();
@@ -207,7 +207,7 @@ Graphics::pop()
     updateTransform();
 }
 
-const glm::mat3 &
+const mat &
 Graphics::transformation()
 {
     return mTransform;

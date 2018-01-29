@@ -106,7 +106,7 @@ public:
             Decimal ts,
             Decimal te,
             Decimal resolution
-    )  const;
+    ) const;
 
     /**
      * @return Two foci as x-values.
@@ -125,7 +125,8 @@ public:
      * @param x X value (-a <= x <= a)
      * @return
      */
-    Decimal tAtX(
+    Decimal
+    tAtX(
             Decimal x
     ) const;
 
@@ -134,7 +135,8 @@ public:
      * @param y Y value (-b <= x <= b)
      * @return
      */
-    Decimal tAtY(
+    Decimal
+    tAtY(
             Decimal y
     ) const;
 

@@ -34,13 +34,17 @@ using Decimal = double;
 
 using vec = glm::tvec2<Decimal>;
 
+using vec3 = glm::tvec3<Decimal>;
+
+using mat = glm::tmat3x3<Decimal>;
+
 using complex = std::complex<Decimal>;
 
 /**
  * Literal suffix to properly use the Decimal type-alias in literals.
  */
 constexpr Decimal
-operator "" _df (
+operator "" _df(
         long double literal
 )
 {
@@ -51,7 +55,7 @@ operator "" _df (
  * Literal suffix to properly use the Decimal type-alias in literals.
  */
 constexpr Decimal
-operator "" _df (
+operator "" _df(
         unsigned long long literal
 )
 {
@@ -103,8 +107,10 @@ constexpr Decimal ZERO = std::numeric_limits<Decimal>::epsilon();
 constexpr Decimal S_PER_MIN = 60_df;                        ///< Seconds per minute.
 constexpr Decimal S_PER_HOUR = S_PER_MIN * 60_df;           ///< Seconds per hour.
 constexpr Decimal S_PER_DAY = S_PER_HOUR * 24_df;           ///< Seconds per 24-hours day.
-constexpr Decimal S_PER_MONTH = S_PER_DAY * 30.436875_df;   ///< Seconds per month (using average day count of 30.436875)
-constexpr Decimal S_PER_YEAR = S_PER_DAY * 365.24219052_df; ///< Seconds per year (using average day count of 365.24219052)
+constexpr Decimal S_PER_MONTH =
+        S_PER_DAY * 30.436875_df;   ///< Seconds per month (using average day count of 30.436875)
+constexpr Decimal S_PER_YEAR =
+        S_PER_DAY * 365.24219052_df; ///< Seconds per year (using average day count of 365.24219052)
 
 /**
  * Square a number.
@@ -187,5 +193,5 @@ operator<<(
 std::ostream &
 operator<<(
         std::ostream &os,
-        const glm::mat3 &m
+        const mat &m
 );

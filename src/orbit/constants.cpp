@@ -3,7 +3,6 @@
 //
 
 #include "constants.h"
-#include <cmath>
 #include <glm/gtc/type_ptr.hpp>
 
 std::ostream &
@@ -29,14 +28,14 @@ operator<<(
 std::ostream &
 operator<<(
         std::ostream &os,
-        const glm::mat3 &m
+        const mat &m
 )
 {
-    for(int col = 0; col < 3; col++)
+    for (int col = 0; col < 3; col++)
     {
-        for(int row = 0; row < 2; row++)
+        for (int row = 0; row < 2; row++)
         {
-            os << m[col][row]  << " , ";
+            os << m[col][row] << " , ";
         }
         os << m[col][2] << std::endl;
     }
@@ -52,7 +51,7 @@ integral(
 )
 {
     bool reverse = false;
-    if(low > high)
+    if (low > high)
     {
         Decimal tmp = low;
         low = high;
@@ -65,7 +64,7 @@ integral(
     Decimal sum = 0.0;                    // Area size accumulation
     Decimal x = low;                      // x starts at the lower bound
 
-    for(int i = 0; i < steps; i++)
+    for (int i = 0; i < steps; i++)
     {
         sum += f(x + step * 0.5) * step;
         x += step;

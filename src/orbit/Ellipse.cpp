@@ -100,17 +100,17 @@ Ellipse::contains(
         const vec &p
 ) const
 {
-    if(p.x == 0 && p.y == 0)
+    if (p.x == 0 && p.y == 0)
     {
         // The center is guaranteed to be contained:
         return true;
     }
-    if(p.y == 0 && p.x <= mA && p.x >= -mA)
+    if (p.y == 0 && p.x <= mA && p.x >= -mA)
     {
         // p lies on the x-axis covered be the ellipse:
         return true;
     }
-    if(p.x == 0 && p.y <= mB && p.y >= -mB)
+    if (p.x == 0 && p.y <= mB && p.y >= -mB)
     {
         // p lies on the y-axis covered by the ellipse:
         return true;
@@ -224,11 +224,11 @@ Ellipse::clip(
         }
     }
 
-    else if(left < -mA && right > mA)
+    else if (left < -mA && right > mA)
     {
         // Covers horizontal slice:
 
-        if(top > mB && bottom < mB && bottom > -mB)
+        if (top > mB && bottom < mB && bottom > -mB)
         {
             // Clips top:
             Decimal t = tAtY(bottom);
@@ -236,7 +236,7 @@ Ellipse::clip(
             result.emplace_back(1_pi - t);
         }
 
-        else if(top < mB && top > -mB && bottom > -mB)
+        else if (top < mB && top > -mB && bottom > -mB)
         {
             // Clips middle:
             result.emplace_back(1_pi - tAtX(top));
