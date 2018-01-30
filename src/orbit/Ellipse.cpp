@@ -76,17 +76,17 @@ Ellipse::pointAngle(
         Decimal radians
 ) const
 {
-    /*
-     * Point from given angle θ:
-     *
-     * (
-     *  ab / √( b² + a² tan² θ )
-     *  ab tan θ / √( b² + a² tan² θ )
-     * )
-     *
-     * Negate for angles: 0.5 π < θ ≦ 1.5 π
-     *
-     */
+    //
+    // Point from given angle θ:
+    //
+    // (
+    //  ab / √( b² + a² tan² θ )
+    //  ab tan θ / √( b² + a² tan² θ )
+    // )
+    //
+    // Negate for angles: 0.5 π < θ ≦ 1.5 π
+    //
+    //
     // √( b² + a² tan² θ )
     Decimal denominator = std::sqrt(sq(mB) + sq(mA) * sq(std::tan(radians)));
     vec p{mA * mB / denominator, mA * mB * std::tan(radians) / denominator};
@@ -118,32 +118,26 @@ Ellipse::contains(
         return true;
     }
 
-    /*
-     * Actually, an ellipse can be defined through a set of points, to which the following is valid:
-     *     2a = |p - f0| + |p - f1|
-     * Where f0 and f1 are the two focal points.
-     * Therefore, any points whose accumulated distance is equal or less to 2a is considered inside the ellipse body.
-     */
+    // Actually, an ellipse can be defined through a set of points, to which the following is valid:
+    //     2a = |p - f0| + |p - f1|
+    // Where f0 and f1 are the two focal points.
+    // Therefore, any points whose accumulated distance is equal or less to 2a is considered inside the ellipse body.
     return 2 * mA >= distance(fociPoints()[0], p) + distance(fociPoints()[1], p);
 }
 
 Decimal
 Ellipse::tAtX(Decimal x) const
 {
-    /*
-     * x = a cos t
-     * t = acos (x/a)
-     */
+    // x = a cos t
+    // t = acos (x/a)
     return std::acos(x / mA);
 }
 
 Decimal
 Ellipse::tAtY(Decimal y) const
 {
-    /*
-     * y = b sin t
-     * t = asin (y/b)
-     */
+    // y = b sin t
+    // t = asin (y/b)
     return std::asin(y / mB);
 }
 

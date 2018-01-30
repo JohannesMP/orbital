@@ -18,23 +18,15 @@ Body::Body(
         , mRadius{radius}
         , mTrajectory{a != 0 ? a : ZERO, e}
 {
-    /*
-     * Position orbiting body (determined by a) to the near focal point of this' trajectory:
-     *
-     * p = a - numerical_eccentricity
-     *   = a - (e / a)
-     *   = a ( 1 - e)
-     */
+    // Position orbiting body (determined by a) to the near focal point of this' trajectory:
     mPosition.x = mTrajectory.foci()[1];
 
-    /*
-     * Increasing x-axis value:
-     * - aphelion
-     * - far focal point
-     * - trajectory-center
-     * - focal point = system center = (0|0)
-     * - perihelion
-     */
+    // Increasing x-axis value:
+    // - aphelion
+    // - far focal point
+    // - trajectory-center
+    // - focal point = system center = (0|0)
+    // - perihelion
     mTrajectoryCenter.x = -mTrajectory.e() * mTrajectory.a();
 }
 
@@ -61,11 +53,10 @@ Body::calculateV(
         Decimal M
 ) const
 {
-    /*
-     * Trajectory velocity:
-     *
-     * v = √( G M (2/d - a⁻¹) )
-     */
+    // Trajectory velocity:
+    // 
+    // v = √( G M (2/d - a⁻¹) )
+    
     Decimal d = length(mPosition);
     return std::sqrt(G * M * (2 / d - 1 / mTrajectory.a()));
 }
@@ -87,19 +78,17 @@ Body::step(
     // Advance position by straight line:
     p += v * dt;
 
-    /*
-     * Map position back to ellipse: TODO: use Ellipse methods
-     * https://math.stackexchange.com/questions/22064/calculating-a-point-that-lies-on-an-ellipse-given-an-angle
-     *
-     * x = ± (ab cos θ) / √((b cos θ)² + (a cos θ)²)
-     * y = ± (ab sin θ) / √((b cos θ)² + (a cos θ)²)
-     */
-    Decimal theta = std::atan2(p.y, p.x); // TODO: use atan2 ?
+    // 
+    // Map position back to ellipse: TODO: use Ellipse methods
+    // https://math.stackexchange.com/questions/22064/calculating-a-point-that-lies-on-an-ellipse-given-an-angle
+    // 
+    // x = ± (ab cos θ) / √((b cos θ)² + (a cos θ)²)
+    // y = ± (ab sin θ) / √((b cos θ)² + (a cos θ)²)
+    // 
+    Decimal theta = std::atan2(p.y, p.x);
     Decimal denominator =
             std::sqrt(sq(mTrajectory.b() * std::cos(theta)) + sq(mTrajectory.a() * std::sin(theta))) / mTrajectory.a() /
                     mTrajectory.b();
-    //mPosition.x = std::copysign(std::cos(theta) / denominator, p.x) + mTrajectoryCenter.x;
-    //mPosition.y = std::copysign(std::sin(theta) / denominator, p.y) + mTrajectoryCenter.y;
     mPosition.x = std::cos(theta) / denominator + mTrajectoryCenter.x;
     mPosition.y = std::sin(theta) / denominator + mTrajectoryCenter.y;
 }
