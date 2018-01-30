@@ -160,6 +160,17 @@ distance(
 }
 
 /**
+ * Calculate the angle between the vector and the x axis.
+ */
+constexpr Decimal
+angle(
+        const vec &v
+)
+{
+    return std::atan2(v.y, v.x);
+}
+
+/**
  * Integrate a function over a given range.
  * @param f Function to integrate on.
  * @param low Lower integration bound.

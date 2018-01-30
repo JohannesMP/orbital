@@ -79,19 +79,13 @@ Body::step(
     p += v * dt;
 
     //
-    // Map position back to ellipse: TODO: use Ellipse methods
+    // Map position back to ellipse:
     // https://math.stackexchange.com/questions/22064/calculating-a-point-that-lies-on-an-ellipse-given-an-angle
     //
     // x = ± (ab cos θ) / √((b cos θ)² + (a cos θ)²)
     // y = ± (ab sin θ) / √((b cos θ)² + (a cos θ)²)
     //
-    Decimal theta = std::atan2(p.y, p.x);
-    //mPosition = mTrajectory.pointAngle(theta) + mTrajectoryCenter;
-    Decimal denominator =
-            std::sqrt(sq(mTrajectory.b() * std::cos(theta)) + sq(mTrajectory.a() * std::sin(theta))) / mTrajectory.a() /
-                    mTrajectory.b();
-    mPosition.x = std::cos(theta) / denominator + mTrajectoryCenter.x;
-    mPosition.y = std::sin(theta) / denominator + mTrajectoryCenter.y;
+    mPosition = mTrajectory.pointAngle(angle(p)) + mTrajectoryCenter;
 }
 
 const vec &
