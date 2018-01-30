@@ -109,7 +109,7 @@ operator<<(
         const Rectangle &rectangle
 )
 {
-    os << "rect{" << rectangle.mBottomLeft << " -> " << rectangle.mW << 'x' << rectangle.mH << "}";
+    os << "rect{" << rectangle.mBottomLeft << "->" << rectangle.mW << 'x' << rectangle.mH << "}";
     return os;
 }
 

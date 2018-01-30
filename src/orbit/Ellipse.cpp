@@ -4,6 +4,8 @@
 
 #include "Ellipse.h"
 #include <iostream>
+#include <fmt/printf.h>
+#include <iterator>
 
 Ellipse::Ellipse(
         Decimal a,
@@ -117,21 +119,12 @@ Ellipse::contains(
     }
 
     /*
-     * Calculate t for given x, then check whether the given y is smaller/greater than the
-     * calculated Y of t, depending whether y is positive or negative.
-     *
-     * Y = b sin t
-     *
-     * y > 0 && y < Y    => inside (with positive y value)
-     * y < 0 && y > Y    => inside (with negative y value)
+     * Actually, an ellipse can be defined through a set of points, to which the following is valid:
+     *     2a = |p - f0| + |p - f1|
+     * Where f0 and f1 are the two focal points.
+     * Therefore, any points whose accumulated distance is equal or less to 2a is considered inside the ellipse body.
      */
-    Decimal t = tAtX(p.x);
-
-    // Flip result of t if y is negative, so the ellipse point is mapped to the lower half of the ellipse body:
-    t = std::copysign(t, p.y);
-
-    Decimal Y = mB * std::sin(t);
-    return (p.y >= 0 && p.y <= Y) || (p.y <= 0 && p.y >= Y);
+    return 2 * mA >= distance(fociPoints()[0], p) + distance(fociPoints()[1], p);
 }
 
 Decimal
@@ -166,21 +159,74 @@ Ellipse::contains(
 // TODO: Clip points *must* increase with index position
 // TODO: How to specify no-clip/all-clip
 
-std::vector<Decimal>
+std::vector<std::pair<Decimal, Decimal>>
 Ellipse::clip(
         const Rectangle &rect
 ) const
 {
-    std::vector<Decimal> result;
+    std::vector<std::pair<Decimal, Decimal>> result;
 
-    auto bounds = boundingRect();
+    Rectangle bounds = boundingRect();
+    Rectangle clipping = bounds.conjunction(rect);
 
-    if(bounds.right() <= rect.right()) {
+    if (clipping.extent() == vec{})
+    {
         // Rect lies outside of ellipse
-        return result;
+        return {};
     }
 
-    Decimal t = 0_pi;
+    Rectangle topRight = clipping.conjunction({{}, mA, mB});
+    Rectangle topLeft = clipping.conjunction({{}, -mA, mB});
+    Rectangle bottomRight = clipping.conjunction({{}, mA, -mB});
+    Rectangle bottomLeft = clipping.conjunction({{}, -mA, -mB});
+
+    /*fmt::print("Ellipse:   {}\n", *this);
+    fmt::print("Clipping:  {}\n", clipping);
+    fmt::print("Top-Right: {}\n", topRight);
+    fmt::print("Top-Left:  {}\n", topLeft);
+    fmt::print("Bot-Right: {}\n", bottomRight);
+    fmt::print("Bot-Left:  {}\n", bottomLeft);*/
+
+    auto insertPair = [&](
+            Decimal d0,
+            Decimal d1
+    ) {
+        //if (d0 < d1)
+        //if(true)
+        {
+            //fmt::print("Inserting pair:  {}π  ->  {}π\n", d0 / PI, d1 / PI);
+            result.emplace_back(d0, d1);
+        }
+        //else
+        {
+            //fmt::print("Ignoring pair:  {}π  ->  {}π\n", d0 / PI, d1 / PI);
+        }
+    };
+
+    if (topRight.extent() != vec() && !contains(topRight.topRight()))
+    {
+        insertPair(tAtX(topRight.right()), tAtY(topRight.top()));
+    }
+
+    if (topLeft.extent() != vec() && !contains(topLeft.topLeft()))
+    {
+        insertPair(tAtY(topLeft.top()), tAtX(topLeft.left()));
+    }
+
+    if (bottomLeft.extent() != vec() && !contains(bottomLeft.bottomLeft()))
+    {
+        insertPair(2_pi - std::abs(tAtX(bottomLeft.left())), 2_pi - std::abs(tAtY(bottomLeft.bottom())));
+    }
+
+    if (bottomRight.extent() != vec() && !contains(bottomRight.bottomRight()))
+    {
+        insertPair(2_pi - std::abs(tAtY(bottomRight.bottom())), 2_pi - std::abs(tAtX(bottomRight.right())));
+    }
+
+    for (int i = 0; i < result.size(); i++)
+    {
+        fmt::print("result[{}]:   {}π  ->  {}π\n", i, result[i].first / 1_pi, result[i].second / 1_pi);
+    }
 
     return result;
 }

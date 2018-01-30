@@ -90,7 +90,7 @@ public:
             const Rectangle &rect
     ) const;
 
-    std::vector<Decimal>
+    std::vector<std::pair<Decimal, Decimal>>
     clip(
             const Rectangle &rect
     ) const;

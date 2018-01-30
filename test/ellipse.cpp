@@ -255,18 +255,50 @@ TEST(Ellipse, BoundingRect)
     ASSERT_DOUBLE_EQ(ellipse.boundingRect().bottom(), -ellipse.b());
 }
 
-TEST(Ellipse, RectangularClip)
+TEST(Ellipse, RectangularClipNoOverlap)
 {
     Ellipse ellipse{2, 0.5};
+    Rectangle rect{{3, 1}, 4, 5};
+    ASSERT_EQ(ellipse.clip(rect).size(), 0);
+}
 
-    {
-        Rectangle rect{{-3, -2}, {-1, 2}};
-        //ASSERT_EQ(ellipse.clip(rect).size(), 2);
-        //ASSERT_DOUBLE_EQ(ellipse.clip(rect)[0], ellipse.tAtX(-1));
-        //ASSERT_DOUBLE_EQ(ellipse.clip(rect)[1], 2_pi - ellipse.tAtX(-1));
-    }
+TEST(Ellipse, RectangularClipFullOverlap)
+{
+    Ellipse ellipse{2, 0.5};
+    Rectangle rect{{-2, -2}, {4, 4}};
+    
+    auto ts = ellipse.clip(rect);
+    
+    ASSERT_EQ(ts.size(), 4);
 
-    {
+    ASSERT_DOUBLE_EQ(ts[0].first, 0_pi);
+    ASSERT_DOUBLE_EQ(ts[0].second, 0.5_pi);
 
-    }
+    ASSERT_DOUBLE_EQ(ts[1].first, 0.5_pi);
+    ASSERT_DOUBLE_EQ(ts[1].second, 1_pi);
+
+    ASSERT_DOUBLE_EQ(ts[2].first, 1_pi);
+    ASSERT_DOUBLE_EQ(ts[2].second, 1.5_pi);
+
+    ASSERT_DOUBLE_EQ(ts[3].first, 1.5_pi);
+    ASSERT_DOUBLE_EQ(ts[3].second, 2_pi);
+}
+
+TEST(Ellipse, RectangularClipPartialOverlap)
+{
+    Ellipse ellipse{2, 0.5};
+    Rectangle rect{{-1, -1}, {4, 4}};
+
+    auto ts = ellipse.clip(rect);
+
+    ASSERT_EQ(ts.size(), 3);
+
+    ASSERT_DOUBLE_EQ(ts[0].first, 0_pi);
+    ASSERT_DOUBLE_EQ(ts[0].second, 0.5_pi);
+
+    ASSERT_DOUBLE_EQ(ts[1].first, 0.5_pi);
+    ASSERT_DOUBLE_EQ(ts[1].second, ellipse.tAtX(-1));
+
+    ASSERT_DOUBLE_EQ(ts[2].first, 2_pi - std::abs(ellipse.tAtY(-1)));
+    ASSERT_DOUBLE_EQ(ts[2].second, 2_pi);
 }
