@@ -29,8 +29,8 @@ main()
         {
             graphics.resetTransform();
             //graphics.rotate(0.5_pi);
-            graphics.scale(1 / (2 * AU));
-            graphics.translate(-earth.getPosition());
+            graphics.scale(1 / (1.6 * AU));
+            //graphics.translate(-earth.getPosition());
         }
 
         // Render:

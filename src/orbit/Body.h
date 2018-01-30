@@ -61,17 +61,4 @@ private:
     Ellipse mTrajectory;
     vec mTrajectoryCenter;
 
-    /**
-     * Calculate the length of the velocity vector,
-     * which implicitly is perpendicular on the vector (position - centerPosition).
-     * The center position is assumed to be (0|0).
-     *
-     * @param M Center mass
-     * @return
-     */
-    Decimal
-    calculateV(
-            Decimal M
-    ) const;
-
 };

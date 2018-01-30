@@ -48,19 +48,6 @@ Body::getRadius() const
     return mRadius;
 }
 
-Decimal
-Body::calculateV(
-        Decimal M
-) const
-{
-    // Trajectory velocity:
-    //
-    // v = √( G M (2/d - a⁻¹) )
-
-    Decimal d = length(mPosition);
-    return std::sqrt(G * M * (2 / d - 1 / mTrajectory.a()));
-}
-
 void
 Body::step(
         Decimal M,
@@ -69,11 +56,16 @@ Body::step(
 {
     vec p = mPosition - mTrajectoryCenter;
 
+    // Trajectory velocity:
+    //
+    // v = √( G M (2/d - a⁻¹) )
+    Decimal vValue = std::sqrt(G * M * (2 / length(mPosition) - 1 / mTrajectory.a()));
+
     // Calculate velocity in current position.
     // Calculate normalized velocity direction (perpendicular on position vector).
     // Rotate by 90°, using complex number multiplication:
     auto v_complex = complex{p.x, p.y} * complex{0, 1};
-    vec v = glm::normalize(vec{v_complex.real(), v_complex.imag()}) * calculateV(M);
+    vec v = glm::normalize(vec{v_complex.real(), v_complex.imag()}) * vValue;
 
     // Advance position by straight line:
     p += v * dt;
