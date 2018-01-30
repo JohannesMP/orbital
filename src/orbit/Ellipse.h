@@ -90,6 +90,12 @@ public:
             const Rectangle &rect
     ) const;
 
+    /**
+     * Clips this ellipse to a given rectangle.
+     * The calculated ellipse line segments, which are within the rectangle are returned as t-parameter pairs.
+     * @param rect Rectangle to clip to.
+     * @return Line using t pairs. Empty of no overlap at all.
+     */
     std::vector<std::pair<Decimal, Decimal>>
     clip(
             const Rectangle &rect
@@ -123,7 +129,7 @@ public:
 
     /**
      * Calculate t at x.
-     * @param x X value (-a <= x <= a)
+     * @param x X value (-a <= x <= a ; otherwise a math domain error occurs)
      * @return
      */
     Decimal
@@ -133,7 +139,7 @@ public:
 
     /**
      * Calculate t at y.
-     * @param y Y value (-b <= x <= b)
+     * @param y Y value (-b <= x <= b ; otherwise a math domain error occurs)
      * @return
      */
     Decimal

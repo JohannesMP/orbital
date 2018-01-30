@@ -156,76 +156,43 @@ Ellipse::contains(
             contains(rect.topRight());
 }
 
-// TODO: Clip points *must* increase with index position
-// TODO: How to specify no-clip/all-clip
-
 std::vector<std::pair<Decimal, Decimal>>
 Ellipse::clip(
         const Rectangle &rect
 ) const
 {
     std::vector<std::pair<Decimal, Decimal>> result;
+    result.reserve(4); // At most 4 lines are added to the list, since the ellipse is divided into 4 quarters
 
-    Rectangle bounds = boundingRect();
-    Rectangle clipping = bounds.conjunction(rect);
-
-    if (clipping.extent() == vec{})
-    {
-        // Rect lies outside of ellipse
-        return {};
-    }
-
-    Rectangle topRight = clipping.conjunction({{}, mA, mB});
-    Rectangle topLeft = clipping.conjunction({{}, -mA, mB});
-    Rectangle bottomRight = clipping.conjunction({{}, mA, -mB});
-    Rectangle bottomLeft = clipping.conjunction({{}, -mA, -mB});
-
-    /*fmt::print("Ellipse:   {}\n", *this);
-    fmt::print("Clipping:  {}\n", clipping);
-    fmt::print("Top-Right: {}\n", topRight);
-    fmt::print("Top-Left:  {}\n", topLeft);
-    fmt::print("Bot-Right: {}\n", bottomRight);
-    fmt::print("Bot-Left:  {}\n", bottomLeft);*/
-
-    auto insertPair = [&](
-            Decimal d0,
-            Decimal d1
-    ) {
-        //if (d0 < d1)
-        //if(true)
-        {
-            //fmt::print("Inserting pair:  {}π  ->  {}π\n", d0 / PI, d1 / PI);
-            result.emplace_back(d0, d1);
-        }
-        //else
-        {
-            //fmt::print("Ignoring pair:  {}π  ->  {}π\n", d0 / PI, d1 / PI);
-        }
-    };
+    // Calculate the 4 quarter rectangles, which are always clipped to the ellipse bounds,
+    // to avoid invalid x-y values passed to t queries:
+    Rectangle topRight = rect.conjunction({{}, mA, mB});
+    Rectangle topLeft = rect.conjunction({{}, -mA, mB});
+    Rectangle bottomRight = rect.conjunction({{}, mA, -mB});
+    Rectangle bottomLeft = rect.conjunction({{}, -mA, -mB});
 
     if (topRight.extent() != vec() && !contains(topRight.topRight()))
     {
-        insertPair(tAtX(topRight.right()), tAtY(topRight.top()));
+        // Top right quarter:
+        result.emplace_back(tAtX(topRight.right()), tAtY(topRight.top()));
     }
 
     if (topLeft.extent() != vec() && !contains(topLeft.topLeft()))
     {
-        insertPair(tAtY(topLeft.top()), tAtX(topLeft.left()));
+        // Top left quarter:
+        result.emplace_back(tAtY(topLeft.top()), tAtX(topLeft.left()));
     }
 
     if (bottomLeft.extent() != vec() && !contains(bottomLeft.bottomLeft()))
     {
-        insertPair(2_pi - std::abs(tAtX(bottomLeft.left())), 2_pi - std::abs(tAtY(bottomLeft.bottom())));
+        // Bottom left quarter:
+        result.emplace_back(2_pi - std::abs(tAtX(bottomLeft.left())), 2_pi - std::abs(tAtY(bottomLeft.bottom())));
     }
 
     if (bottomRight.extent() != vec() && !contains(bottomRight.bottomRight()))
     {
-        insertPair(2_pi - std::abs(tAtY(bottomRight.bottom())), 2_pi - std::abs(tAtX(bottomRight.right())));
-    }
-
-    for (int i = 0; i < result.size(); i++)
-    {
-        fmt::print("result[{}]:   {}π  ->  {}π\n", i, result[i].first / 1_pi, result[i].second / 1_pi);
+        // Bottom left quarter:
+        result.emplace_back(2_pi - std::abs(tAtY(bottomRight.bottom())), 2_pi - std::abs(tAtX(bottomRight.right())));
     }
 
     return result;
