@@ -73,28 +73,16 @@ Ellipse::arcLength(
 
 vec
 Ellipse::pointAngle(
-        Decimal radians
+        Decimal theta
 ) const
 {
-    //
     // Point from given angle θ:
     //
-    // (
-    //  ab / √( b² + a² tan² θ )
-    //  ab tan θ / √( b² + a² tan² θ )
-    // )
-    //
-    // Negate for angles: 0.5 π < θ ≦ 1.5 π
-    //
-    //
-    // √( b² + a² tan² θ )
-    Decimal denominator = std::sqrt(sq(mB) + sq(mA) * sq(std::tan(radians)));
-    vec p{mA * mB / denominator, mA * mB * std::tan(radians) / denominator};
-    if (0.5_pi < radians && 1.5_pi >= radians)
-    {
-        p = -p;
-    }
-    return p;
+    // x = ± (ab cos θ) / √((b cos θ)² + (a cos θ)²)
+    // y = ± (ab sin θ) / √((b cos θ)² + (a cos θ)²)
+
+    Decimal denominator = std::sqrt(sq(mB * std::cos(theta)) + sq(mA * std::sin(theta))) / mA / mB;
+    return {std::cos(theta) / denominator, std::sin(theta) / denominator};
 }
 
 bool

@@ -28,7 +28,7 @@ main()
         // Set graphics transform to track earth:
         {
             graphics.resetTransform();
-            graphics.rotate(0.5_pi);
+            //graphics.rotate(0.5_pi);
             graphics.scale(1 / (2 * AU));
             graphics.translate(-earth.getPosition());
         }

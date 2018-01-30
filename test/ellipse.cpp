@@ -194,6 +194,38 @@ TEST(Ellipse, PointFromAngle)
     ASSERT_NEAR(ellipse.pointAngle(2_pi).x, 2, 0.01);
     ASSERT_NEAR(ellipse.pointAngle(2_pi).y, 0, 0.01);
 
+    // -0.25 π
+    ASSERT_NEAR(ellipse.pointAngle(-0.25_pi).x, 1.31, 0.01);
+    ASSERT_NEAR(ellipse.pointAngle(-0.25_pi).y, -1.31, 0.01);
+
+    // -0.5 π
+    ASSERT_NEAR(ellipse.pointAngle(-0.5_pi).x, 0, 0.01);
+    ASSERT_NEAR(ellipse.pointAngle(-0.5_pi).y, -1.73, 0.01);
+
+    // -0.75 π
+    ASSERT_NEAR(ellipse.pointAngle(-0.75_pi).x, -1.31, 0.01);
+    ASSERT_NEAR(ellipse.pointAngle(-0.75_pi).y, -1.31, 0.01);
+
+    // -1 π
+    ASSERT_NEAR(ellipse.pointAngle(-1_pi).x, -2, 0.01);
+    ASSERT_NEAR(ellipse.pointAngle(-1_pi).y, 0, 0.01);
+
+    // -1.25 π
+    ASSERT_NEAR(ellipse.pointAngle(-1.25_pi).x, -1.31, 0.01);
+    ASSERT_NEAR(ellipse.pointAngle(-1.25_pi).y, 1.31, 0.01);
+
+    // -1.5 π
+    ASSERT_NEAR(ellipse.pointAngle(-1.5_pi).x, 0, 0.01);
+    ASSERT_NEAR(ellipse.pointAngle(-1.5_pi).y, 1.73, 0.01);
+
+    // -1.75 π
+    ASSERT_NEAR(ellipse.pointAngle(-1.75_pi).x, 1.31, 0.01);
+    ASSERT_NEAR(ellipse.pointAngle(-1.75_pi).y, 1.31, 0.01);
+
+    // -2 π
+    ASSERT_NEAR(ellipse.pointAngle(-2_pi).x, 2, 0.01);
+    ASSERT_NEAR(ellipse.pointAngle(-2_pi).y, 0, 0.01);
+
 }
 
 TEST(Ellipse, ArcLength)

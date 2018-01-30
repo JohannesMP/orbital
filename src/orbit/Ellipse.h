@@ -60,12 +60,12 @@ public:
 
     /**
      * Calculate position of a point on the ellipse from a given angle.
-     * @param radians Angle intersecting point
+     * @param theta Angle intersecting point
      * @return Point on ellipse.
      */
     vec
     pointAngle(
-            Decimal radians
+            Decimal theta
     ) const;
 
     /**

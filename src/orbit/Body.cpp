@@ -54,9 +54,9 @@ Body::calculateV(
 ) const
 {
     // Trajectory velocity:
-    // 
+    //
     // v = √( G M (2/d - a⁻¹) )
-    
+
     Decimal d = length(mPosition);
     return std::sqrt(G * M * (2 / d - 1 / mTrajectory.a()));
 }
@@ -78,14 +78,15 @@ Body::step(
     // Advance position by straight line:
     p += v * dt;
 
-    // 
+    //
     // Map position back to ellipse: TODO: use Ellipse methods
     // https://math.stackexchange.com/questions/22064/calculating-a-point-that-lies-on-an-ellipse-given-an-angle
-    // 
+    //
     // x = ± (ab cos θ) / √((b cos θ)² + (a cos θ)²)
     // y = ± (ab sin θ) / √((b cos θ)² + (a cos θ)²)
-    // 
+    //
     Decimal theta = std::atan2(p.y, p.x);
+    //mPosition = mTrajectory.pointAngle(theta) + mTrajectoryCenter;
     Decimal denominator =
             std::sqrt(sq(mTrajectory.b() * std::cos(theta)) + sq(mTrajectory.a() * std::sin(theta))) / mTrajectory.a() /
                     mTrajectory.b();
