@@ -6,6 +6,7 @@
 #include <iostream>
 #include <fmt/printf.h>
 #include <iterator>
+#include "constants.h"
 
 Ellipse::Ellipse(
         Decimal a,
@@ -148,33 +149,52 @@ Ellipse::clip(
 
     // Calculate the 4 quarter rectangles, which are always clipped to the ellipse bounds,
     // to avoid invalid x-y values passed to t queries:
-    Rectangle topRight = rect.conjunction({{}, mA, mB});
-    Rectangle topLeft = rect.conjunction({{}, -mA, mB});
-    Rectangle bottomRight = rect.conjunction({{}, mA, -mB});
-    Rectangle bottomLeft = rect.conjunction({{}, -mA, -mB});
 
-    if (topRight.extent() != vec() && !contains(topRight.topRight()))
+    vec topRight;
+    topRight.x = std::min(mA, rect.right());
+    topRight.y = std::min(mB, rect.top());
+
+    vec topLeft;
+    topLeft.x = std::max(-mA, rect.left());
+    topLeft.y = std::min(mB, rect.top());
+
+    vec bottomRight;
+    bottomRight.x = std::min(mA, rect.right());
+    bottomRight.y = std::max(-mB, rect.bottom());
+
+    vec bottomLeft;
+    bottomLeft.x = std::max(-mA, rect.left());
+    bottomLeft.y = std::max(-mB, rect.bottom());
+
+    std::clog << std::endl;
+
+
+    if (!contains(topRight))
     {
         // Top right quarter:
-        result.emplace_back(tAtX(topRight.right()), tAtY(topRight.top()));
+        std::clog << "top-right: " << topRight << std::endl;
+        result.emplace_back(tAtX(topRight.x), tAtY(topRight.y));
     }
 
-    if (topLeft.extent() != vec() && !contains(topLeft.topLeft()))
+    if (!contains(topLeft))
     {
         // Top left quarter:
-        result.emplace_back(tAtY(topLeft.top()), tAtX(topLeft.left()));
+        std::clog << "top-left:  " << topLeft << std::endl;
+        result.emplace_back(1_pi - tAtY(topLeft.y), tAtX(topLeft.x));
     }
 
-    if (bottomLeft.extent() != vec() && !contains(bottomLeft.bottomLeft()))
+    if (!contains(bottomLeft))
     {
-        // Bottom left quarter:
-        result.emplace_back(2_pi - std::abs(tAtX(bottomLeft.left())), 2_pi - std::abs(tAtY(bottomLeft.bottom())));
+        // Bottom left quarter, ensure that t stays positive be inverting its direction:
+        std::clog << "bot-right: " << bottomRight << std::endl;
+        result.emplace_back(2_pi - std::abs(tAtX(bottomLeft.x)), 2_pi - std::abs(tAtY(bottomLeft.y)));
     }
 
-    if (bottomRight.extent() != vec() && !contains(bottomRight.bottomRight()))
+    if (!contains(bottomRight))
     {
-        // Bottom left quarter:
-        result.emplace_back(2_pi - std::abs(tAtY(bottomRight.bottom())), 2_pi - std::abs(tAtX(bottomRight.right())));
+        // Bottom left quarter, ensure that t stays positive be inverting its direction:
+        std::clog << "bot-left:  " << bottomLeft << std::endl;
+        result.emplace_back(2_pi - std::abs(tAtY(bottomRight.y)), 2_pi - std::abs(tAtX(bottomRight.x)));
     }
 
     return result;
