@@ -18,6 +18,7 @@ public:
 
     /**
      * Create a new body.
+     * @param name Planet name
      * @param mass Planet mass
      * @param radius Planet radius
      * @param a Major semi axis (a > 0)

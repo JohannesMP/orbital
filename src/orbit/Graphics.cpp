@@ -146,9 +146,9 @@ Graphics::scale(Decimal s)
 }
 
 void
-Graphics::rotate(float radians)
+Graphics::rotate(float theta)
 {
-    mTransformStack.back().rotate(radians);
+    mTransformStack.back().rotate(theta);
     updateTransform();
 }
 
@@ -179,7 +179,7 @@ Graphics::resetTransform()
 void
 Graphics::present()
 {
-    for (auto &scanline : *this)
+    for (auto &scanline : mScanlines)
     {
         std::cout << scanline << '\n';
     }

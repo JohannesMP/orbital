@@ -1,6 +1,7 @@
 
 *build*/
 .idea/workspace.xml
+doc/
 
 # Prerequisites
 *.d

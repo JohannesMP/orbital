@@ -80,9 +80,7 @@ public:
 
     /**
      * Checks whether a rectangle is completely inside the ellipse.
-     * @param p Lower-left point of rectangle.
-     * @param w Rectangle width, can be negative.
-     * @param h Rectangle height, can be negative.
+     * @param rect Rectangle to check.
      * @return True if completely inside ellipse.
      */
     bool

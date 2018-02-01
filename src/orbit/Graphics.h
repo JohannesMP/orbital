@@ -131,7 +131,7 @@ public:
 
     /**
      * Add scale to the current transform.
-     * @param v Scale amount.
+     * @param s Scale amount.
      */
     void
     scale(
@@ -140,11 +140,11 @@ public:
 
     /**
      * Add rotation to the current transform.
-     * @param v Amount of rotation, in radians.
+     * @param theta Amount of rotation, in radians.
      */
     void
     rotate(
-            float radians
+            float theta
     );
 
     /**
@@ -165,24 +165,6 @@ public:
      */
     int
     rows() const;
-
-    /**
-     * @return Begin random-access iterator to the internal framebuffer scanlines.
-     */
-    auto
-    begin()
-    {
-        return mScanlines.begin();
-    }
-
-    /**
-     * @return End random-access iterator to the internal framebuffer scanlines.
-     */
-    auto
-    end()
-    {
-        return mScanlines.end();
-    }
 
     /**
      * Print framebuffer to the console.

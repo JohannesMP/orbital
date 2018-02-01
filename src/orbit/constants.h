@@ -10,22 +10,40 @@
 #include <functional>
 #include <sstream>
 
-/*
- * http://xahlee.info/comp/unicode_math_operators.html
+/**
+ * \file constants.h Provides general constants and math functions.
  *
- * Greek alphabet:  α β γ δ ε ζ η θ ι κ λ μ ν ξ ο π ρ ς τ υ φ χ ψ ω
- * Super-script:    ⁰ ¹ ² ³ ⁴ ⁵ ⁶ ⁷ ⁸ ⁹ ⁺ ⁻ ⁼ ⁽ ⁾ ⁿ ⁱ
- * Sub-script:      ₀ ₁ ₂ ₃ ₄ ₅ ₆ ₇ ₈ ₉ ₊ ₋ ₌ ₍ ₎ ₐ ₑ ₕ ᵢ ⱼ ₖ ₗ ₘ ₙ ₒ ₚ ᵣ ₛ ₜ ᵤ ᵥ ₓ ₔ
- * Roots:           √ ∛ ∜
- * Sets:            ℕ ℤ ℚ ℝ ℂ ∈ ∉ ∪ ∩
- * Numbers:         ⅈ ℯ ∞
- * Comparators:     < > ≦ ≧
- * Integral:        ∫
- * Operators:       ⋅ ± ⨯ ⊙
+ * ## Unicode characters:
  *
- * https://en.wikipedia.org/wiki/List_of_gravitationally_rounded_objects_of_the_Solar_System
+ * [Math related](http://xahlee.info/comp/unicode_math_operators.html):
  *
- * Planets:         ☉ ☿ ♀ ⊕ ♂ ♃ ♄ ⛢ ♆ ♇ (Pluto) ⚳ (Ceres)
+ * Charset         | Symbols
+ * ----------------|---------------
+ * Greek alphabet  | α β γ δ ε ζ η θ ι κ λ μ ν ξ ο π ρ ς τ υ φ χ ψ ω
+ * Super-script    | ⁰ ¹ ² ³ ⁴ ⁵ ⁶ ⁷ ⁸ ⁹ ⁺ ⁻ ⁼ ⁽ ⁾ ⁿ ⁱ
+ * Sub-script      | ₀ ₁ ₂ ₃ ₄ ₅ ₆ ₇ ₈ ₉ ₊ ₋ ₌ ₍ ₎ ₐ ₑ ₕ ᵢ ⱼ ₖ ₗ ₘ ₙ ₒ ₚ ᵣ ₛ ₜ ᵤ ᵥ ₓ ₔ
+ * Roots           | √ ∛ ∜
+ * Sets            | ℕ ℤ ℚ ℝ ℂ ∈ ∉ ∪ ∩
+ * Numbers         | ⅈ ℯ ∞
+ * Comparators     | < > ≦ ≧
+ * Integral        | ∫
+ * Operators       | ⋅ ± ⨯ ⊙
+ *
+ * [Planets](https://en.wikipedia.org/wiki/List_of_gravitationally_rounded_objects_of_the_Solar_System):
+ *
+ * Celestial | Symbol
+ * ----------|-------
+ * Sun       | ☉
+ * Mercury   | ☿
+ * Venus     | ♀
+ * Earth     | ⊕
+ * Mars      | ♂
+ * Jupiter   | ♃
+ * Saturn    | ♄
+ * Uranus    | ⛢
+ * Neptune   | ♆
+ * Pluto     | ♇
+ * Ceres     | ⚳
  */
 
 using Decimal = double;
@@ -66,7 +84,7 @@ operator "" _df(
 }
 
 /**
- * Gravitational constant: [m³ kg s⁻²]
+ * Gravitational constant: \f$ [G] = \frac{kg \cdot m^3}{s^2} \f$
  */
 constexpr Decimal G = 6.67408e-11_df;
 
@@ -133,7 +151,7 @@ constexpr Decimal S_PER_MONTH = S_PER_DAY * 30.436875_df;
 constexpr Decimal S_PER_YEAR = S_PER_DAY * 365.24219052_df;
 
 /**
- * Square a number.
+ * Square a number: \f$ x^2 \f$
  * @param x Number to square.
  * @return Result.
  */
@@ -146,7 +164,7 @@ sq(
 }
 
 /**
- * Calculate vector length, i.e.: `|v|`
+ * Calculate vector length: \f$ |v| \f$
  * @param v Vector.
  * @return Length.
  */
@@ -159,7 +177,7 @@ length(
 }
 
 /**
- * Calculate vector distance, i.e.: `|v0 - v1|`
+ * Calculate vector distance: \f$ |v_1 - v_0| \f$
  * @param v0 First vector.
  * @param v1 Second vector.
  * @return Distance.
@@ -185,7 +203,7 @@ angle(
 }
 
 /**
- * Integrate a function over a given range.
+ * Integrate a function over a given range: \f$ \int_{low}^{high} f(x) dx \f$
  * @param f Function to integrate on.
  * @param low Lower integration bound.
  * @param high Upper integration bound.
