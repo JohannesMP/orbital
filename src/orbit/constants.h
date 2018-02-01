@@ -17,18 +17,15 @@
  * Super-script:    ⁰ ¹ ² ³ ⁴ ⁵ ⁶ ⁷ ⁸ ⁹ ⁺ ⁻ ⁼ ⁽ ⁾ ⁿ ⁱ
  * Sub-script:      ₀ ₁ ₂ ₃ ₄ ₅ ₆ ₇ ₈ ₉ ₊ ₋ ₌ ₍ ₎ ₐ ₑ ₕ ᵢ ⱼ ₖ ₗ ₘ ₙ ₒ ₚ ᵣ ₛ ₜ ᵤ ᵥ ₓ ₔ
  * Roots:           √ ∛ ∜
- * Sets:            ℕ ℤ ℚ ℝ ℂ ∈ ∋ ∉ ∌ ∪ ∩
- * Imaginary:       ⅈ
- * Euler's number:  ℯ
- * Infinity:        ∞
- * Cross operator:  ⨯
- * Dot operator:    ⊙
+ * Sets:            ℕ ℤ ℚ ℝ ℂ ∈ ∉ ∪ ∩
+ * Numbers:         ⅈ ℯ ∞
  * Comparators:     < > ≦ ≧
  * Integral:        ∫
+ * Operators:       ⋅ ± ⨯ ⊙
  *
  * https://en.wikipedia.org/wiki/List_of_gravitationally_rounded_objects_of_the_Solar_System
  *
- * Planets:         ☉ ☿ ♀ ⊕ ♂ ♃ ♄ ⛢ ♆ ♇
+ * Planets:         ☉ ☿ ♀ ⊕ ♂ ♃ ♄ ⛢ ♆ ♇ (Pluto) ⚳ (Ceres)
  */
 
 using Decimal = double;
@@ -110,13 +107,30 @@ operator "" _pi(
  */
 constexpr Decimal ZERO = std::numeric_limits<Decimal>::epsilon();
 
-constexpr Decimal S_PER_MIN = 60_df;                        ///< Seconds per minute.
-constexpr Decimal S_PER_HOUR = S_PER_MIN * 60_df;           ///< Seconds per hour.
-constexpr Decimal S_PER_DAY = S_PER_HOUR * 24_df;           ///< Seconds per 24-hours day.
-constexpr Decimal S_PER_MONTH =
-        S_PER_DAY * 30.436875_df;   ///< Seconds per month (using average day count of 30.436875)
-constexpr Decimal S_PER_YEAR =
-        S_PER_DAY * 365.24219052_df; ///< Seconds per year (using average day count of 365.24219052)
+/**
+ * Seconds per minute.
+ */
+constexpr Decimal S_PER_MIN = 60_df;
+
+/**
+ * Seconds per hour.
+ */
+constexpr Decimal S_PER_HOUR = S_PER_MIN * 60_df;
+
+/**
+ * Seconds per 24-hours day.
+ */
+constexpr Decimal S_PER_DAY = S_PER_HOUR * 24_df;
+
+/**
+ * Seconds per month (using average day count of 30.436875).
+ */
+constexpr Decimal S_PER_MONTH = S_PER_DAY * 30.436875_df;
+
+/**
+ * Seconds per year (using average day count of 365.24219052).
+ */
+constexpr Decimal S_PER_YEAR = S_PER_DAY * 365.24219052_df;
 
 /**
  * Square a number.
@@ -214,7 +228,8 @@ operator<<(
 );
 
 template<class T>
-std::string toString(
+std::string
+toString(
         const T &t
 )
 {

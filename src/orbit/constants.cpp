@@ -13,7 +13,7 @@ operator<<(
         const complex &c
 )
 {
-    os << c.real() << '+' << c.imag() << 'i';
+    os << c.real() << '+' << c.imag() << "ⅈ";
     return os;
 }
 

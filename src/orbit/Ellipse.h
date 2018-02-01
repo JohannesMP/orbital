@@ -101,6 +101,12 @@ public:
             const Rectangle &rect
     ) const;
 
+    std::vector<vec>
+    intersect(
+            const vec &p,
+            const vec &d
+    );
+
     /**
      * Calculate the length of an arc slice within `ts` and `te`.
      * @param ts Start parameter of arc.

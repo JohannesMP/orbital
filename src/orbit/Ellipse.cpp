@@ -7,6 +7,7 @@
 #include <fmt/printf.h>
 #include <iterator>
 #include "constants.h"
+#include "LinearFunction.h"
 
 Ellipse::Ellipse(
         Decimal a,
@@ -214,4 +215,56 @@ Rectangle
 Ellipse::boundingRect() const
 {
     return {{-mA, -mB}, {mA, mB}};
+}
+
+std::vector<vec>
+Ellipse::intersect(
+        const vec &p,
+        const vec &d
+)
+{
+    LinearFunction f{p, d};
+
+    Decimal A = mB + mA * sq(f.m());
+    Decimal B = 2 * mA * f.m() * f.t();
+    Decimal C = mA * (sq(f.t()) - mB);
+
+    fmt::print("a={}   b={}\n", mA, mB);
+    fmt::print("m={}   t={}\n", f.m(), f.t());
+    fmt::print("{}x² + {}x + {} = 0\n", A, B, C);
+
+    Decimal D = sq(B) - 4 * A * C;
+
+    fmt::print("x = ({} )", -B, )
+
+    auto solve = [&f](Decimal x)
+    {
+        return vec{
+                x,
+                f(x)
+        };
+    };
+
+    if(D < 0)
+    {
+        // line does not intersect ellipse:
+        return {};
+    }
+    if(D == 0)
+    {
+        // line touches ellipse:
+        return {solve(-B / (2 * A))};
+    }
+    else
+    {
+        // line intersects ellipse:
+
+        Decimal x0 = (-B + std::sqrt(D)) / (2 * mA);
+        Decimal x1 = (-B - std::sqrt(D)) / (2 * mA);
+
+        return {
+                solve(std::min(x0, x1)),
+                solve(std::max(x0, x1))
+        };
+    }
 }

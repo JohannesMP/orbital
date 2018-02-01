@@ -3,6 +3,7 @@
 //
 
 #include <orbit/Ellipse.h>
+#include "fmt/printf.h"
 #include "common.h"
 
 TEST(Ellipse, ProperConstruction)
@@ -285,6 +286,23 @@ TEST(Ellipse, BoundingRect)
     ASSERT_DOUBLE_EQ(ellipse.boundingRect().left(), -ellipse.a());
     ASSERT_DOUBLE_EQ(ellipse.boundingRect().top(), ellipse.b());
     ASSERT_DOUBLE_EQ(ellipse.boundingRect().bottom(), -ellipse.b());
+}
+
+TEST(Ellipse, Intersection)
+{
+    fmt::print("\n\n");
+
+    Ellipse ellipse{9, std::sqrt(1.0 - sq(4.0 / 9))};
+
+    //fmt::print("a={}   b={}\n", ellipse.a(), ellipse.b());
+
+    auto points = ellipse.intersect({0, -2}, {2, 1});
+
+    ASSERT_EQ(points.size(), 2);
+    ASSERT_NEAR(points[0].x, 0, 0.001);
+    ASSERT_NEAR(points[0].y, -2, 0.001);
+    ASSERT_NEAR(points[1].x, 9.0 / 5, 0.001);
+    ASSERT_NEAR(points[1].y, 8.0 / 5, 0.001);
 }
 
 /*
