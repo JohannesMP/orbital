@@ -208,6 +208,8 @@ Ellipse::intersect(
         const vec &d
 )
 {
+    // todo: don't use linear function if d.x == 0
+
     LinearFunction f{p, d};
 
     Decimal A = mB + mA * sq(f.m());
@@ -220,7 +222,9 @@ Ellipse::intersect(
 
     Decimal D = sq(B) - 4 * A * C;
 
-    //fmt::print("x = ({} )", -B, )
+    fmt::print("D={}   -> {} solutions/intersections\n", D, (D < 0 ? "no" : D > 0 ? "two" : "one"));
+
+    fmt::print("x = ({} ± √({}² - 4 ⋅ {} ⋅ {})) / (2 ⋅ {})\n", -B, B, A, C, A);
 
     auto solve = [&f](Decimal x)
     {
@@ -244,8 +248,11 @@ Ellipse::intersect(
     {
         // line intersects ellipse:
 
-        Decimal x0 = (-B + std::sqrt(D)) / (2 * mA);
-        Decimal x1 = (-B - std::sqrt(D)) / (2 * mA);
+        Decimal x0 = (-B + std::sqrt(D)) / (2 * A);
+        Decimal x1 = (-B - std::sqrt(D)) / (2 * A);
+
+        fmt::print("x₀={}   => y₀={}\n", x0, f(x0));
+        fmt::print("x₁={}   => y₁={}\n", x1, f(x1));
 
         return {
                 solve(std::min(x0, x1)),

@@ -19,7 +19,7 @@ main()
     Graphics graphics{35, 121};
     System system{"planets.yml", "solar-system", S_PER_HOUR};
 
-    auto &earth = system.find("Earth");
+    auto &earth = system.find("Mars");
 
     for (int i = 0; i < 10000000; i++)
     {
@@ -30,7 +30,7 @@ main()
             graphics.resetTransform();
             //graphics.rotate(0.5_pi);
             graphics.scale(1 / (1.6 * AU));
-            //graphics.translate(-earth.getPosition());
+            graphics.translate(-earth.getPosition());
         }
 
         // Render:

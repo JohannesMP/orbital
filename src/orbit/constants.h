@@ -22,12 +22,11 @@
  * Greek alphabet  | α β γ δ ε ζ η θ ι κ λ μ ν ξ ο π ρ ς τ υ φ χ ψ ω
  * Super-script    | ⁰ ¹ ² ³ ⁴ ⁵ ⁶ ⁷ ⁸ ⁹ ⁺ ⁻ ⁼ ⁽ ⁾ ⁿ ⁱ
  * Sub-script      | ₀ ₁ ₂ ₃ ₄ ₅ ₆ ₇ ₈ ₉ ₊ ₋ ₌ ₍ ₎ ₐ ₑ ₕ ᵢ ⱼ ₖ ₗ ₘ ₙ ₒ ₚ ᵣ ₛ ₜ ᵤ ᵥ ₓ ₔ
- * Roots           | √ ∛ ∜
  * Sets            | ℕ ℤ ℚ ℝ ℂ ∈ ∉ ∪ ∩
  * Numbers         | ⅈ ℯ ∞
  * Comparators     | < > ≦ ≧
  * Integral        | ∫
- * Operators       | ⋅ ± ⨯ ⊙
+ * Operators       | ⋅ ± ⨯ ⊙ √ ∛ ∜
  *
  * [Planets](https://en.wikipedia.org/wiki/List_of_gravitationally_rounded_objects_of_the_Solar_System):
  *
