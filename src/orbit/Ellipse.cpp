@@ -6,7 +6,6 @@
 #include <iostream>
 #include <fmt/printf.h>
 #include <iterator>
-#include "constants.h"
 #include "LinearFunction.h"
 
 Ellipse::Ellipse(
@@ -16,7 +15,7 @@ Ellipse::Ellipse(
 {
     mA = a;
     mE = e;
-    mB = a * std::sqrt(1 - sq(e));   // b = a √( 1 - e² )
+    mB = a * std::sqrt(1 - sq(e));
     mFoci = a * e;
 }
 
@@ -68,7 +67,6 @@ Ellipse::arcLength(
     Decimal sqA = sq(mA);
     Decimal sqB = sq(mB);
     return integral([&](Decimal x) {
-        // √( a² sin²x + b² cos²x )
         return std::sqrt(sqA * sq(std::sin(x)) + sqB * sq(std::cos(x)));
     }, ts, te, resolution);
 }
@@ -78,11 +76,6 @@ Ellipse::pointAngle(
         Decimal theta
 ) const
 {
-    // Point from given angle θ:
-    //
-    // x = ± (ab cos θ) / √((b cos θ)² + (a cos θ)²)
-    // y = ± (ab sin θ) / √((b cos θ)² + (a cos θ)²)
-
     Decimal denominator = std::sqrt(sq(mB * std::cos(theta)) + sq(mA * std::sin(theta))) / mA / mB;
     return {std::cos(theta) / denominator, std::sin(theta) / denominator};
 }
@@ -108,26 +101,18 @@ Ellipse::contains(
         return true;
     }
 
-    // Actually, an ellipse can be defined through a set of points, to which the following is valid:
-    //     2a = |p - f0| + |p - f1|
-    // Where f0 and f1 are the two focal points.
-    // Therefore, any points whose accumulated distance is equal or less to 2a is considered inside the ellipse body.
     return 2 * mA >= distance(fociPoints()[0], p) + distance(fociPoints()[1], p);
 }
 
 Decimal
 Ellipse::tAtX(Decimal x) const
 {
-    // x = a cos t
-    // t = acos (x/a)
     return std::acos(x / mA);
 }
 
 Decimal
 Ellipse::tAtY(Decimal y) const
 {
-    // y = b sin t
-    // t = asin (y/b)
     return std::asin(y / mB);
 }
 
@@ -235,7 +220,7 @@ Ellipse::intersect(
 
     Decimal D = sq(B) - 4 * A * C;
 
-    fmt::print("x = ({} )", -B, )
+    //fmt::print("x = ({} )", -B, )
 
     auto solve = [&f](Decimal x)
     {

@@ -228,6 +228,26 @@ private:
             Decimal te
     );
 
+    /**
+     * Give a reference to a pixel within the framebuffer.
+     * @param loc Target location of pixel.
+     * @return Reference.
+     */
+    char &
+    framebufferPixel(
+            const FramebufferLocation &loc
+    );
+
+    /**
+     * Give a const reference to a pixel within the framebuffer.
+     * @param loc Target location of pixel.
+     * @return Const reference.
+     */
+    const char &
+    framebufferPixel(
+            const FramebufferLocation &loc
+    ) const;
+
 };
 
 

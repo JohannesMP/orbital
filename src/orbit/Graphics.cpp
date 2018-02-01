@@ -28,10 +28,17 @@ Graphics::Graphics(
     }
     clear();
 
-    mProjection = glm::scale(mat{1}, {cols / 2.0, rows / 2.0});                 // Span over whole viewport
-    mProjection = glm::translate(mProjection, {1, 1});                       // Origin should sit in the center
-    mProjection = glm::scale(mProjection, {1, -1});                                   // Y-Axis should point upwards
-    mProjection = glm::scale(mProjection, {rows / (Decimal) cols / CHAR_RATIO, 1});   // Scale against viewport distort
+    // Span over whole viewport
+    mProjection = glm::scale(mat{1}, {cols / 2.0, rows / 2.0});
+
+    // Origin should sit in the center
+    mProjection = glm::translate(mProjection, {1, 1});
+
+    // Y-Axis should point upwards
+    mProjection = glm::scale(mProjection, {1, -1});
+
+    // Scale against viewport distort
+    mProjection = glm::scale(mProjection, {rows / (Decimal) cols / CHAR_RATIO, 1});
 
     push();
     updateTransform();
@@ -58,7 +65,7 @@ Graphics::pixel(
         return;
     }
 
-    char &target = mScanlines.at(static_cast<unsigned long>(loc.y)).at(static_cast<unsigned long>(loc.x));
+    char &target = framebufferPixel(loc);
     if (mOverwrite || (!mOverwrite && ' ' == target))
     {
         target = c;
@@ -72,22 +79,25 @@ Graphics::label(
 )
 {
     auto loc = mapToFramebuffer(pos);
-    auto span = std::min<int>(static_cast<int>(text.length()), columns() - loc.x);
-
-    if (0 >= span || !withinFramebufferBounds(loc))
+    if (!withinFramebufferBounds(loc))
     {
         return;
     }
 
+    // If text length exceeds scanline length from a given column,
+    // the text must be trimmed to a smaller size to avoid:
+    auto span = std::min<int>(static_cast<int>(text.length()), columns() - loc.x);
+
     if (mOverwrite)
     {
+        // Simply copy the whole text into framebuffer:
         std::copy(text.begin(), text.begin() + span, mScanlines[loc.y].begin() + loc.x);
     }
     else
     {
         for (int i = 0; i < span; i++)
         {
-            char &target = mScanlines.at(static_cast<unsigned long>(loc.y)).at(static_cast<unsigned long>(loc.x));
+            char &target = framebufferPixel(loc);
             if (' ' == target)
             {
                 target = text[i];
@@ -191,7 +201,7 @@ Graphics::withinFramebufferBounds(
         const FramebufferLocation &v
 ) const
 {
-    return v.y >= 0 && v.y < rows() && v.x >= 0 && v.x < mScanlines[0].length();
+    return v.y >= 0 && v.y < rows() && v.x >= 0 && v.x < columns();
 }
 
 void
@@ -274,4 +284,16 @@ int
 Graphics::rows() const
 {
     return static_cast<int>(mScanlines.size());
+}
+
+char &
+Graphics::framebufferPixel(const Graphics::FramebufferLocation &loc)
+{
+    return mScanlines.at(static_cast<unsigned long>(loc.y)).at(static_cast<unsigned long>(loc.x));
+}
+
+const char &
+Graphics::framebufferPixel(const Graphics::FramebufferLocation &loc) const
+{
+    return mScanlines.at(static_cast<unsigned long>(loc.y)).at(static_cast<unsigned long>(loc.x));
 }

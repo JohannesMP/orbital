@@ -37,6 +37,10 @@ public:
     a() const;
 
     /**
+     * Return minor semi-axis, which is computed like that:
+     * \f$
+     * b = a \sqrt{1 - e^2}
+     * \f$
      * @return Minor semi-axis.
      */
     Decimal
@@ -50,7 +54,14 @@ public:
 
     /**
      * Calculate position of a point on the ellipse using the parametric form.
-     * @param t Parameter [0,2π]
+     * \f$
+     * \vec{v} =
+     *     \begin{pmatrix}
+     *         a \cdot cos(t) \\
+     *         b \cdot sin(t)
+     *     \end{pmatrix}
+     * \f$
+     * @param t Parameter.
      * @return Point on ellipse.
      */
     vec
@@ -60,6 +71,13 @@ public:
 
     /**
      * Calculate position of a point on the ellipse from a given angle.
+     * \f$
+     * \vec{v} =
+     *     \begin{pmatrix}
+     *         \pm \frac{ ab \cdot cos \theta }{ \sqrt{(b \cdot cos \theta)^2 + (a cos \theta)^2} } \\
+     *         \pm \frac{ ab \cdot sin \theta }{ \sqrt{(b \cdot cos \theta)^2 + (a cos \theta)^2} }
+     *     \end{pmatrix}
+     * \f$
      * @param theta Angle intersecting point
      * @return Point on ellipse.
      */
@@ -70,6 +88,10 @@ public:
 
     /**
      * Check whether a point is contained by the ellipse covered area.
+     * \f$
+     *    \left| p - f_0 \right| + \left| p - f_1 \right|
+     *    \leq 2a
+     * \f$
      * @param p Point to check.
      * @return True if inside.
      */
@@ -107,6 +129,9 @@ public:
 
     /**
      * Calculate the length of an arc slice within `ts` and `te`.
+     * \f$
+     * \int_{ts}^{te} \sqrt{ a^2 sin^2 x + b^2 cos^2 x } dx
+     * \f$
      * @param ts Start parameter of arc.
      * @param te End parameter of arc.
      * @param resolution The higher the resolution, the more accurate the result.
@@ -120,7 +145,7 @@ public:
     ) const;
 
     /**
-     * @return Two foci as x-values.
+     * @return Two foci as x-values: \f$ \pm ae \f$
      */
     std::array<Decimal, 2>
     foci() const;
@@ -132,8 +157,16 @@ public:
     fociPoints() const;
 
     /**
-     * Calculate t at x.
-     * @param x X value (-a <= x <= a ; otherwise a math domain error occurs)
+     * Calculate t parameter at a given x value.
+     *
+     * \f$
+     *     t = a \cdot cos( \frac{x}{a} ) \\
+     *     x \in \left[ -a , a \right]
+     * \f$
+     *
+     * @attention The x value which must lie within the ellipse covered x-axis range,
+     *            otherwise a math domain error occurs.
+     * @param x X value
      * @return
      */
     Decimal
@@ -142,8 +175,16 @@ public:
     ) const;
 
     /**
-     * Calculate t at y.
-     * @param y Y value (-b <= x <= b ; otherwise a math domain error occurs)
+     * Calculate t parameter at a given y value.
+     *
+     * \f$
+     *     t = a \cdot sin( \frac{y}{a} ) \\
+     *     y \in \left[ -b , b \right]
+     * \f$
+     *
+     * @attention The y value which must lie within the ellipse covered y-axis range,
+     *            otherwise a math domain error occurs.
+     * @param y Y value
      * @return
      */
     Decimal

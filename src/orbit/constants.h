@@ -164,7 +164,7 @@ sq(
 }
 
 /**
- * Calculate vector length: \f$ |v| \f$
+ * Calculate vector length: \f$ \left| v \right| \f$
  * @param v Vector.
  * @return Length.
  */
@@ -177,7 +177,7 @@ length(
 }
 
 /**
- * Calculate vector distance: \f$ |v_1 - v_0| \f$
+ * Calculate vector distance: \f$ \left| v_1 - v_0 \right| \f$
  * @param v0 First vector.
  * @param v1 Second vector.
  * @return Distance.
@@ -192,7 +192,7 @@ distance(
 }
 
 /**
- * Calculate the angle between the vector and the x axis.
+ * Calculate the angle between the vector and the x axis: \f$ arctan2(v_y, v_x) \f$
  */
 constexpr Decimal
 angle(
@@ -208,7 +208,7 @@ angle(
  * @param low Lower integration bound.
  * @param high Upper integration bound.
  * @param resolution Resolution per x stepping, i.e. number of function invocations per x.
- * @return Area of integral.
+ * @return Area enclosed by graph and x-axis.
  */
 Decimal
 integral(
