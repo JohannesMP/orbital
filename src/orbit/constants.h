@@ -238,7 +238,7 @@ quadratic(
 );
 
 /**
- * Serialize a complex number: [real]+[imag]i
+ * Serialize a complex number: [real]+[imag]ⅈ
  */
 std::ostream &
 operator<<(
