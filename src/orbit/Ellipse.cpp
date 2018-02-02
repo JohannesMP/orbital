@@ -201,23 +201,30 @@ Ellipse::boundingRect() const
     return {{-mA, -mB}, {mA, mB}};
 }
 
-std::vector<vec>
+std::pair<unsigned, std::array<vec, 2>>
 Ellipse::intersect(
         const vec &p,
         const vec &d
 )
 {
-    // todo: don't use linear function if d.x == 0
+    std::array<vec, 2> points;
 
-    LinearFunction f{p, d};
+    if(d.x != 0)
+    {
+        LinearFunction f{p, d};
 
-    unsigned intersectionCount;
-    std::array<Decimal, 2> solutions;
-    std::tie(intersectionCount, solutions) = quadratic(mB + mA * sq(f.m()), 2 * mA * f.m() * f.t(), mA * (sq(f.t()) - mB));
+        unsigned intersectionCount;
+        std::array<Decimal, 2> solutions;
+        std::tie(intersectionCount, solutions) = quadratic(mB + mA * sq(f.m()), 2 * mA * f.m() * f.t(),
+                mA * (sq(f.t()) - mB));
 
-    std::vector<vec> points{intersectionCount};
-    std::transform(solutions.begin(), solutions.begin() + intersectionCount, points.begin(), [&f](Decimal s) {
-        return vec{s, f(s)};
-    });
-    return points;
+        std::transform(solutions.begin(), solutions.begin() + intersectionCount, points.begin(), [&f](Decimal s) {
+            return vec{s, f(s)};
+        });
+
+        return {intersectionCount, points};
+    }
+
+    else {
+    }
 }

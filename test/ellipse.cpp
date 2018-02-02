@@ -292,9 +292,11 @@ TEST(Ellipse, Intersection)
 {
     Ellipse ellipse{9, std::sqrt(1.0 - sq(4.0 / 9))};
 
-    auto points = ellipse.intersect({0, -2}, {2, 1});
+    unsigned count;
+    std::array<vec, 2> points;
+    std::tie(count, points) = ellipse.intersect({0, -2}, {2, 1});
 
-    ASSERT_EQ(points.size(), 2);
+    ASSERT_EQ(count, 2);
     ASSERT_NEAR(points[0].x, 0, 0.001);
     ASSERT_NEAR(points[0].y, -2, 0.001);
     ASSERT_NEAR(points[1].x, 9.0 / 5, 0.001);
@@ -303,6 +305,17 @@ TEST(Ellipse, Intersection)
 
 TEST(Ellipse, IntersectionPerpendicularXAxis)
 {
+    Ellipse ellipse{2, 0.5};
+
+    unsigned count;
+    std::array<vec, 2> points;
+    std::tie(count, points) = ellipse.intersect({0, -2}, {0, 1});
+
+    ASSERT_EQ(count, 2);
+    ASSERT_NEAR(points[0].x, 0, 0.001);
+    ASSERT_NEAR(points[0].y, -ellipse.b(), 0.001);
+    ASSERT_NEAR(points[1].x, 0, 0.001);
+    ASSERT_NEAR(points[1].y, ellipse.b(), 0.001);
 }
 
 /*

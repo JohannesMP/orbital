@@ -127,7 +127,7 @@ public:
      * @param d
      * @return
      */
-    std::vector<vec>
+    std::pair<unsigned, std::array<vec, 2>>
     intersect(
             const vec &p,
             const vec &d

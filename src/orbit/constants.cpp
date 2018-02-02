@@ -16,8 +16,6 @@ quadratic(
 {
     Decimal d = sq(b) - 4 * a * c;
 
-    fmt::print("x = ({} ± √({}² - 4 ⋅ {} ⋅ {})) / (2 ⋅ {})\n", -b, b, a, c, a);
-
     if(0 > d)
     {
         // No solutions:
