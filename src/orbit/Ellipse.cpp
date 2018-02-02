@@ -3,7 +3,6 @@
 //
 
 #include "Ellipse.h"
-#include <fmt/printf.h>
 #include <iterator>
 #include "LinearFunction.h"
 
@@ -153,7 +152,6 @@ Ellipse::clip(
 
     std::clog << std::endl;
 
-
     if (!contains(topRight))
     {
         // Top right quarter:
@@ -209,7 +207,9 @@ Ellipse::intersect(
 {
     std::array<vec, 2> points;
 
-    if(d.x != 0)
+    Rectangle lineBounds{p, d};
+
+    if (d.x != 0)
     {
         LinearFunction f{p, d};
 
@@ -218,13 +218,47 @@ Ellipse::intersect(
         std::tie(intersectionCount, solutions) = quadratic(mB + mA * sq(f.m()), 2 * mA * f.m() * f.t(),
                 mA * (sq(f.t()) - mB));
 
-        std::transform(solutions.begin(), solutions.begin() + intersectionCount, points.begin(), [&f](Decimal s) {
-            return vec{s, f(s)};
-        });
+        unsigned pI = 0;
+        for (unsigned i = 0; i < intersectionCount; i++)
+        {
+            vec v{solutions[i], f(solutions[i])};
+            if(lineBounds.contains(v))
+            {
+                points[pI++] = v;
+            }
+        }
 
-        return {intersectionCount, points};
+        return {pI, points};
     }
 
-    else {
+    else
+    {
+        if (p.x < -mA || p.x > mA)
+        {
+            // No solution:
+            return {0, {}};
+        }
+
+        if (p.x == -mA || p.x == mA)
+        {
+            // One solution, left most or right most point:
+            return {1, {vec{p.x, 0}}};
+        }
+
+        // Compute the point on the upper ellipse half using t-parameter:
+        vec intersectionPosY = point(tAtX(p.x));
+        vec intersectionNegY = point(2_pi - tAtX(p.x));
+
+        // Check if intersections are covered by given line and return them:
+        unsigned pI = 0;
+        if(p.y <= intersectionNegY.y && (p.y + d.y) >= intersectionNegY.y)
+        {
+            points[pI++] = intersectionNegY;
+        }
+        if(p.y <= intersectionPosY.y && (p.y + d.y) >= intersectionPosY.y)
+        {
+            points[pI++] = intersectionPosY;
+        }
+        return {pI, points};
     }
 }

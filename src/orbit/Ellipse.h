@@ -122,10 +122,11 @@ public:
     ) const;
 
     /**
+     * Compute intersection points for a given line.
      *
-     * @param p
-     * @param d
-     * @return
+     * @param p Start point of line.
+     * @param d Direction vector of line.
+     * @return Number of intersections followed by the actual intersection points.
      */
     std::pair<unsigned, std::array<vec, 2>>
     intersect(

@@ -91,6 +91,11 @@ public:
     vec
     center() const;
 
+    bool
+    contains(
+            vec v
+    ) const;
+
     friend std::ostream &
     operator<<(
             std::ostream &os,

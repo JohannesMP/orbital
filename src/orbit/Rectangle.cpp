@@ -153,3 +153,9 @@ Rectangle::extent() const
             top() - bottom()
     };
 }
+
+bool
+Rectangle::contains(vec v) const
+{
+    return v.x >= left() && v.x <= right() && v.y <= top() && v.y >= bottom();
+}
