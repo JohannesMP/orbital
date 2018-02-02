@@ -290,11 +290,7 @@ TEST(Ellipse, BoundingRect)
 
 TEST(Ellipse, Intersection)
 {
-    fmt::print("\n\n");
-
     Ellipse ellipse{9, std::sqrt(1.0 - sq(4.0 / 9))};
-
-    //fmt::print("a={}   b={}\n", ellipse.a(), ellipse.b());
 
     auto points = ellipse.intersect({0, -2}, {2, 1});
 
@@ -303,6 +299,10 @@ TEST(Ellipse, Intersection)
     ASSERT_NEAR(points[0].y, -2, 0.001);
     ASSERT_NEAR(points[1].x, 9.0 / 5, 0.001);
     ASSERT_NEAR(points[1].y, 8.0 / 5, 0.001);
+}
+
+TEST(Ellipse, IntersectionPerpendicularXAxis)
+{
 }
 
 /*

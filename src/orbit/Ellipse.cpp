@@ -3,7 +3,6 @@
 //
 
 #include "Ellipse.h"
-#include <iostream>
 #include <fmt/printf.h>
 #include <iterator>
 #include "LinearFunction.h"
@@ -158,28 +157,28 @@ Ellipse::clip(
     if (!contains(topRight))
     {
         // Top right quarter:
-        std::clog << "top-right: " << topRight << std::endl;
+        fmt::print("top-right: {}\n", topRight);
         result.emplace_back(tAtX(topRight.x), tAtY(topRight.y));
     }
 
     if (!contains(topLeft))
     {
         // Top left quarter:
-        std::clog << "top-left:  " << topLeft << std::endl;
+        fmt::print("top-left:  {}\n", topLeft);
         result.emplace_back(1_pi - tAtY(topLeft.y), tAtX(topLeft.x));
     }
 
     if (!contains(bottomLeft))
     {
         // Bottom left quarter, ensure that t stays positive be inverting its direction:
-        std::clog << "bot-right: " << bottomRight << std::endl;
+        fmt::print("bot-right: {}\n", bottomRight);
         result.emplace_back(2_pi - std::abs(tAtX(bottomLeft.x)), 2_pi - std::abs(tAtY(bottomLeft.y)));
     }
 
     if (!contains(bottomRight))
     {
         // Bottom left quarter, ensure that t stays positive be inverting its direction:
-        std::clog << "bot-left:  " << bottomLeft << std::endl;
+        fmt::print("bot-left:  {}\n", bottomLeft);
         result.emplace_back(2_pi - std::abs(tAtY(bottomRight.y)), 2_pi - std::abs(tAtX(bottomRight.x)));
     }
 
@@ -212,51 +211,13 @@ Ellipse::intersect(
 
     LinearFunction f{p, d};
 
-    Decimal A = mB + mA * sq(f.m());
-    Decimal B = 2 * mA * f.m() * f.t();
-    Decimal C = mA * (sq(f.t()) - mB);
+    unsigned intersectionCount;
+    std::array<Decimal, 2> solutions;
+    std::tie(intersectionCount, solutions) = quadratic(mB + mA * sq(f.m()), 2 * mA * f.m() * f.t(), mA * (sq(f.t()) - mB));
 
-    fmt::print("a={}   b={}\n", mA, mB);
-    fmt::print("m={}   t={}\n", f.m(), f.t());
-    fmt::print("{}x² + {}x + {} = 0\n", A, B, C);
-
-    Decimal D = sq(B) - 4 * A * C;
-
-    fmt::print("D={}   -> {} solutions/intersections\n", D, (D < 0 ? "no" : D > 0 ? "two" : "one"));
-
-    fmt::print("x = ({} ± √({}² - 4 ⋅ {} ⋅ {})) / (2 ⋅ {})\n", -B, B, A, C, A);
-
-    auto solve = [&f](Decimal x)
-    {
-        return vec{
-                x,
-                f(x)
-        };
-    };
-
-    if(D < 0)
-    {
-        // line does not intersect ellipse:
-        return {};
-    }
-    if(D == 0)
-    {
-        // line touches ellipse:
-        return {solve(-B / (2 * A))};
-    }
-    else
-    {
-        // line intersects ellipse:
-
-        Decimal x0 = (-B + std::sqrt(D)) / (2 * A);
-        Decimal x1 = (-B - std::sqrt(D)) / (2 * A);
-
-        fmt::print("x₀={}   => y₀={}\n", x0, f(x0));
-        fmt::print("x₁={}   => y₁={}\n", x1, f(x1));
-
-        return {
-                solve(std::min(x0, x1)),
-                solve(std::max(x0, x1))
-        };
-    }
+    std::vector<vec> points{intersectionCount};
+    std::transform(solutions.begin(), solutions.begin() + intersectionCount, points.begin(), [&f](Decimal s) {
+        return vec{s, f(s)};
+    });
+    return points;
 }

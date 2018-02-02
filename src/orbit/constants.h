@@ -8,7 +8,10 @@
 #include <glm/detail/type_vec.hpp>
 #include <complex>
 #include <functional>
+#include <iostream>
+#include <ostream>
 #include <sstream>
+#include "fmt/printf.h"
 
 /**
  * \file constants.h Provides general constants and math functions.
@@ -218,6 +221,23 @@ integral(
 );
 
 /**
+ * Computes the quadratic formula: \f$ 0 = ax^2 + bx + c \f$
+ *
+ * Midnight formula: \f$ x_{1,2} = \frac{ -b \pm \sqrt{b^2 - 4ac} }{2a} \f$
+ *
+ * @param a A
+ * @param b B
+ * @param c C
+ * @return Count of solutions and an array of solutions in ascending order.
+ */
+std::pair<unsigned, std::array<Decimal, 2>>
+quadratic(
+        Decimal a,
+        Decimal b,
+        Decimal c
+);
+
+/**
  * Serialize a complex number: [real]+[imag]i
  */
 std::ostream &
@@ -243,14 +263,3 @@ operator<<(
         std::ostream &os,
         const mat &m
 );
-
-template<class T>
-std::string
-toString(
-        const T &t
-)
-{
-    std::stringstream ss;
-    ss << t;
-    return ss.str();
-}

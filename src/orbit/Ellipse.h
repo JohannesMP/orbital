@@ -121,6 +121,12 @@ public:
             const Rectangle &rect
     ) const;
 
+    /**
+     *
+     * @param p
+     * @param d
+     * @return
+     */
     std::vector<vec>
     intersect(
             const vec &p,
