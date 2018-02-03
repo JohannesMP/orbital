@@ -2,9 +2,8 @@
 // Created by jim on 27.01.18.
 //
 
-#include <orbit/Ellipse.h>
-#include "fmt/printf.h"
-#include "common.h"
+#include <gtest/gtest.h>
+#include <orbital/Ellipse.h>
 
 TEST(Ellipse, ProperConstruction)
 {

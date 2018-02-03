@@ -2,8 +2,8 @@
 // Created by jim on 27.01.18.
 //
 
-#include "common.h"
-#include <orbit/Rectangle.h>
+#include <gtest/gtest.h>
+#include <orbital/Rectangle.h>
 
 TEST(Rectangle, ProperConstructionWithPositiveExtent)
 {

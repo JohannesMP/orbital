@@ -4,7 +4,7 @@
 
 
 #include <gtest/gtest.h>
-#include <orbit/constants.h>
+#include <orbital/constants.h>
 
 TEST(Constants, Validity)
 {
