@@ -293,7 +293,7 @@ TEST(Ellipse, Intersection)
 
     unsigned count;
     std::array<vec, 2> points;
-    std::tie(count, points) = ellipse.intersect({0, -2}, 4.0 * vec{2, 1});
+    std::tie(count, points) = ellipse.intersectPoints({0, -2}, 4.0 * vec{2, 1});
 
     ASSERT_EQ(count, 2);
     ASSERT_NEAR(points[0].x, 0, 0.001);
@@ -308,11 +308,22 @@ TEST(Ellipse, IntersectionPartial)
 
     unsigned count;
     std::array<vec, 2> points;
-    std::tie(count, points) = ellipse.intersect({0, -2}, vec{2, 1});
+    std::tie(count, points) = ellipse.intersectPoints({0, -2}, vec{2, 1});
 
     ASSERT_EQ(count, 1); // line is too short to stretch over the complete ellipse
     ASSERT_NEAR(points[0].x, 0, 0.001);
     ASSERT_NEAR(points[0].y, -2, 0.001);
+}
+
+TEST(Ellipse, IntersectionPartial2)
+{
+    Ellipse ellipse{2, 0.5};
+
+    unsigned count;
+    std::array<vec, 2> points;
+    std::tie(count, points) = ellipse.intersectPoints({1, 1}, {3, 0});
+
+    ASSERT_EQ(count, 1);
 }
 
 TEST(Ellipse, IntersectionPerpendicularXAxis)
@@ -321,7 +332,7 @@ TEST(Ellipse, IntersectionPerpendicularXAxis)
 
     unsigned count;
     std::array<vec, 2> points;
-    std::tie(count, points) = ellipse.intersect({0, -2}, {0, 4});
+    std::tie(count, points) = ellipse.intersectPoints({0, -2}, {0, 4});
 
     ASSERT_EQ(count, 2);
     ASSERT_NEAR(points[0].x, 0, 0.001);
@@ -336,19 +347,19 @@ TEST(Ellipse, IntersectionPerpendicularXAxisPartial)
 
     unsigned count;
     std::array<vec, 2> points;
-    std::tie(count, points) = ellipse.intersect({0, -2}, {0, 1});
+    std::tie(count, points) = ellipse.intersectPoints({0, -2}, {0, 1});
 
     ASSERT_EQ(count, 1);
     ASSERT_NEAR(points[0].x, 0, 0.001);
     ASSERT_NEAR(points[0].y, -ellipse.b(), 0.001);
 }
 
-/*
+
 TEST(Ellipse, RectangularClipNoOverlap)
 {
     Ellipse ellipse{2, 0.5};
     Rectangle rect{{3, 1}, 4, 5};
-    ASSERT_EQ(ellipse.clip(rect).size(), 0);
+    ASSERT_EQ(ellipse.clip(rect, {}).size(), 0);
 }
 
 TEST(Ellipse, RectangularClipFullOverlap)
@@ -356,42 +367,30 @@ TEST(Ellipse, RectangularClipFullOverlap)
     Ellipse ellipse{2, 0.5};
     Rectangle rect{{-2, -2}, {4, 4}};
     
-    auto ts = ellipse.clip(rect);
+    auto ts = ellipse.clip(rect, {});
     
-    ASSERT_EQ(ts.size(), 4);
+    ASSERT_EQ(ts.size(), 1);
 
     ASSERT_DOUBLE_EQ(ts[0].first, 0_pi);
-    ASSERT_DOUBLE_EQ(ts[0].second, 0.5_pi);
-
-    ASSERT_DOUBLE_EQ(ts[1].first, 0.5_pi);
-    ASSERT_DOUBLE_EQ(ts[1].second, 1_pi);
-
-    ASSERT_DOUBLE_EQ(ts[2].first, 1_pi);
-    ASSERT_DOUBLE_EQ(ts[2].second, 1.5_pi);
-
-    ASSERT_DOUBLE_EQ(ts[3].first, 1.5_pi);
-    ASSERT_DOUBLE_EQ(ts[3].second, 2_pi);
+    ASSERT_DOUBLE_EQ(ts[0].second, 2_pi);
 }
 
 TEST(Ellipse, RectangularClipPartialOverlapNoFirstQuadrant)
 {
     Ellipse ellipse{2, 0.5};
-    Rectangle rect{{1, 1}, {-4, -4}};
+    Rectangle rect{{1, 1}, {4, 4}};
 
-    auto ts = ellipse.clip(rect);
+    std::cout << std::endl << std::endl;
+    auto ts = ellipse.clip(rect, {});
+    std::cout << std::endl << std::endl;
 
-    ASSERT_EQ(ts.size(), 3);
+    ASSERT_EQ(ts.size(), 1);
 
     ASSERT_DOUBLE_EQ(ts[0].first, 1_pi - ellipse.tAtY(1));
-    ASSERT_DOUBLE_EQ(ts[0].second, 1_pi);
-
-    ASSERT_DOUBLE_EQ(ts[1].first, 1_pi);
-    ASSERT_DOUBLE_EQ(ts[1].second, 1.5_pi);
-
-    ASSERT_DOUBLE_EQ(ts[2].first, 1.5_pi);
-    ASSERT_DOUBLE_EQ(ts[2].second, 2_pi - std::abs(ellipse.tAtX(1)));
+    ASSERT_DOUBLE_EQ(ts[0].second, 2_pi - std::abs(ellipse.tAtX(1)));
 }
 
+/*
 TEST(Ellipse, RectangularClipPartialOverlapNoSecondQuadrant)
 {
     Ellipse ellipse{2, 0.5};

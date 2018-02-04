@@ -4,6 +4,7 @@
 
 #include "Ellipse.h"
 #include <iterator>
+#include <numeric>
 #include "LinearFunction.h"
 
 Ellipse::Ellipse(
@@ -125,62 +126,107 @@ Ellipse::contains(
 
 std::vector<std::pair<Decimal, Decimal>>
 Ellipse::clip(
-        const Rectangle &rect
+        const Rectangle &rect,
+        const Transform &transform
 ) const
 {
     std::vector<std::pair<Decimal, Decimal>> result;
     result.reserve(4); // At most 4 lines are added to the list, since the ellipse is divided into 4 quarters
 
-    // Calculate the 4 quarter rectangles, which are always clipped to the ellipse bounds,
-    // to avoid invalid x-y values passed to t queries:
+    std::vector<Decimal> intersectionPoints;
 
-    vec topRight;
-    topRight.x = std::min(mA, rect.right());
-    topRight.y = std::min(mB, rect.top());
+    // TODO: outsource into own function:
+    auto pointToT = [&](vec p) {
+        Decimal t = tAtX(p.x);
+        if (p.y < 0)
+        {
+            // Flip t over:
+            t = 2_pi - t;
+        }
+        return t;
+    };
 
-    vec topLeft;
-    topLeft.x = std::max(-mA, rect.left());
-    topLeft.y = std::min(mB, rect.top());
+    auto appendIntersectionPoints = [&](std::pair<unsigned, std::array<vec, 2>> points) {
+        fmt::print("Try to append {} new intersection points\n", points.first);
+        for (unsigned i = 0; i < points.first; i++)
+        {
+            fmt::print("Append intersection point {} mapping to t={}\n", points.second[i], pointToT(points.second[i]));
+            intersectionPoints.emplace_back(pointToT(points.second[i]));
+        }
+    };
 
-    vec bottomRight;
-    bottomRight.x = std::min(mA, rect.right());
-    bottomRight.y = std::max(-mB, rect.bottom());
-
-    vec bottomLeft;
-    bottomLeft.x = std::max(-mA, rect.left());
-    bottomLeft.y = std::max(-mB, rect.bottom());
-
-    std::clog << std::endl;
-
-    if (!contains(topRight))
+    // Append intersections from line: bottom left - top left
     {
-        // Top right quarter:
-        fmt::print("top-right: {}\n", topRight);
-        result.emplace_back(tAtX(topRight.x), tAtY(topRight.y));
+        vec p = transform.apply(rect.bottomLeft());
+        vec d = transform.apply(rect.topLeft() - rect.bottomLeft());
+        fmt::print("Rect line: {} + λ{}\n", p, d);
+        appendIntersectionPoints(intersectPoints(transform.apply(rect.bottomLeft()),
+                transform.apply(rect.topLeft() - rect.bottomLeft())));
     }
 
-    if (!contains(topLeft))
+    // Append intersections from line: bottom left - bottom right
     {
-        // Top left quarter:
-        fmt::print("top-left:  {}\n", topLeft);
-        result.emplace_back(1_pi - tAtY(topLeft.y), tAtX(topLeft.x));
+        vec p = transform.apply(rect.bottomLeft());
+        vec d = transform.apply(rect.bottomRight() - rect.bottomLeft());
+        fmt::print("Rect line: {} + λ{}\n", p, d);
+        appendIntersectionPoints(intersectPoints(transform.apply(rect.bottomLeft()),
+                transform.apply(rect.bottomRight() - rect.bottomLeft())));
     }
 
-    if (!contains(bottomLeft))
+    // Append intersections from line: top right - top left
+    appendIntersectionPoints(
+            intersectPoints(transform.apply(rect.topRight()), transform.apply(rect.topLeft() - rect.topRight())));
+
+    // Append intersections from line: top right - bottom right
+    appendIntersectionPoints(
+            intersectPoints(transform.apply(rect.topRight()), transform.apply(rect.bottomRight() - rect.topRight())));
+
+    // Sort intersection t-parameters:
+    std::sort(intersectionPoints.begin(), intersectionPoints.end());
+
+    fmt::print("Intersection points ({}): ", intersectionPoints.size());
+    for (auto &i : intersectionPoints)
     {
-        // Bottom left quarter, ensure that t stays positive be inverting its direction:
-        fmt::print("bot-right: {}\n", bottomRight);
-        result.emplace_back(2_pi - std::abs(tAtX(bottomLeft.x)), 2_pi - std::abs(tAtY(bottomLeft.y)));
+        fmt::print("{}", i);
+    }
+    fmt::print("\n");
+
+    // No intersection points
+    // -> Check any point for containment
+    // -> false => Complete rect-angle lies outside, therefore the ellipse is visible and nothing is clipped away:
+    if (intersectionPoints.size() < 2)
+    {
+        if (!contains(transform.apply(rect.bottomLeft())))
+        {
+            fmt::print("Complete ellipse is visible - nothing is clipped\n");
+            result.emplace_back(0, 2_pi);
+        }
+        else
+        {
+            fmt::print("Complete ellipse is invisible - everything is clipped away\n");
+        }
+        return result;
     }
 
-    if (!contains(bottomRight))
+    // Check whether first section lies within the transformed rect:
+    Decimal t = std::abs(intersectionPoints[1] - intersectionPoints[0]) / 2.0;
+    vec p = point(t);
+    if (rect.containsTransformed(transform, p))
     {
-        // Bottom left quarter, ensure that t stays positive be inverting its direction:
-        fmt::print("bot-left:  {}\n", bottomLeft);
-        result.emplace_back(2_pi - std::abs(tAtY(bottomRight.y)), 2_pi - std::abs(tAtX(bottomRight.x)));
+        // Lies within:
+        for (unsigned i = 0; i < intersectionPoints.size(); i += 2)
+        {
+            result.emplace_back(intersectionPoints[i], intersectionPoints[i + 1]);
+        }
     }
-
-    return result;
+    else
+    {
+        for (unsigned i = 1; i < intersectionPoints.size(); i += 2)
+        {
+            result.emplace_back(intersectionPoints[i], intersectionPoints[i + 1]);
+        }
+        result.emplace_back(intersectionPoints.back(), 2_pi + intersectionPoints.front());
+    }
 }
 
 std::ostream &
@@ -200,14 +246,14 @@ Ellipse::boundingRect() const
 }
 
 std::pair<unsigned, std::array<vec, 2>>
-Ellipse::intersect(
+Ellipse::intersectPoints(
         const vec &p,
         const vec &d
-)
+) const
 {
     std::array<vec, 2> points;
 
-    Rectangle lineBounds{p, d};
+    Rectangle lineBounds{p, p + d};
 
     if (d.x != 0)
     {
@@ -222,7 +268,7 @@ Ellipse::intersect(
         for (unsigned i = 0; i < intersectionCount; i++)
         {
             vec v{solutions[i], f(solutions[i])};
-            if(lineBounds.contains(v))
+            if (lineBounds.contains(v))
             {
                 points[pI++] = v;
             }
@@ -251,11 +297,11 @@ Ellipse::intersect(
 
         // Check if intersections are covered by given line and return them:
         unsigned pI = 0;
-        if(p.y <= intersectionNegY.y && (p.y + d.y) >= intersectionNegY.y)
+        if (p.y <= intersectionNegY.y && (p.y + d.y) >= intersectionNegY.y)
         {
             points[pI++] = intersectionNegY;
         }
-        if(p.y <= intersectionPosY.y && (p.y + d.y) >= intersectionPosY.y)
+        if (p.y <= intersectionPosY.y && (p.y + d.y) >= intersectionPosY.y)
         {
             points[pI++] = intersectionPosY;
         }

@@ -6,6 +6,7 @@
 
 #include <ostream>
 #include "constants.h"
+#include "Transform.h"
 
 class Rectangle
 {
@@ -101,6 +102,18 @@ public:
             std::ostream &os,
             const Rectangle &rectangle
     );
+
+    /**
+     * Checks whether a given point lies within the area covered by this transformed rectangle.
+     * @param transform A transform to apply to this rectangle.
+     * @param p Point to check. Transform is **not** applied to this point.
+     * @return True if point lies within transformed rectangle.
+     */
+    bool
+    containsTransformed(
+            Transform transform,
+            vec p
+    ) const;
 
 private:
 

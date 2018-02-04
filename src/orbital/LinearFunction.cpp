@@ -17,7 +17,7 @@ LinearFunction::LinearFunction(
         const vec &p,
         const vec &d
 )
-    : mM{d.x / d.y}
+    : mM{d.y / d.x}
     , mT{p.y - mM * p.x}
 {
 }

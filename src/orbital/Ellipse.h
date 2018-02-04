@@ -7,6 +7,7 @@
 #include <ostream>
 #include "constants.h"
 #include "Rectangle.h"
+#include "Transform.h"
 
 #pragma once
 
@@ -74,8 +75,8 @@ public:
      * \f$
      * \vec{v} =
      *     \begin{pmatrix}
-     *         \pm \frac{ ab \cdot cos \theta }{ \sqrt{(b \cdot cos \theta)^2 + (a cos \theta)^2} } \\
-     *         \pm \frac{ ab \cdot sin \theta }{ \sqrt{(b \cdot cos \theta)^2 + (a cos \theta)^2} }
+     *         \pm \frac{ ab \cdot cos \theta }{ \sqrt{(b \cdot cos \theta)^2 + (a \cdot cos \theta)^2} } \\
+     *         \pm \frac{ ab \cdot sin \theta }{ \sqrt{(b \cdot cos \theta)^2 + (a \cdot cos \theta)^2} }
      *     \end{pmatrix}
      * \f$
      * @param theta Angle intersecting point
@@ -118,7 +119,8 @@ public:
      */
     std::vector<std::pair<Decimal, Decimal>>
     clip(
-            const Rectangle &rect
+            const Rectangle &rect,
+            const Transform &transform
     ) const;
 
     /**
@@ -129,10 +131,10 @@ public:
      * @return Number of intersections followed by the actual intersection points.
      */
     std::pair<unsigned, std::array<vec, 2>>
-    intersect(
+    intersectPoints(
             const vec &p,
             const vec &d
-    );
+    )const;
 
     /**
      * Calculate the length of an arc slice within `ts` and `te`.
@@ -167,7 +169,7 @@ public:
      * Calculate t parameter at a given x value.
      *
      * \f$
-     *     t = a \cdot cos( \frac{x}{a} ) \\
+     *     t = arccos( \frac{x}{a} ) \\
      *     x \in \left[ -a , a \right]
      * \f$
      *
@@ -185,7 +187,7 @@ public:
      * Calculate t parameter at a given y value.
      *
      * \f$
-     *     t = a \cdot sin( \frac{y}{a} ) \\
+     *     t = arcsin( \frac{y}{b} ) \\
      *     y \in \left[ -b , b \right]
      * \f$
      *

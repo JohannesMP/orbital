@@ -34,6 +34,11 @@ public:
     const mat &
     transformation() const;
 
+    vec
+    apply(
+            vec v
+    ) const;
+
 private:
 
     mat mTranslation;

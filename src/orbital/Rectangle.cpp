@@ -159,3 +159,21 @@ Rectangle::contains(vec v) const
 {
     return v.x >= left() && v.x <= right() && v.y <= top() && v.y >= bottom();
 }
+
+bool
+Rectangle::containsTransformed(
+        Transform transform,
+        vec p
+) const
+{
+    vec a = transform.apply(bottomLeft());
+    vec s = a - transform.apply(topLeft());
+    vec t = transform.apply(bottomRight()) - a;
+
+    Decimal theta = (p.x + s.x - a.x) / t.x;
+    Decimal mu = (p.y - a.y) / (t.y * theta - s.y);
+    Decimal lambda = (p.x + s.x * mu - a.x) / t.x;
+
+    // Both, mu and lambda must be [0;1], otherwise they refer to a point outside the rect:
+    return mu >= 0 && mu <= 1 && lambda >= 0 && lambda <= 1;
+}

@@ -172,3 +172,13 @@ TEST(Rectangle, ConjunctionNonOverlapping)
     ASSERT_DOUBLE_EQ(a.conjunction(left).top(), Rectangle::ZERO_RECTANGLE.top());
     ASSERT_DOUBLE_EQ(a.conjunction(left).right(), Rectangle::ZERO_RECTANGLE.right());
 }
+
+TEST(Rectangle, ContainsTransformed)
+{
+    Rectangle rect{{}, 1, 1};
+    Transform t;
+    t.scale(0.5);
+
+    ASSERT_FALSE(rect.containsTransformed(t, {1, 1}));
+    ASSERT_TRUE(rect.containsTransformed(t, {0.5, 0.5}));
+}

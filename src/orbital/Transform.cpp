@@ -49,3 +49,9 @@ Transform::rotate(Decimal radians)
     mRotation = glm::rotate(mRotation, radians);
     update();
 }
+
+vec
+Transform::apply(vec v) const
+{
+    return mTransform * vec3{v, 1.0};
+}

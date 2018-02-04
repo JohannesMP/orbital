@@ -10,12 +10,17 @@
 int
 main()
 {
+    Ellipse ellipse{2, 0.5};
+    Graphics graphics{35};
+
+    graphics.translate({-2, 0});
+    graphics.scale(2000);
+    graphics.ellipse(ellipse);
+
+    graphics.border();
+    graphics.present();
 
     /*
-    Ellipse ellipse{2, 0.5};
-    ellipse.clip({{-2, 1}, 5, 1});
-    */
-
     Graphics graphics{35, 121};
     System system{"planets.yml", "solar-system", S_PER_HOUR};
 
@@ -54,6 +59,7 @@ main()
 
         std::this_thread::sleep_for(std::chrono::milliseconds{50});
     }
+     */
 }
 
 #pragma clang diagnostic pop
