@@ -289,41 +289,44 @@ TEST(Ellipse, BoundingRect)
 
 TEST(Ellipse, Intersection)
 {
-    Ellipse ellipse{9, std::sqrt(1.0 - sq(4.0 / 9))};
+    Ellipse ellipse = Ellipse::fromAB(2, 1);
+    Line line = Line::fromDirection({2, 1}, {2, 1});
 
     unsigned count;
     std::array<vec, 2> points;
-    std::tie(count, points) = ellipse.intersectPoints({0, -2}, 4.0 * vec{2, 1});
+    std::tie(count, points) = ellipse.intersectPoints(line, false);
 
     ASSERT_EQ(count, 2);
-    ASSERT_NEAR(points[0].x, 0, 0.001);
-    ASSERT_NEAR(points[0].y, -2, 0.001);
-    ASSERT_NEAR(points[1].x, 9.0 / 5, 0.001);
-    ASSERT_NEAR(points[1].y, 8.0 / 5, 0.001);
+    ASSERT_DOUBLE_EQ(points[0].x, -sqrt(2));
+    ASSERT_DOUBLE_EQ(points[0].y, -sqrt(2) / 2);
+    ASSERT_DOUBLE_EQ(points[1].x, sqrt(2));
+    ASSERT_DOUBLE_EQ(points[1].y, sqrt(2) / 2);
+}
+
+TEST(Ellipse, IntersectionNone)
+{
+    Ellipse ellipse = Ellipse::fromAB(2, 1);
+    Line line = Line::fromDirection({2, 1}, {2, 1});
+
+    unsigned count;
+    std::array<vec, 2> points;
+    std::tie(count, points) = ellipse.intersectPoints(line, true);
+
+    ASSERT_EQ(count, 0);
 }
 
 TEST(Ellipse, IntersectionPartial)
 {
-    Ellipse ellipse{9, std::sqrt(1.0 - sq(4.0 / 9))};
+    Ellipse ellipse = Ellipse::fromAB(2, 1);
+    Line line = Line::fromDirection(0.1 * vec{2, 1}, {2, 1});
 
     unsigned count;
     std::array<vec, 2> points;
-    std::tie(count, points) = ellipse.intersectPoints({0, -2}, vec{2, 1});
-
-    ASSERT_EQ(count, 1); // line is too short to stretch over the complete ellipse
-    ASSERT_NEAR(points[0].x, 0, 0.001);
-    ASSERT_NEAR(points[0].y, -2, 0.001);
-}
-
-TEST(Ellipse, IntersectionPartial2)
-{
-    Ellipse ellipse{2, 0.5};
-
-    unsigned count;
-    std::array<vec, 2> points;
-    std::tie(count, points) = ellipse.intersectPoints({1, 1}, {3, 0});
+    std::tie(count, points) = ellipse.intersectPoints(line, true);
 
     ASSERT_EQ(count, 1);
+    ASSERT_DOUBLE_EQ(points[0].x, sqrt(2));
+    ASSERT_DOUBLE_EQ(points[0].y, sqrt(2) / 2);
 }
 
 TEST(Ellipse, IntersectionPerpendicularXAxis)
@@ -332,7 +335,7 @@ TEST(Ellipse, IntersectionPerpendicularXAxis)
 
     unsigned count;
     std::array<vec, 2> points;
-    std::tie(count, points) = ellipse.intersectPoints({0, -2}, {0, 4});
+    std::tie(count, points) = ellipse.intersectPoints({{0, -2}, {0, 4}}, true);
 
     ASSERT_EQ(count, 2);
     ASSERT_NEAR(points[0].x, 0, 0.001);
@@ -344,15 +347,18 @@ TEST(Ellipse, IntersectionPerpendicularXAxis)
 TEST(Ellipse, IntersectionPerpendicularXAxisPartial)
 {
     Ellipse ellipse{2, 0.5};
+    Line line = Line::fromDirection({0, -2}, {0, 1});
 
     unsigned count;
     std::array<vec, 2> points;
-    std::tie(count, points) = ellipse.intersectPoints({0, -2}, {0, 1});
+    std::tie(count, points) = ellipse.intersectPoints(line, true);
 
     ASSERT_EQ(count, 1);
     ASSERT_NEAR(points[0].x, 0, 0.001);
     ASSERT_NEAR(points[0].y, -ellipse.b(), 0.001);
 }
+
+/*
 
 
 TEST(Ellipse, RectangularClipNoOverlap)
@@ -389,8 +395,6 @@ TEST(Ellipse, RectangularClipPartialOverlapNoFirstQuadrant)
     ASSERT_DOUBLE_EQ(ts[0].first, 1_pi - ellipse.tAtY(1));
     ASSERT_DOUBLE_EQ(ts[0].second, 2_pi - std::abs(ellipse.tAtX(1)));
 }
-
-/*
 TEST(Ellipse, RectangularClipPartialOverlapNoSecondQuadrant)
 {
     Ellipse ellipse{2, 0.5};

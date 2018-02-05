@@ -8,6 +8,7 @@
 #include "constants.h"
 #include "Rectangle.h"
 #include "Transform.h"
+#include "Line.h"
 
 #pragma once
 
@@ -29,6 +30,18 @@ public:
     Ellipse(
             Decimal a,
             Decimal e
+    );
+
+    /**
+     * Construct an ellipse based on both semi-axis, instead of major semi-axis and eccentricity.
+     * @param a Major semi-axis.
+     * @param b Minor semi-axis.
+     * @return Constructed ellipse with automatically computed eccentricity.
+     */
+    static Ellipse
+    fromAB(
+            Decimal a,
+            Decimal b
     );
 
     /**
@@ -132,8 +145,8 @@ public:
      */
     std::pair<unsigned, std::array<vec, 2>>
     intersectPoints(
-            const vec &p,
-            const vec &d
+            Line line,
+            bool clipToLine
     )const;
 
     /**
