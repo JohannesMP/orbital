@@ -145,12 +145,12 @@ Ellipse::clip(
         return t;
     };
 
-    auto appendIntersectionPoints = [&](std::pair<unsigned, std::array<vec, 2>> points) {
-        fmt::print("Try to append {} new intersection points\n", points.first);
-        for (unsigned i = 0; i < points.first; i++)
+    auto appendIntersectionPoints = [&](DynamicArray<vec, 2> points) {
+        fmt::print("Try to append {} new intersection points\n", points.size());
+        for (const auto &point : points)
         {
-            fmt::print("Append intersection point {} mapping to t={}\n", points.second[i], pointToT(points.second[i]));
-            intersectionPoints.emplace_back(pointToT(points.second[i]));
+            fmt::print("Append intersection point {} mapping to t={}\n", point, pointToT(point));
+            intersectionPoints.emplace_back(pointToT(point));
         }
     };
 
@@ -244,13 +244,13 @@ Ellipse::boundingRect() const
     return {{-mA, -mB}, {mA, mB}};
 }
 
-std::pair<unsigned, std::array<vec, 2>>
+DynamicArray<vec, 2>
 Ellipse::intersectPoints(
         Line line,
         bool clipToLine
 ) const
 {
-    std::array<vec, 2> points;
+    DynamicArray<vec, 2> points;
 
     Decimal d0 = line.d().x;
     Decimal d1 = line.d().y;
@@ -264,24 +264,21 @@ Ellipse::intersectPoints(
     Decimal B = 2 * (b2 * p0 * d0 + a2 * p1 * d1);
     Decimal C = b2 * sq(p0) + a2 * sq(p1) - a2 * b2;
 
-    unsigned solutions;
-    std::array<Decimal, 2> lambdas;
-    std::tie(solutions, lambdas) = quadratic(A, B, C);
+    auto solutions = quadratic(A, B, C);
 
-    unsigned pI = 0;
-    for (unsigned i = 0; i < solutions; i++)
+    for(const auto solution : solutions)
     {
-        vec intersection = line.point(lambdas[i]);
+        vec intersection = line.point(solution);
         if (clipToLine && !line.containsByBounds(intersection))
         {
             // Point does not lie within line's direction vector (0 ≦ λ ≦ 1)
             // and caller requested to clip those points away:
             continue;
         }
-        points[pI++] = intersection;
+        points.push_back(intersection);
     }
 
-    return {pI, points};
+    return points;
 }
 
 Ellipse

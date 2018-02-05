@@ -3,11 +3,10 @@
 //
 
 #include "constants.h"
-#include <glm/gtc/type_ptr.hpp>
 
 const mat IDENTITY_MATRIX{1};
 
-std::pair<unsigned, std::array<Decimal, 2>>
+DynamicArray<Decimal, 2>
 quadratic(
         Decimal a,
         Decimal b,
@@ -19,23 +18,21 @@ quadratic(
     if(0 > d)
     {
         // No solutions:
-        return {0, {}};
+        return {};
     }
     else if(0 == d)
     {
         // One solution, discriminant does not play any role as it's 0 anyway:
-        return {1, {
-                -b / (2 * a)
-        }};
+        return {-b / (2 * a)};
     }
     else {
         // Two solutions:
         Decimal x1 = (-b + std::sqrt(d)) / (2 * a);
         Decimal x2 = (-b - std::sqrt(d)) / (2 * a);
-        return {2, {
+        return {
                 std::min(x1, x2),
                 std::max(x1, x2)
-        }};
+        };
     }
 };
 

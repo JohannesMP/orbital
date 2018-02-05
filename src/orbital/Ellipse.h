@@ -143,7 +143,7 @@ public:
      * @param d Direction vector of line.
      * @return Number of intersections followed by the actual intersection points.
      */
-    std::pair<unsigned, std::array<vec, 2>>
+    DynamicArray<vec, 2>
     intersectPoints(
             Line line,
             bool clipToLine

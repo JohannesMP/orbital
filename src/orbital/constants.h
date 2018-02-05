@@ -4,14 +4,18 @@
 
 #pragma once
 
-#include <glm/glm.hpp>
-#include <glm/detail/type_vec.hpp>
 #include <complex>
 #include <functional>
 #include <iostream>
 #include <ostream>
 #include <sstream>
+
+#include <glm/glm.hpp>
+#include <glm/detail/type_vec.hpp>
+
 #include "fmt/printf.h"
+
+#include "DynamicArray.h"
 
 /**
  * \file constants.h Provides general constants and math functions.
@@ -230,7 +234,7 @@ integral(
  * @param c C
  * @return Count of solutions and an array of solutions in ascending order.
  */
-std::pair<unsigned, std::array<Decimal, 2>>
+DynamicArray<Decimal, 2>
 quadratic(
         Decimal a,
         Decimal b,

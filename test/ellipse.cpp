@@ -292,15 +292,13 @@ TEST(Ellipse, Intersection)
     Ellipse ellipse = Ellipse::fromAB(2, 1);
     Line line = Line::fromDirection({2, 1}, {2, 1});
 
-    unsigned count;
-    std::array<vec, 2> points;
-    std::tie(count, points) = ellipse.intersectPoints(line, false);
+    auto intersections = ellipse.intersectPoints(line, false);
 
-    ASSERT_EQ(count, 2);
-    ASSERT_DOUBLE_EQ(points[0].x, -sqrt(2));
-    ASSERT_DOUBLE_EQ(points[0].y, -sqrt(2) / 2);
-    ASSERT_DOUBLE_EQ(points[1].x, sqrt(2));
-    ASSERT_DOUBLE_EQ(points[1].y, sqrt(2) / 2);
+    ASSERT_EQ(intersections.size(), 2);
+    ASSERT_DOUBLE_EQ(intersections[0].x, -sqrt(2));
+    ASSERT_DOUBLE_EQ(intersections[0].y, -sqrt(2) / 2);
+    ASSERT_DOUBLE_EQ(intersections[1].x, sqrt(2));
+    ASSERT_DOUBLE_EQ(intersections[1].y, sqrt(2) / 2);
 }
 
 TEST(Ellipse, IntersectionNone)
@@ -308,11 +306,9 @@ TEST(Ellipse, IntersectionNone)
     Ellipse ellipse = Ellipse::fromAB(2, 1);
     Line line = Line::fromDirection({2, 1}, {2, 1});
 
-    unsigned count;
-    std::array<vec, 2> points;
-    std::tie(count, points) = ellipse.intersectPoints(line, true);
+    auto intersections = ellipse.intersectPoints(line, true);
 
-    ASSERT_EQ(count, 0);
+    ASSERT_EQ(intersections.size(), 0);
 }
 
 TEST(Ellipse, IntersectionPartial)
@@ -320,28 +316,24 @@ TEST(Ellipse, IntersectionPartial)
     Ellipse ellipse = Ellipse::fromAB(2, 1);
     Line line = Line::fromDirection(0.1 * vec{2, 1}, {2, 1});
 
-    unsigned count;
-    std::array<vec, 2> points;
-    std::tie(count, points) = ellipse.intersectPoints(line, true);
+    auto intersections = ellipse.intersectPoints(line, true);
 
-    ASSERT_EQ(count, 1);
-    ASSERT_DOUBLE_EQ(points[0].x, sqrt(2));
-    ASSERT_DOUBLE_EQ(points[0].y, sqrt(2) / 2);
+    ASSERT_EQ(intersections.size(), 1);
+    ASSERT_DOUBLE_EQ(intersections[0].x, sqrt(2));
+    ASSERT_DOUBLE_EQ(intersections[0].y, sqrt(2) / 2);
 }
 
 TEST(Ellipse, IntersectionPerpendicularXAxis)
 {
     Ellipse ellipse{2, 0.5};
 
-    unsigned count;
-    std::array<vec, 2> points;
-    std::tie(count, points) = ellipse.intersectPoints({{0, -2}, {0, 4}}, true);
+    auto intersections = ellipse.intersectPoints({{0, -2}, {0, 4}}, true);
 
-    ASSERT_EQ(count, 2);
-    ASSERT_NEAR(points[0].x, 0, 0.001);
-    ASSERT_NEAR(points[0].y, -ellipse.b(), 0.001);
-    ASSERT_NEAR(points[1].x, 0, 0.001);
-    ASSERT_NEAR(points[1].y, ellipse.b(), 0.001);
+    ASSERT_EQ(intersections.size(), 2);
+    ASSERT_NEAR(intersections[0].x, 0, 0.001);
+    ASSERT_NEAR(intersections[0].y, -ellipse.b(), 0.001);
+    ASSERT_NEAR(intersections[1].x, 0, 0.001);
+    ASSERT_NEAR(intersections[1].y, ellipse.b(), 0.001);
 }
 
 TEST(Ellipse, IntersectionPerpendicularXAxisPartial)
@@ -349,13 +341,11 @@ TEST(Ellipse, IntersectionPerpendicularXAxisPartial)
     Ellipse ellipse{2, 0.5};
     Line line = Line::fromDirection({0, -2}, {0, 1});
 
-    unsigned count;
-    std::array<vec, 2> points;
-    std::tie(count, points) = ellipse.intersectPoints(line, true);
+    auto intersections = ellipse.intersectPoints(line, true);
 
-    ASSERT_EQ(count, 1);
-    ASSERT_NEAR(points[0].x, 0, 0.001);
-    ASSERT_NEAR(points[0].y, -ellipse.b(), 0.001);
+    ASSERT_EQ(intersections.size(), 1);
+    ASSERT_NEAR(intersections[0].x, 0, 0.001);
+    ASSERT_NEAR(intersections[0].y, -ellipse.b(), 0.001);
 }
 
 /*

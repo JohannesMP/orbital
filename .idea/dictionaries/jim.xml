@@ -4,11 +4,16 @@
       <w>arccos</w>
       <w>arcsin</w>
       <w>arctan</w>
+      <w>cbegin</w>
+      <w>cend</w>
       <w>copysign</w>
       <w>cout</w>
+      <w>crbegin</w>
+      <w>crend</w>
       <w>endl</w>
       <w>foci</w>
       <w>pmatrix</w>
+      <w>rbegin</w>
       <w>scanline</w>
       <w>scanlines</w>
     </words>
