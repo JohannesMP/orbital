@@ -5,11 +5,11 @@
 #include "Body.h"
 
 Body::Body(
-        std::string_view name,
-        Decimal mass,
-        Decimal radius,
-        Decimal a,
-        Decimal e
+        std::string_view const name,
+        Decimal const mass,
+        Decimal const radius,
+        Decimal const a,
+        Decimal const e
 )
         : mName{std::move(name)}
         , mMass{mass}
@@ -38,12 +38,6 @@ Decimal
 Body::getMass() const
 {
     return mMass;
-}
-
-Decimal
-Body::getRadius() const
-{
-    return mRadius;
 }
 
 void

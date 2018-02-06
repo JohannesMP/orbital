@@ -107,17 +107,6 @@ public:
     }
 
     /**
-     * Give reference to first element.
-     * @attention Do not call this if array is empty.
-     * @return First element.
-     */
-    constexpr const T &
-    front() const // NOLINT
-    {
-        return mArray.front();
-    }
-
-    /**
      * Give reference to last element.
      * @attention Do not call this if array is empty.
      * @return Last element.
@@ -129,15 +118,67 @@ public:
     }
 
     /**
+     * @return Begin iterator.
+     */
+    constexpr auto
+    begin()
+    {
+        return mArray.begin();
+    }
+
+    /**
+     * @return End iterator.
+     */
+    constexpr auto
+    end()
+    {
+        return mArray.begin() + mLength;
+    }
+
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "OCUnusedGlobalDeclarationInspection"
+
+    /**
+     * Give reference to first element.
+     * @attention Do not call this if array is empty.
+     * @return First element.
+     */
+    constexpr T const &
+    front() const
+    {
+        return mArray.front();
+    }
+
+    /**
      * Give reference to last element.
      * @attention Do not call this if array is empty.
      * @return Last element.
      */
-    constexpr const T &
-    back() const // NOLINT
+    constexpr T const &
+    back() const
     {
         return mArray[mLength - 1];
     }
+
+    /**
+     * @return Constant begin iterator.
+     */
+    constexpr auto const
+    begin() const
+    {
+        return mArray.begin();
+    }
+
+    /**
+     * @return Constant end iterator.
+     */
+    constexpr auto const
+    end() const
+    {
+        return mArray.begin() + mLength;
+    }
+
+#pragma clang diagnostic pop
 
     /**
      * Get size of array. The array's size changes when elements are added to it.
@@ -188,42 +229,6 @@ public:
     ) const
     {
         return mArray[index];
-    }
-
-    /**
-     * @return Begin iterator.
-     */
-    constexpr auto
-    begin()
-    {
-        return mArray.begin();
-    }
-
-    /**
-     * @return End iterator.
-     */
-    constexpr auto
-    end()
-    {
-        return mArray.begin() + mLength;
-    }
-
-    /**
-     * @return Constant begin iterator.
-     */
-    constexpr auto
-    begin() const // NOLINT
-    {
-        return mArray.begin();
-    }
-
-    /**
-     * @return Constant end iterator.
-     */
-    constexpr auto
-    end() const // NOLINT
-    {
-        return mArray.begin() + mLength;
     }
 
     /**

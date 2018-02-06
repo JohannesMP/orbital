@@ -25,9 +25,9 @@ public:
      * @param h Height, can be negative.
      */
     Rectangle(
-            const vec &p,
-            Decimal w,
-            Decimal h
+            vec const &p,
+            Decimal const w,
+            Decimal const h
     );
 
     /**
@@ -36,8 +36,8 @@ public:
      * @param q Second point.
      */
     Rectangle(
-            const vec &p,
-            const vec &q
+            vec const &p,
+            vec const &q
     );
 
     /**
@@ -47,7 +47,19 @@ public:
      */
     Rectangle
     conjunction(
-            const Rectangle &rhs
+            Rectangle const &rhs
+    ) const;
+
+    /**
+     * Checks whether a given point lies within the area covered by this transformed rectangle.
+     * @param transform A transform to apply to this rectangle.
+     * @param p Point to check. Transform is **not** applied to this point.
+     * @return True if point lies within transformed rectangle.
+     */
+    bool
+    containsTransformed(
+            Transform const transform,
+            vec const p
     ) const;
 
     vec
@@ -94,7 +106,7 @@ public:
 
     bool
     contains(
-            vec v
+            vec const v
     ) const;
 
     friend std::ostream &
@@ -102,18 +114,6 @@ public:
             std::ostream &os,
             const Rectangle &rectangle
     );
-
-    /**
-     * Checks whether a given point lies within the area covered by this transformed rectangle.
-     * @param transform A transform to apply to this rectangle.
-     * @param p Point to check. Transform is **not** applied to this point.
-     * @return True if point lies within transformed rectangle.
-     */
-    bool
-    containsTransformed(
-            Transform transform,
-            vec p
-    ) const;
 
 private:
 

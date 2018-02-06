@@ -5,17 +5,17 @@
 #include "Rectangle.h"
 
 Rectangle::Rectangle(
-        const vec &p,
-        Decimal w,
-        Decimal h
+        vec const &p,
+        Decimal const w,
+        Decimal const h
 )
         : Rectangle{p, {p.x + w, p.y + h}}
 {
 }
 
 Rectangle::Rectangle(
-        const vec &p,
-        const vec &q
+        vec const &p,
+        vec const &q
 )
         : mBottomLeft{std::min(p.x, q.x), std::min(p.y, q.y)}
         , mW{std::abs(q.x - p.x)}
@@ -146,15 +146,17 @@ Rectangle::extent() const
 }
 
 bool
-Rectangle::contains(vec v) const
+Rectangle::contains(
+        vec const v
+) const
 {
     return v.x >= left() && v.x <= right() && v.y <= top() && v.y >= bottom();
 }
 
 bool
 Rectangle::containsTransformed(
-        Transform transform,
-        vec p
+        Transform const transform,
+        vec const p
 ) const
 {
     vec const a = transform.apply(bottomLeft());

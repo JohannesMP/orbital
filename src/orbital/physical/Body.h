@@ -36,9 +36,6 @@ public:
     Decimal
     getMass() const;
 
-    Decimal
-    getRadius() const;
-
     const vec &
     getPosition() const;
 
