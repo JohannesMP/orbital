@@ -4,8 +4,7 @@
 #include "src/orbital/System.h"
 #include "src/orbital/Graphics.h"
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wmissing-noreturn"
+[[maybe_unused]] int bar() {}
 
 int
 main()
@@ -59,5 +58,3 @@ main()
         std::this_thread::sleep_for(std::chrono::milliseconds{50});
     }
 }
-
-#pragma clang diagnostic pop

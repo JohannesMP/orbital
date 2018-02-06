@@ -82,8 +82,8 @@ Ellipse::contains(
         const vec &p
 ) const
 {
-    return p.x == 0 && p.y == 0 || p.y == 0 && p.x <= mA && p.x >= -mA || p.x == 0 && p.y <= mB && p.y >= -mB ||
-    2 * mA >= distance(focalPoints()[0], p) + distance(focalPoints()[1], p);
+    return (p.x == 0 && p.y == 0) || (p.y == 0 && p.x <= mA && p.x >= -mA) || (p.x == 0 && p.y <= mB && p.y >= -mB) ||
+            (2 * mA >= distance(focalPoints()[0], p) + distance(focalPoints()[1], p));
 }
 
 Decimal
@@ -196,6 +196,8 @@ Ellipse::clip(
         }
         result.emplace_back(points.back(), 2_pi + points.front());
     }
+
+    return result;
 }
 
 std::ostream &

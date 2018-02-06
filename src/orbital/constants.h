@@ -183,7 +183,7 @@ sq(
  * @param v Vector.
  * @return Length.
  */
-constexpr Decimal
+inline Decimal
 length(
         vec const &v
 )
@@ -197,7 +197,7 @@ length(
  * @param v1 Second vector.
  * @return Distance.
  */
-constexpr Decimal
+inline Decimal
 distance(
         vec const &v0,
         vec const &v1
@@ -217,10 +217,18 @@ perpendicular(
     return {-v.y, v.x};
 }
 
+template<class T, class TVec>
+T x(
+        TVec &&v
+)
+{
+    return std::forward<TVec>(v).x; // NOLINT
+};
+
 /**
  * Calculate the angle between the vector and the x axis: \f$ arctan2(v_y, v_x) \f$
  */
-constexpr Decimal
+inline Decimal
 angle(
         vec const &v
 )
@@ -292,6 +300,8 @@ operator<<(
         const complex &c
 );
 
+namespace glm {
+
 /**
  * Serialize a vector.
  */
@@ -309,3 +319,5 @@ operator<<(
         std::ostream &os,
         mat const &m
 );
+
+} // namespace glm

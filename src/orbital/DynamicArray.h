@@ -5,8 +5,8 @@
 #pragma once
 
 #include <array>
-#include <stdexcept>
 #include <ostream>
+#include <stdexcept>
 
 /**
  * A fixed-maximum sized array, with a dynamic count of actual values.
@@ -212,7 +212,7 @@ public:
      * @return Constant begin iterator.
      */
     constexpr auto
-    begin() const
+    begin() const // NOLINT
     {
         return mArray.begin();
     }
@@ -221,7 +221,7 @@ public:
      * @return Constant end iterator.
      */
     constexpr auto
-    end() const
+    end() const // NOLINT
     {
         return mArray.begin() + mLength;
     }

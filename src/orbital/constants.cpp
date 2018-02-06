@@ -18,18 +18,17 @@ quadratic(
         // No solutions:
         return {};
     }
-    else if (0 == d)
+    if (0 == d)
     {
         // One solution, discriminant does not play any role as it's 0 anyway:
         return {-b / (2 * a)};
     }
-    else
-    {
-        // Two solutions:
-        Decimal const x1 = (-b + std::sqrt(d)) / (2 * a);
-        Decimal const x2 = (-b - std::sqrt(d)) / (2 * a);
-        return {std::min(x1, x2), std::max(x1, x2)};
-    }
+
+    // Two solutions:
+    Decimal const x1 = (-b + std::sqrt(d)) / (2 * a);
+    Decimal const x2 = (-b - std::sqrt(d)) / (2 * a);
+    return {std::min(x1, x2), std::max(x1, x2)};
+
 };
 
 std::ostream &
@@ -41,6 +40,8 @@ operator<<(
     os << c.real() << '+' << c.imag() << "ⅈ";
     return os;
 }
+
+namespace glm {
 
 std::ostream &
 operator<<(
@@ -68,3 +69,5 @@ operator<<(
     }
     return os;
 }
+
+} // namespace glm
