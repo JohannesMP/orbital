@@ -16,7 +16,7 @@ Body::Body(
         : mName{std::move(name)}
         , mMass{mass}
         , mRadius{radius}
-        , mTrajectory{a != 0 ? a : ZERO, e}
+        , mTrajectory{a != 0 ? a : ZERO(), e}
 {
     // Position orbiting body (determined by a) to the near focal point of this' trajectory:
     mPosition.x = mTrajectory.foci()[1];
@@ -59,13 +59,11 @@ Body::step(
     // Trajectory velocity:
     //
     // v = √( G M (2/d - a⁻¹) )
-    Decimal vValue = std::sqrt(G * M * (2 / length(mPosition) - 1 / mTrajectory.a()));
-
+    //
     // Calculate velocity in current position.
     // Calculate normalized velocity direction (perpendicular on position vector).
     // Rotate by 90°, using complex number multiplication:
-    auto v_complex = complex{p.x, p.y} * complex{0, 1};
-    vec v = glm::normalize(vec{v_complex.real(), v_complex.imag()}) * vValue;
+    vec const v = glm::normalize(perpendicular(p)) * std::sqrt(G() * M * (2 / length(mPosition) - 1 / mTrajectory.a()));
 
     // Advance position by straight line:
     p += v * dt;

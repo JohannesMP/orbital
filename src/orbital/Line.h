@@ -13,14 +13,14 @@ class Line
 public:
 
     Line(
-            vec p0,
-            vec p1
+            vec const p0,
+            vec const p1
     );
 
     static Line
     fromDirection(
-            vec p,
-            vec d
+            vec const p,
+            vec const d
     );
 
     vec
@@ -31,18 +31,18 @@ public:
 
     vec
     point(
-            Decimal lambda
-    );
+            Decimal const lambda
+    ) const;
 
     bool
     containsByBounds(
-            vec v
-    );
+            vec const v
+    ) const;
 
     friend std::ostream &
     operator<<(
             std::ostream &os,
-            const Line &line
+            Line const &line
     );
 
 private:

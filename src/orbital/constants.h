@@ -10,8 +10,11 @@
 #include <ostream>
 #include <sstream>
 
+#include <boost/math/constants/constants.hpp>
+
 #include <glm/glm.hpp>
 #include <glm/detail/type_vec.hpp>
+#include <chrono>
 
 #include "fmt/printf.h"
 
@@ -52,20 +55,33 @@
  * Ceres     | ⚳
  */
 
+/**
+ * Alias for floating point type.
+ */
 using Decimal = double;
 
+/**
+ * Alias for vector used in simulation.
+ */
 using vec = glm::tvec2<Decimal>;
 
+/**
+ * Alias for vector used for affine matrix transformation.
+ */
 using vec3 = glm::tvec3<Decimal>;
 
+/**
+ * Alias for matrices.
+ */
 using mat = glm::tmat3x3<Decimal>;
 
+/**
+ * Alias for complex numbers.
+ */
 using complex = std::complex<Decimal>;
 
-/**
- * Identity matrix.
- */
-extern const mat IDENTITY_MATRIX;
+// Import STL chrono literals:
+using namespace std::chrono_literals;
 
 /**
  * Literal suffix to properly use the Decimal type-alias in literals.
@@ -87,22 +103,36 @@ operator "" _df(
 )
 {
     return static_cast<Decimal>(literal);
+}
+
+/**
+ * Identity matrix.
+ */
+inline mat
+identityMatrix()
+{
+    return mat{1};
 }
 
 /**
  * Gravitational constant: \f$ [G] = \frac{kg \cdot m^3}{s^2} \f$
  */
-constexpr Decimal G = 6.67408e-11_df;
+constexpr Decimal
+G()
+{
+    return 6.67408e-11_df;
+}
 
 /**
  * Factor to convert astronomic units to meters.
  */
-constexpr Decimal AU = 1.49597870700e11_df;
-
-/**
- * Pi
- */
-constexpr Decimal PI = 3.14159265358979323846264338327950288419716939937510582097494459230781640628620899_df;
+constexpr Decimal
+au(
+        Decimal const meters = 1
+)
+{
+    return meters * 1.49597870700e11_df;
+}
 
 /**
  * Literal suffix to multiply a number by π.
@@ -112,7 +142,7 @@ operator "" _pi(
         long double literal
 )
 {
-    return static_cast<Decimal>(literal) * PI;
+    return static_cast<Decimal>(literal) * boost::math::constants::pi<Decimal>();
 }
 
 /**
@@ -123,38 +153,17 @@ operator "" _pi(
         unsigned long long literal
 )
 {
-    return static_cast<Decimal>(literal) * PI;
+    return static_cast<Decimal>(literal) * boost::math::constants::pi<Decimal>();
 }
 
 /**
  * Smallest value, to use for 0 in cases 0 is forbidden
  */
-constexpr Decimal ZERO = std::numeric_limits<Decimal>::epsilon();
-
-/**
- * Seconds per minute.
- */
-constexpr Decimal S_PER_MIN = 60_df;
-
-/**
- * Seconds per hour.
- */
-constexpr Decimal S_PER_HOUR = S_PER_MIN * 60_df;
-
-/**
- * Seconds per 24-hours day.
- */
-constexpr Decimal S_PER_DAY = S_PER_HOUR * 24_df;
-
-/**
- * Seconds per month (using average day count of 30.436875).
- */
-constexpr Decimal S_PER_MONTH = S_PER_DAY * 30.436875_df;
-
-/**
- * Seconds per year (using average day count of 365.24219052).
- */
-constexpr Decimal S_PER_YEAR = S_PER_DAY * 365.24219052_df;
+constexpr Decimal
+ZERO()
+{
+    return std::numeric_limits<Decimal>::epsilon();
+}
 
 /**
  * Square a number: \f$ x^2 \f$
@@ -176,7 +185,7 @@ sq(
  */
 constexpr Decimal
 length(
-        const vec &v
+        vec const &v
 )
 {
     return std::sqrt(v.x * v.x + v.y * v.y);
@@ -190,11 +199,22 @@ length(
  */
 constexpr Decimal
 distance(
-        const vec &v0,
-        const vec &v1
+        vec const &v0,
+        vec const &v1
 )
 {
     return length(vec{v1.x - v0.x, v1.y - v0.y});
+}
+
+/**
+ * Computes a counterclockwise-perpendicular 2D vector with the same length.
+ */
+inline vec
+perpendicular(
+        vec const v
+)
+{
+    return {-v.y, v.x};
 }
 
 /**
@@ -202,7 +222,7 @@ distance(
  */
 constexpr Decimal
 angle(
-        const vec &v
+        vec const &v
 )
 {
     return std::atan2(v.y, v.x);
@@ -216,13 +236,35 @@ angle(
  * @param resolution Resolution per x stepping, i.e. number of function invocations per x.
  * @return Area enclosed by graph and x-axis.
  */
+template<class TFun>
 Decimal
 integral(
-        std::function<Decimal(Decimal)> &&f,
+        TFun &&f,
         Decimal low,
         Decimal high,
-        Decimal resolution
-);
+        Decimal const resolution
+)
+{
+    bool reverse = false;
+    if (low > high)
+    {
+        std::swap(low, high);
+        reverse = true;
+    }
+
+    Decimal const step = 1 / resolution;
+    auto const steps = static_cast<int>((high - low) / step);
+    Decimal sum = 0.0;                    // Area size accumulation
+    Decimal x = low;                      // x starts at the lower bound
+
+    for (int i = 0; i < steps; i++)
+    {
+        sum += std::forward<TFun>(f)(x + step * 0.5) * step;
+        x += step;
+    }
+
+    return !reverse ? sum : -sum;
+}
 
 /**
  * Computes the quadratic formula: \f$ 0 = ax^2 + bx + c \f$
@@ -236,9 +278,9 @@ integral(
  */
 DynamicArray<Decimal, 2>
 quadratic(
-        Decimal a,
-        Decimal b,
-        Decimal c
+        Decimal const a,
+        Decimal const b,
+        Decimal const c
 );
 
 /**
@@ -256,7 +298,7 @@ operator<<(
 std::ostream &
 operator<<(
         std::ostream &os,
-        const vec &v
+        vec const &v
 );
 
 /**
@@ -265,5 +307,5 @@ operator<<(
 std::ostream &
 operator<<(
         std::ostream &os,
-        const mat &m
+        mat const &m
 );

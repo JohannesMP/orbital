@@ -10,7 +10,7 @@
 int
 main()
 {
-    Ellipse ellipse{2, 0.5};
+    /*Ellipse ellipse{2, 0.5};
     Graphics graphics{35};
 
     graphics.translate({-2, 0});
@@ -18,11 +18,10 @@ main()
     graphics.ellipse(ellipse);
 
     graphics.border();
-    graphics.present();
+    graphics.present();*/
 
-    /*
     Graphics graphics{35, 121};
-    System system{"planets.yml", "solar-system", S_PER_HOUR};
+    System system{"planets.yml", "solar-system", 60 * 60};
 
     auto &earth = system.find("Mars");
 
@@ -34,7 +33,7 @@ main()
         {
             graphics.resetTransform();
             //graphics.rotate(0.5_pi);
-            graphics.scale(1 / (1.6 * AU));
+            graphics.scale(1 / au(1.6));
             graphics.translate(-earth.getPosition());
         }
 
@@ -57,9 +56,8 @@ main()
         graphics.border();
         graphics.present();
 
-        std::this_thread::sleep_for(std::chrono::milliseconds{50});
+        std::this_thread::sleep_for(50ms);
     }
-     */
 }
 
 #pragma clang diagnostic pop

@@ -6,11 +6,11 @@
 #include "Rectangle.h"
 
 Line::Line(
-        vec p0,
-        vec p1
+        vec const p0,
+        vec const p1
 )
-    : mP{p0}
-    , mD{p1 - p0}
+        : mP{p0}
+        , mD{p1 - p0}
 {
 }
 
@@ -27,13 +27,13 @@ Line::d() const
 }
 
 vec
-Line::point(Decimal lambda)
+Line::point(Decimal const lambda) const
 {
     return mP + lambda * mD;
 }
 
 bool
-Line::containsByBounds(vec v)
+Line::containsByBounds(vec const v) const
 {
     Rectangle bounds{mP, mP + mD};
     return bounds.contains(v);
@@ -42,7 +42,7 @@ Line::containsByBounds(vec v)
 std::ostream &
 operator<<(
         std::ostream &os,
-        const Line &line
+        Line const &line
 )
 {
     os << line.mP << " + λ" << line.mD;
@@ -51,8 +51,8 @@ operator<<(
 
 Line
 Line::fromDirection(
-        vec p,
-        vec d
+        vec const p,
+        vec const d
 )
 {
     return Line{p, p + d};

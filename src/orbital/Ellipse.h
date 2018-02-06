@@ -40,8 +40,8 @@ public:
      */
     static Ellipse
     fromAB(
-            Decimal a,
-            Decimal b
+            const Decimal a,
+            const Decimal b
     );
 
     /**
@@ -145,9 +145,9 @@ public:
      */
     DynamicArray<vec, 2>
     intersectPoints(
-            Line line,
-            bool clipToLine
-    )const;
+            Line const line,
+            bool const clipToLine
+    ) const;
 
     /**
      * Calculate the length of an arc slice within `ts` and `te`.
@@ -212,6 +212,17 @@ public:
     Decimal
     tAtY(
             Decimal y
+    ) const;
+
+    /**
+     * Computes a t-parameters for a given point.
+     * @param v Point whose t-parameter to compute.
+     * @attention Returns only reasonable values if the given points lies on the ellipse.
+     * @return T-Parameter.
+     */
+    Decimal
+    pointToT(
+            vec const v
     ) const;
 
     /**

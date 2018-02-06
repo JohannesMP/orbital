@@ -8,8 +8,8 @@ LinearFunction::LinearFunction(
         Decimal m,
         Decimal t
 )
-    : mM{m}
-    , mT{t}
+        : mM{m}
+        , mT{t}
 {
 }
 
@@ -17,8 +17,8 @@ LinearFunction::LinearFunction(
         const vec &p,
         const vec &d
 )
-    : mM{d.y / d.x}
-    , mT{p.y - mM * p.x}
+        : mM{d.y / d.x}
+        , mT{p.y - mM * p.x}
 {
 }
 

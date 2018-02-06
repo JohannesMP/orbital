@@ -4,7 +4,6 @@
 
 #include "System.h"
 #include <yaml-cpp/yaml.h>
-#include <iostream>
 
 System::System(
         const Body &centralBody,
@@ -26,7 +25,7 @@ System::System(
 
     auto deserialize = [](YAML::Node node) {
         return Body{node["name"].as<std::string>(), node["mass"].as<Decimal>() * 1000.0_df,
-                node["radius"].as<Decimal>() * 1000.0_df, node["a"].as<Decimal>() * AU, node["e"].as<Decimal>()};
+                node["radius"].as<Decimal>() * 1000.0_df, au(node["a"].as<Decimal>()), node["e"].as<Decimal>()};
     };
 
     mCentralBody = deserialize(data["central-body"]);

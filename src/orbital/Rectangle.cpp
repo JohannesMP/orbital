@@ -116,42 +116,35 @@ operator<<(
 Rectangle
 Rectangle::conjunction(const Rectangle &rhs) const
 {
-    if(top() <= rhs.bottom()) {
+    if (top() <= rhs.bottom())
+    {
         // rhs lies above this rect
         return ZERO_RECTANGLE;
     }
-    if(bottom() >= rhs.top()) {
+    if (bottom() >= rhs.top())
+    {
         // rhs lies below this rect
         return ZERO_RECTANGLE;
     }
-    if(left() >= rhs.right()) {
+    if (left() >= rhs.right())
+    {
         // rhs lies right
         return ZERO_RECTANGLE;
     }
-    if(right() <= rhs.left()) {
+    if (right() <= rhs.left())
+    {
         // rhs lies left
         return ZERO_RECTANGLE;
     }
 
-    return {
-            {
-                    std::max(left(), rhs.left()),
-                    std::max(bottom(), rhs.bottom())
-            },
-            {
-                    std::min(right(), rhs.right()),
-                    std::min(top(), rhs.top())
-            }
-    };
+    return {{std::max(left(), rhs.left()), std::max(bottom(), rhs.bottom())},
+            {std::min(right(), rhs.right()), std::min(top(), rhs.top())}};
 }
 
 vec
 Rectangle::extent() const
 {
-    return {
-            right() - left(),
-            top() - bottom()
-    };
+    return {right() - left(), top() - bottom()};
 }
 
 bool

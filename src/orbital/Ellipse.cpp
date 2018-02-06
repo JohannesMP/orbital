@@ -3,7 +3,6 @@
 //
 
 #include "Ellipse.h"
-#include <iterator>
 #include <numeric>
 
 Ellipse::Ellipse(
@@ -123,6 +122,14 @@ Ellipse::contains(
             contains(rect.topRight());
 }
 
+Decimal
+Ellipse::pointToT(const vec v) const
+{
+    Decimal const t = tAtX(v.x);
+    // Since t-from-x calculation can only return t's for positive y values, flip it over if y-value is negative:
+    return v.y >= 0 ? t : 2_pi - t;
+}
+
 DynamicArray<std::pair<Decimal, Decimal>, 4>
 Ellipse::clip(
         const Rectangle &rect,
@@ -131,12 +138,6 @@ Ellipse::clip(
 {
     DynamicArray<std::pair<Decimal, Decimal>, 4> result;
     DynamicArray<Decimal, 8> intersectionPoints;
-
-    // TODO: outsource into own function:
-    auto pointToT = [&](vec p) {
-        Decimal const t = tAtX(p.x);
-        return p.y >= 0 ? t : 2_pi - t;
-    };
 
     auto appendIntersectionPoints = [&](DynamicArray<vec, 2> points) {
         fmt::print("Try to append {} new intersection points\n", points.size());
@@ -148,22 +149,12 @@ Ellipse::clip(
     };
 
     // Append intersections from line: bottom left - top left
-    {
-        vec const p = transform.apply(rect.bottomLeft());
-        vec const d = transform.apply(rect.topLeft() - rect.bottomLeft());
-        fmt::print("Rect line: {} + λ{}\n", p, d);
-        appendIntersectionPoints(
-                intersectPoints({transform.apply(rect.bottomLeft()), transform.apply(rect.topLeft())}, true));
-    }
+    appendIntersectionPoints(
+            intersectPoints({transform.apply(rect.bottomLeft()), transform.apply(rect.topLeft())}, true));
 
     // Append intersections from line: bottom left - bottom right
-    {
-        vec const p = transform.apply(rect.bottomLeft());
-        vec const d = transform.apply(rect.bottomRight() - rect.bottomLeft());
-        fmt::print("Rect line: {} + λ{}\n", p, d);
-        appendIntersectionPoints(
-                intersectPoints({transform.apply(rect.bottomLeft()), transform.apply(rect.bottomRight())}, true));
-    }
+    appendIntersectionPoints(
+            intersectPoints({transform.apply(rect.bottomLeft()), transform.apply(rect.bottomRight())}, true));
 
     // Append intersections from line: top right - top left
     appendIntersectionPoints(
@@ -206,7 +197,7 @@ Ellipse::clip(
     if (rect.containsTransformed(transform, p))
     {
         // Lies within:
-        for(auto iter = intersectionPoints.begin(); iter != intersectionPoints.end(); iter += 2)
+        for (auto iter = intersectionPoints.begin(); iter != intersectionPoints.end(); iter += 2)
         {
             result.emplace_back(*iter, *(iter + 1));
         }
@@ -214,7 +205,7 @@ Ellipse::clip(
     else
     {
 
-        for(auto iter = intersectionPoints.begin() + 1; iter != intersectionPoints.end(); iter += 2)
+        for (auto iter = intersectionPoints.begin() + 1; iter != intersectionPoints.end(); iter += 2)
         {
             result.emplace_back(*iter, *(iter + 1));
         }
@@ -228,7 +219,7 @@ operator<<(
         const Ellipse &ellipse
 )
 {
-    os << "a: " << ellipse.mA << " b: " << ellipse.mB << " e: " << ellipse.mE;
+    os << "a=" << ellipse.mA << " b=" << ellipse.mB << " e=" << ellipse.mE;
     return os;
 }
 
@@ -240,8 +231,8 @@ Ellipse::boundingRect() const
 
 DynamicArray<vec, 2>
 Ellipse::intersectPoints(
-        Line line,
-        bool clipToLine
+        Line const line,
+        bool const clipToLine
 ) const
 {
 
@@ -261,10 +252,10 @@ Ellipse::intersectPoints(
 
     DynamicArray<vec, 2> points;
 
-    for(auto const lambda : lambdas)
+    for (auto const lambda : lambdas)
     {
         vec const intersection = line.point(lambda);
-        if(!clipToLine || line.containsByBounds(intersection))
+        if (!clipToLine || line.containsByBounds(intersection))
         {
             // Store intersection only if either not clipped to line bounds or the point does lie within bounds:
             points.push_back(intersection);
@@ -276,8 +267,8 @@ Ellipse::intersectPoints(
 
 Ellipse
 Ellipse::fromAB(
-        Decimal a,
-        Decimal b
+        const Decimal a,
+        const Decimal b
 )
 {
     return Ellipse{a, sqrt(1 - sq(b / a))};

@@ -37,7 +37,7 @@ public:
      * @param il Initializing elements. Can be less than needed.
      */
     constexpr DynamicArray(
-            const std::initializer_list<T> &il
+            std::initializer_list<T> const &il
     )
             : DynamicArray{}
     {
@@ -60,7 +60,7 @@ public:
      */
     constexpr T &
     push_back(
-            T value
+            T const value
     )
     {
         if (mLength >= N)
@@ -168,7 +168,9 @@ public:
      * @return Element reference.
      */
     constexpr T &
-    operator[](std::size_t index)
+    operator[](
+            std::size_t const index
+    )
     {
         return mArray[index];
     }
@@ -181,7 +183,9 @@ public:
      * @return Element reference.
      */
     constexpr const T &
-    operator[](std::size_t index) const
+    operator[](
+            std::size_t const index
+    ) const
     {
         return mArray[index];
     }
@@ -246,7 +250,7 @@ public:
     friend std::ostream &
     operator<<(
             std::ostream &os,
-            const DynamicArray &array
+            DynamicArray const &array
     )
     {
         os << "[ ";
@@ -264,7 +268,7 @@ public:
 
     constexpr void
     resize(
-            size_t size
+            size_t const size
     )
     {
         assert(size <= N);
@@ -273,7 +277,7 @@ public:
 
 private:
 
-    std::size_t mLength = 0;
+    std::size_t mLength{0};
     std::array<T, N> mArray;
 
 };
