@@ -5,7 +5,7 @@
 #include <gtest/gtest.h>
 #include <orbital/Ellipse.h>
 
-TEST(Ellipse, ProperConstruction)
+TEST(Ellipse, ProperConstruction) // NOLINT
 {
     Ellipse ellipse{2, 0.5};
 
@@ -14,13 +14,13 @@ TEST(Ellipse, ProperConstruction)
     ASSERT_NEAR(ellipse.b(), 1.73, 0.01);
     ASSERT_DOUBLE_EQ(ellipse.foci()[0], -1);
     ASSERT_DOUBLE_EQ(ellipse.foci()[1], 1);
-    ASSERT_DOUBLE_EQ(ellipse.fociPoints()[0].x, -1);
-    ASSERT_DOUBLE_EQ(ellipse.fociPoints()[0].y, 0);
-    ASSERT_DOUBLE_EQ(ellipse.fociPoints()[1].x, 1);
-    ASSERT_DOUBLE_EQ(ellipse.fociPoints()[1].y, 0);
+    ASSERT_DOUBLE_EQ(ellipse.focalPoints()[0].x, -1);
+    ASSERT_DOUBLE_EQ(ellipse.focalPoints()[0].y, 0);
+    ASSERT_DOUBLE_EQ(ellipse.focalPoints()[1].x, 1);
+    ASSERT_DOUBLE_EQ(ellipse.focalPoints()[1].y, 0);
 }
 
-TEST(Ellipse, ParametricForm)
+TEST(Ellipse, ParametricForm) // NOLINT
 {
     Ellipse ellipse{2, 0.5};
 
@@ -61,7 +61,7 @@ TEST(Ellipse, ParametricForm)
     ASSERT_NEAR(ellipse.point(2_pi).y, 0, 0.01);
 }
 
-TEST(Ellipse, ParameterExtraction)
+TEST(Ellipse, ParameterExtraction) // NOLINT
 {
     Ellipse ellipse{2, 0.5};
 
@@ -90,7 +90,7 @@ TEST(Ellipse, ParameterExtraction)
     ASSERT_NEAR(ellipse.tAtY(-1.22), -0.25_pi, 0.01);
 }
 
-TEST(Ellipse, PointContainment)
+TEST(Ellipse, PointContainment) // NOLINT
 {
     Ellipse ellipse{2, 0.5};
 
@@ -111,7 +111,7 @@ TEST(Ellipse, PointContainment)
     ASSERT_FALSE(ellipse.contains(vec(-1.5, -1.5)));
 }
 
-TEST(Ellipse, PointFromParameter)
+TEST(Ellipse, PointFromParameter) // NOLINT
 {
     Ellipse ellipse{2, 0.5};
 
@@ -154,7 +154,7 @@ TEST(Ellipse, PointFromParameter)
 }
 
 
-TEST(Ellipse, PointFromAngle)
+TEST(Ellipse, PointFromAngle) // NOLINT
 {
     Ellipse ellipse{2, 0.5};
 
@@ -228,7 +228,7 @@ TEST(Ellipse, PointFromAngle)
 
 }
 
-TEST(Ellipse, ArcLength)
+TEST(Ellipse, ArcLength) // NOLINT
 {
     Ellipse ellipse{2, 0.5};
 
@@ -253,7 +253,7 @@ TEST(Ellipse, ArcLength)
     ASSERT_NEAR(ellipse.arcLength(1_pi, 3_pi, 1000), 11.74, 0.01);
 }
 
-TEST(Ellipse, NegativeArcLength)
+TEST(Ellipse, NegativeArcLength) // NOLINT
 {
     Ellipse ellipse{2, 0.5};
 
@@ -278,7 +278,7 @@ TEST(Ellipse, NegativeArcLength)
     ASSERT_NEAR(ellipse.arcLength(-1_pi, -3_pi, 1000), -11.74, 0.01);
 }
 
-TEST(Ellipse, BoundingRect)
+TEST(Ellipse, BoundingRect) // NOLINT
 {
     Ellipse ellipse{2, 0.5};
     ASSERT_DOUBLE_EQ(ellipse.boundingRect().right(), ellipse.a());
@@ -287,7 +287,7 @@ TEST(Ellipse, BoundingRect)
     ASSERT_DOUBLE_EQ(ellipse.boundingRect().bottom(), -ellipse.b());
 }
 
-TEST(Ellipse, Intersection)
+TEST(Ellipse, Intersection) // NOLINT
 {
     Ellipse ellipse = Ellipse::fromAB(2, 1);
     Line line = Line::fromDirection({2, 1}, {2, 1});
@@ -301,7 +301,7 @@ TEST(Ellipse, Intersection)
     ASSERT_DOUBLE_EQ(intersections[1].y, sqrt(2) / 2);
 }
 
-TEST(Ellipse, IntersectionNone)
+TEST(Ellipse, IntersectionNone) // NOLINT
 {
     Ellipse ellipse = Ellipse::fromAB(2, 1);
     Line line = Line::fromDirection({2, 1}, {2, 1});
@@ -311,7 +311,7 @@ TEST(Ellipse, IntersectionNone)
     ASSERT_EQ(intersections.size(), 0);
 }
 
-TEST(Ellipse, IntersectionPartial)
+TEST(Ellipse, IntersectionPartial) // NOLINT
 {
     Ellipse ellipse = Ellipse::fromAB(2, 1);
     Line line = Line::fromDirection(0.1 * vec{2, 1}, {2, 1});
@@ -323,7 +323,7 @@ TEST(Ellipse, IntersectionPartial)
     ASSERT_DOUBLE_EQ(intersections[0].y, sqrt(2) / 2);
 }
 
-TEST(Ellipse, IntersectionPerpendicularXAxis)
+TEST(Ellipse, IntersectionPerpendicularXAxis) // NOLINT
 {
     Ellipse ellipse{2, 0.5};
 
@@ -336,7 +336,7 @@ TEST(Ellipse, IntersectionPerpendicularXAxis)
     ASSERT_NEAR(intersections[1].y, ellipse.b(), 0.001);
 }
 
-TEST(Ellipse, IntersectionPerpendicularXAxisPartial)
+TEST(Ellipse, IntersectionPerpendicularXAxisPartial) // NOLINT
 {
     Ellipse ellipse{2, 0.5};
     Line line = Line::fromDirection({0, -2}, {0, 1});
@@ -346,6 +346,18 @@ TEST(Ellipse, IntersectionPerpendicularXAxisPartial)
     ASSERT_EQ(intersections.size(), 1);
     ASSERT_NEAR(intersections[0].x, 0, 0.001);
     ASSERT_NEAR(intersections[0].y, -ellipse.b(), 0.001);
+}
+
+TEST(Ellipse, Projection) // NOLINT
+{
+    Ellipse ellipse = Ellipse::fromAB(2, 1);
+
+    ASSERT_NEAR(ellipse.projection({2, 1.5}).x, 1.1, 0.1);
+    ASSERT_NEAR(ellipse.projection({2, 1.5}).y, 0.83, 0.01);
+
+    vec v{-3, -4};
+    ASSERT_DOUBLE_EQ(ellipse.pointAngle(angle(v)).x, ellipse.projection(v).x);
+    ASSERT_DOUBLE_EQ(ellipse.pointAngle(angle(v)).y, ellipse.projection(v).y);
 }
 
 /*

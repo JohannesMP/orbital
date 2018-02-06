@@ -176,7 +176,7 @@ public:
      * @return Two foci as vectors, whose y-coordinate is 0.
      */
     std::array<vec, 2>
-    fociPoints() const;
+    focalPoints() const;
 
     /**
      * Calculate t parameter at a given x value.
@@ -222,6 +222,11 @@ public:
      */
     Decimal
     pointToT(
+            vec const v
+    ) const;
+
+    vec
+    projection(
             vec const v
     ) const;
 

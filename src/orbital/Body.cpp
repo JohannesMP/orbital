@@ -19,7 +19,7 @@ Body::Body(
         , mTrajectory{a != 0 ? a : ZERO(), e}
 {
     // Position orbiting body (determined by a) to the near focal point of this' trajectory:
-    mPosition.x = mTrajectory.foci()[1];
+    mPosition = mTrajectory.focalPoints()[1];
 
     // Increasing x-axis value:
     // - aphelion
@@ -27,7 +27,7 @@ Body::Body(
     // - trajectory-center
     // - focal point = system center = (0|0)
     // - perihelion
-    mTrajectoryCenter.x = -mTrajectory.e() * mTrajectory.a();
+    mTrajectoryCenter = mTrajectory.focalPoints()[0];
 }
 
 const std::string &
@@ -50,32 +50,22 @@ Body::getRadius() const
 
 void
 Body::step(
-        Decimal M,
-        Decimal dt
+        Decimal const M,
+        Decimal const dt
 )
 {
-    vec p = mPosition - mTrajectoryCenter;
+    // Move the trajectory to the coordinate center, since ellipse math would not give proper results:
+    vec const p = mPosition - mTrajectoryCenter;
 
     // Trajectory velocity:
     //
     // v = √( G M (2/d - a⁻¹) )
     //
-    // Calculate velocity in current position.
-    // Calculate normalized velocity direction (perpendicular on position vector).
-    // Rotate by 90°, using complex number multiplication:
+    // Velocity direction is perpendicular on position vector:
     vec const v = glm::normalize(perpendicular(p)) * std::sqrt(G() * M * (2 / length(mPosition) - 1 / mTrajectory.a()));
 
-    // Advance position by straight line:
-    p += v * dt;
-
-    //
-    // Map position back to ellipse:
-    // https://math.stackexchange.com/questions/22064/calculating-a-point-that-lies-on-an-ellipse-given-an-angle
-    //
-    // x = ± (ab cos θ) / √((b cos θ)² + (a cos θ)²)
-    // y = ± (ab sin θ) / √((b cos θ)² + (a cos θ)²)
-    //
-    mPosition = mTrajectory.pointAngle(angle(p)) + mTrajectoryCenter;
+    // Advance position by straight line, than project back to ellipse:
+    mPosition = mTrajectory.projection(p + v * dt) + mTrajectoryCenter;
 }
 
 const vec &

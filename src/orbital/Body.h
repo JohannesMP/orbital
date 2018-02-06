@@ -49,8 +49,8 @@ public:
 
     void
     step(
-            Decimal M,
-            Decimal dt
+            Decimal const M,
+            Decimal const dt
     );
 
 private:

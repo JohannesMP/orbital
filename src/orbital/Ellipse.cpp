@@ -41,7 +41,7 @@ Ellipse::foci() const
 }
 
 std::array<vec, 2>
-Ellipse::fociPoints() const
+Ellipse::focalPoints() const
 {
     return {{{-mFoci, 0}, {mFoci, 0}}};
 }
@@ -98,7 +98,7 @@ Ellipse::contains(
         return true;
     }
 
-    return 2 * mA >= distance(fociPoints()[0], p) + distance(fociPoints()[1], p);
+    return 2 * mA >= distance(focalPoints()[0], p) + distance(focalPoints()[1], p);
 }
 
 Decimal
@@ -272,4 +272,10 @@ Ellipse::fromAB(
 )
 {
     return Ellipse{a, sqrt(1 - sq(b / a))};
+}
+
+vec
+Ellipse::projection(vec const v) const
+{
+    return v * ((mA * mB) / std::sqrt(sq(mA) * sq(v.y) + sq(mB) * sq(v.x)));
 }

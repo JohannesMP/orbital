@@ -44,7 +44,7 @@ main()
         system.foreach([&](Body &body) {
 
             graphics.push();
-            graphics.translate(body.getTrajectory().fociPoints()[0]);
+            graphics.translate(body.getTrajectory().focalPoints()[0]);
             graphics.overwrite(false);
             graphics.ellipse(body.getTrajectory());
             graphics.overwrite(true);
@@ -56,7 +56,7 @@ main()
         graphics.border();
         graphics.present();
 
-        std::this_thread::sleep_for(50ms);
+        std::this_thread::sleep_for(std::chrono::milliseconds{50});
     }
 }
 
