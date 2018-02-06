@@ -15,13 +15,13 @@ System::System(
 }
 
 System::System(
-        const std::string &systemArchiveFile,
-        const std::string &systemName,
+        const std::string_view &systemArchiveFile,
+        const std::string_view &systemName,
         Decimal dt
 )
         : mDt{dt}
 {
-    auto data = YAML::LoadFile(systemArchiveFile)[systemName];
+    auto data = YAML::LoadFile(systemArchiveFile.data())[systemName.data()];
 
     auto deserialize = [](YAML::Node node) {
         return Body{node["name"].as<std::string>(), node["mass"].as<Decimal>() * 1000.0_df,
@@ -64,7 +64,7 @@ System::foreach(std::function<void(Body &)> &&l)
 
 Body &
 System::find(
-        const std::string &name
+        const std::string_view &name
 )
 {
     if (name == mCentralBody.getName())

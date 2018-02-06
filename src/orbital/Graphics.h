@@ -8,6 +8,7 @@
 #include <list>
 #include <string>
 #include <vector>
+#include <string_view>
 
 #pragma once
 
@@ -80,7 +81,7 @@ public:
     void
     label(
             vec pos,
-            const std::string &text
+            std::basic_string_view<char> const &text
     );
 
     /**

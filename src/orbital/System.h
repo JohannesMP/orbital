@@ -33,8 +33,8 @@ public:
      * @param dt Time step size.
      */
     System(
-            const std::string &systemArchiveFile,
-            const std::string &systemName,
+            const std::string_view &systemArchiveFile,
+            const std::string_view &systemName,
             Decimal dt
     );
 
@@ -51,7 +51,7 @@ public:
 
     Body &
     find(
-            const std::string &name
+            const std::string_view &name
     );
 
 private:

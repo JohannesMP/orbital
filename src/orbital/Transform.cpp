@@ -23,7 +23,7 @@ Transform::update()
     mTransform = mRotation * mScale * mTranslation;
 }
 
-const mat &
+mat const &
 Transform::transformation() const
 {
     return mTransform;

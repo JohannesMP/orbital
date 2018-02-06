@@ -7,7 +7,7 @@
 #include "Ellipse.h"
 #include "constants.h"
 #include <glm/glm.hpp>
-#include <memory>
+#include <experimental/string_view>
 
 class Body
 {
@@ -25,14 +25,14 @@ public:
      * @param e Elliptic eccentricity (0 <= e < 1)
      */
     Body(
-            std::string name,
+            std::string_view name,
             Decimal mass,
             Decimal radius,
             Decimal a,
             Decimal e
     );
 
-    const std::string &
+    std::string_view
     getName() const;
 
     Decimal

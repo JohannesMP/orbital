@@ -74,7 +74,7 @@ Graphics::pixel(
 void
 Graphics::label(
         vec pos,
-        const std::string &text
+        std::string_view const &text
 )
 {
     auto loc = mapToFramebuffer(pos);
@@ -216,7 +216,7 @@ Graphics::pop()
     updateTransform();
 }
 
-const mat &
+mat const &
 Graphics::transformation()
 {
     return mTransform;
@@ -291,7 +291,7 @@ Graphics::framebufferPixel(const Graphics::FramebufferLocation &loc)
     return mScanlines.at(static_cast<unsigned long>(loc.y)).at(static_cast<unsigned long>(loc.x));
 }
 
-const char &
+char const &
 Graphics::framebufferPixel(const Graphics::FramebufferLocation &loc) const
 {
     return mScanlines.at(static_cast<unsigned long>(loc.y)).at(static_cast<unsigned long>(loc.x));

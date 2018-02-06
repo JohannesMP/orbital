@@ -5,7 +5,7 @@
 #include "Body.h"
 
 Body::Body(
-        std::string name,
+        std::string_view name,
         Decimal mass,
         Decimal radius,
         Decimal a,
@@ -28,7 +28,7 @@ Body::Body(
     mTrajectoryCenter = mTrajectory.focalPoints()[0];
 }
 
-const std::string &
+std::string_view
 Body::getName() const
 {
     return mName;
@@ -66,13 +66,13 @@ Body::step(
     mPosition = mTrajectory.projection(p + v * dt) + mTrajectoryCenter;
 }
 
-const vec &
+vec const &
 Body::getPosition() const
 {
     return mPosition;
 }
 
-const Ellipse &
+Ellipse const &
 Body::getTrajectory() const
 {
     return mTrajectory;

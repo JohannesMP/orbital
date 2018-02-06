@@ -9,6 +9,8 @@
 #include <iostream>
 #include <ostream>
 #include <sstream>
+#include <string_view>
+#include <memory>
 
 #include <boost/math/constants/constants.hpp>
 
