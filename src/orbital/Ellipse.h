@@ -130,7 +130,7 @@ public:
      * @param rect Rectangle to clip to.
      * @return Line using t pairs. Empty of no overlap at all.
      */
-    std::vector<std::pair<Decimal, Decimal>>
+    DynamicArray<std::pair<Decimal, Decimal>, 4>
     clip(
             const Rectangle &rect,
             const Transform &transform

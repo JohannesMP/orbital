@@ -166,9 +166,9 @@ Rectangle::containsTransformed(
         vec p
 ) const
 {
-    vec a = transform.apply(bottomLeft());
-    vec s = a - transform.apply(topLeft());
-    vec t = transform.apply(bottomRight()) - a;
+    vec const a = transform.apply(bottomLeft());
+    vec const s = a - transform.apply(topLeft());
+    vec const t = transform.apply(bottomRight()) - a;
 
     Decimal theta = (p.x + s.x - a.x) / t.x;
     Decimal mu = (p.y - a.y) / (t.y * theta - s.y);

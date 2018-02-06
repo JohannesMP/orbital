@@ -123,31 +123,24 @@ Ellipse::contains(
             contains(rect.topRight());
 }
 
-std::vector<std::pair<Decimal, Decimal>>
+DynamicArray<std::pair<Decimal, Decimal>, 4>
 Ellipse::clip(
         const Rectangle &rect,
         const Transform &transform
 ) const
 {
-    std::vector<std::pair<Decimal, Decimal>> result;
-    result.reserve(4); // At most 4 lines are added to the list, since the ellipse is divided into 4 quarters
-
-    std::vector<Decimal> intersectionPoints;
+    DynamicArray<std::pair<Decimal, Decimal>, 4> result;
+    DynamicArray<Decimal, 8> intersectionPoints;
 
     // TODO: outsource into own function:
     auto pointToT = [&](vec p) {
-        Decimal t = tAtX(p.x);
-        if (p.y < 0)
-        {
-            // Flip t over:
-            t = 2_pi - t;
-        }
-        return t;
+        Decimal const t = tAtX(p.x);
+        return p.y >= 0 ? t : 2_pi - t;
     };
 
     auto appendIntersectionPoints = [&](DynamicArray<vec, 2> points) {
         fmt::print("Try to append {} new intersection points\n", points.size());
-        for (const auto &point : points)
+        for (auto const &point : points)
         {
             fmt::print("Append intersection point {} mapping to t={}\n", point, pointToT(point));
             intersectionPoints.emplace_back(pointToT(point));
@@ -156,8 +149,8 @@ Ellipse::clip(
 
     // Append intersections from line: bottom left - top left
     {
-        vec p = transform.apply(rect.bottomLeft());
-        vec d = transform.apply(rect.topLeft() - rect.bottomLeft());
+        vec const p = transform.apply(rect.bottomLeft());
+        vec const d = transform.apply(rect.topLeft() - rect.bottomLeft());
         fmt::print("Rect line: {} + λ{}\n", p, d);
         appendIntersectionPoints(
                 intersectPoints({transform.apply(rect.bottomLeft()), transform.apply(rect.topLeft())}, true));
@@ -165,8 +158,8 @@ Ellipse::clip(
 
     // Append intersections from line: bottom left - bottom right
     {
-        vec p = transform.apply(rect.bottomLeft());
-        vec d = transform.apply(rect.bottomRight() - rect.bottomLeft());
+        vec const p = transform.apply(rect.bottomLeft());
+        vec const d = transform.apply(rect.bottomRight() - rect.bottomLeft());
         fmt::print("Rect line: {} + λ{}\n", p, d);
         appendIntersectionPoints(
                 intersectPoints({transform.apply(rect.bottomLeft()), transform.apply(rect.bottomRight())}, true));
@@ -184,7 +177,7 @@ Ellipse::clip(
     std::sort(intersectionPoints.begin(), intersectionPoints.end());
 
     fmt::print("Intersection points ({}): ", intersectionPoints.size());
-    for (auto &i : intersectionPoints)
+    for (auto const &i : intersectionPoints)
     {
         fmt::print("{}", i);
     }
@@ -213,16 +206,17 @@ Ellipse::clip(
     if (rect.containsTransformed(transform, p))
     {
         // Lies within:
-        for (unsigned i = 0; i < intersectionPoints.size(); i += 2)
+        for(auto iter = intersectionPoints.begin(); iter != intersectionPoints.end(); iter += 2)
         {
-            result.emplace_back(intersectionPoints[i], intersectionPoints[i + 1]);
+            result.emplace_back(*iter, *(iter + 1));
         }
     }
     else
     {
-        for (unsigned i = 1; i < intersectionPoints.size(); i += 2)
+
+        for(auto iter = intersectionPoints.begin() + 1; iter != intersectionPoints.end(); iter += 2)
         {
-            result.emplace_back(intersectionPoints[i], intersectionPoints[i + 1]);
+            result.emplace_back(*iter, *(iter + 1));
         }
         result.emplace_back(intersectionPoints.back(), 2_pi + intersectionPoints.front());
     }
@@ -250,32 +244,31 @@ Ellipse::intersectPoints(
         bool clipToLine
 ) const
 {
+
+    Decimal const d0 = line.d().x;
+    Decimal const d1 = line.d().y;
+    Decimal const p0 = line.p().x;
+    Decimal const p1 = line.p().y;
+
+    Decimal const a2 = sq(mA);
+    Decimal const b2 = sq(mB);
+
+    Decimal const A = b2 * sq(d0) + a2 * sq(d1);
+    Decimal const B = 2 * (b2 * p0 * d0 + a2 * p1 * d1);
+    Decimal const C = b2 * sq(p0) + a2 * sq(p1) - a2 * b2;
+
+    auto const lambdas = quadratic(A, B, C);
+
     DynamicArray<vec, 2> points;
 
-    Decimal d0 = line.d().x;
-    Decimal d1 = line.d().y;
-    Decimal p0 = line.p().x;
-    Decimal p1 = line.p().y;
-
-    Decimal a2 = sq(mA);
-    Decimal b2 = sq(mB);
-
-    Decimal A = b2 * sq(d0) + a2 * sq(d1);
-    Decimal B = 2 * (b2 * p0 * d0 + a2 * p1 * d1);
-    Decimal C = b2 * sq(p0) + a2 * sq(p1) - a2 * b2;
-
-    auto solutions = quadratic(A, B, C);
-
-    for(const auto solution : solutions)
+    for(auto const lambda : lambdas)
     {
-        vec intersection = line.point(solution);
-        if (clipToLine && !line.containsByBounds(intersection))
+        vec const intersection = line.point(lambda);
+        if(!clipToLine || line.containsByBounds(intersection))
         {
-            // Point does not lie within line's direction vector (0 ≦ λ ≦ 1)
-            // and caller requested to clip those points away:
-            continue;
+            // Store intersection only if either not clipped to line bounds or the point does lie within bounds:
+            points.push_back(intersection);
         }
-        points.push_back(intersection);
     }
 
     return points;

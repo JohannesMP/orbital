@@ -3,6 +3,7 @@
 //
 
 #include "constants.h"
+#include <algorithm>
 
 const mat IDENTITY_MATRIX{1};
 
@@ -13,7 +14,7 @@ quadratic(
         Decimal c
 )
 {
-    Decimal d = sq(b) - 4 * a * c;
+    Decimal const d = sq(b) - 4 * a * c;
 
     if(0 > d)
     {
@@ -27,8 +28,8 @@ quadratic(
     }
     else {
         // Two solutions:
-        Decimal x1 = (-b + std::sqrt(d)) / (2 * a);
-        Decimal x2 = (-b - std::sqrt(d)) / (2 * a);
+        Decimal const x1 = (-b + std::sqrt(d)) / (2 * a);
+        Decimal const x2 = (-b - std::sqrt(d)) / (2 * a);
         return {
                 std::min(x1, x2),
                 std::max(x1, x2)
@@ -84,14 +85,12 @@ integral(
     bool reverse = false;
     if (low > high)
     {
-        Decimal tmp = low;
-        low = high;
-        high = tmp;
+        std::swap(low, high);
         reverse = true;
     }
 
-    Decimal step = 1 / resolution;
-    auto steps = static_cast<int>((high - low) / step);
+    Decimal const step = 1 / resolution;
+    auto const steps = static_cast<int>((high - low) / step);
     Decimal sum = 0.0;                    // Area size accumulation
     Decimal x = low;                      // x starts at the lower bound
 
