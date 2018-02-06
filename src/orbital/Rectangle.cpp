@@ -4,8 +4,6 @@
 
 #include "Rectangle.h"
 
-const Rectangle Rectangle::ZERO_RECTANGLE{{0, 0}, 0, 0};
-
 Rectangle::Rectangle(
         const vec &p,
         Decimal w,
@@ -119,22 +117,22 @@ Rectangle::conjunction(const Rectangle &rhs) const
     if (top() <= rhs.bottom())
     {
         // rhs lies above this rect
-        return ZERO_RECTANGLE;
+        return zeroRectangle();
     }
     if (bottom() >= rhs.top())
     {
         // rhs lies below this rect
-        return ZERO_RECTANGLE;
+        return zeroRectangle();
     }
     if (left() >= rhs.right())
     {
         // rhs lies right
-        return ZERO_RECTANGLE;
+        return zeroRectangle();
     }
     if (right() <= rhs.left())
     {
         // rhs lies left
-        return ZERO_RECTANGLE;
+        return zeroRectangle();
     }
 
     return {{std::max(left(), rhs.left()), std::max(bottom(), rhs.bottom())},
@@ -169,4 +167,10 @@ Rectangle::containsTransformed(
 
     // Both, mu and lambda must be [0;1], otherwise they refer to a point outside the rect:
     return mu >= 0 && mu <= 1 && lambda >= 0 && lambda <= 1;
+}
+
+Rectangle
+Rectangle::zeroRectangle()
+{
+    return Rectangle{{}, 0, 0};
 }

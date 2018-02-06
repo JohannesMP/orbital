@@ -5,7 +5,7 @@
 #include <gtest/gtest.h>
 #include <orbital/Transform.h>
 
-TEST(Transform, DefaultConstructionIsIdentityMatrix)
+TEST(Transform, DefaultConstructionIsIdentityMatrix) // NOLINT
 {
     Transform transform;
 
@@ -22,7 +22,7 @@ TEST(Transform, DefaultConstructionIsIdentityMatrix)
     ASSERT_DOUBLE_EQ(transform.transformation()[2][2], 1);
 }
 
-TEST(Transform, ResetToIdentityMatrix)
+TEST(Transform, ResetToIdentityMatrix) // NOLINT
 {
     Transform transform;
     transform.translate({1, 2});
@@ -43,7 +43,7 @@ TEST(Transform, ResetToIdentityMatrix)
     ASSERT_DOUBLE_EQ(transform.transformation()[2][2], 1);
 }
 
-TEST(Transform, TranslationMatrix)
+TEST(Transform, TranslationMatrix) // NOLINT
 {
     Transform transform;
     transform.translate({3, 4});
@@ -61,7 +61,7 @@ TEST(Transform, TranslationMatrix)
     ASSERT_DOUBLE_EQ(transform.transformation()[2][2], 1);
 }
 
-TEST(Transform, ScaleMatrix)
+TEST(Transform, ScaleMatrix) // NOLINT
 {
     Transform transform;
     transform.scale(2);
@@ -79,7 +79,7 @@ TEST(Transform, ScaleMatrix)
     ASSERT_DOUBLE_EQ(transform.transformation()[2][2], 1);
 }
 
-TEST(Transform, RotationMatrix)
+TEST(Transform, RotationMatrix) // NOLINT
 {
     Transform transform;
 
@@ -99,7 +99,7 @@ TEST(Transform, RotationMatrix)
     ASSERT_DOUBLE_EQ(transform.transformation()[2][2], 1);
 }
 
-TEST(Transform, RotationMatrixNegativeAngle)
+TEST(Transform, RotationMatrixNegativeAngle) // NOLINT
 {
     Transform transform;
 

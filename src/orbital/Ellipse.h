@@ -40,8 +40,8 @@ public:
      */
     static Ellipse
     fromAB(
-            const Decimal a,
-            const Decimal b
+            Decimal a,
+            Decimal b
     );
 
     /**

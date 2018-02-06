@@ -5,7 +5,7 @@
 #include <gtest/gtest.h>
 #include <orbital/Rectangle.h>
 
-TEST(Rectangle, ProperConstructionWithPositiveExtent)
+TEST(Rectangle, ProperConstructionWithPositiveExtent) // NOLINT
 {
     Rectangle rect{{1, 2}, 3, 4};
 
@@ -35,7 +35,7 @@ TEST(Rectangle, ProperConstructionWithPositiveExtent)
     ASSERT_DOUBLE_EQ(rect.center().y, 4);
 }
 
-TEST(Rectangle, ProperConstructionWithNegativeExtent)
+TEST(Rectangle, ProperConstructionWithNegativeExtent) // NOLINT
 {
     Rectangle rect{{4, 6}, -3, -4};
 
@@ -65,7 +65,7 @@ TEST(Rectangle, ProperConstructionWithNegativeExtent)
     ASSERT_DOUBLE_EQ(rect.center().y, 4);
 }
 
-TEST(Rectangle, ProperConstructionFromTwoPoints)
+TEST(Rectangle, ProperConstructionFromTwoPoints) // NOLINT
 {
     Rectangle rect{{1, 2}, {4, 6}};
 
@@ -95,7 +95,7 @@ TEST(Rectangle, ProperConstructionFromTwoPoints)
     ASSERT_DOUBLE_EQ(rect.center().y, 4);
 }
 
-TEST(Rectangle, ProperConstructionFromTwoPointsFlipped)
+TEST(Rectangle, ProperConstructionFromTwoPointsFlipped) // NOLINT
 {
     Rectangle rect{{4, 6}, {1, 2}};
 
@@ -125,7 +125,7 @@ TEST(Rectangle, ProperConstructionFromTwoPointsFlipped)
     ASSERT_DOUBLE_EQ(rect.center().y, 4);
 }
 
-TEST(Rectangle, Extent)
+TEST(Rectangle, Extent) // NOLINT
 {
     Rectangle a{{1, 2}, {4, 3}};
 
@@ -133,7 +133,7 @@ TEST(Rectangle, Extent)
     ASSERT_DOUBLE_EQ(a.extent().y, 1);
 }
 
-TEST(Rectangle, Conjunction)
+TEST(Rectangle, Conjunction) // NOLINT
 {
     Rectangle a{{}, 4, 3};
     Rectangle b{{2, 1}, 3, 3};
@@ -144,36 +144,36 @@ TEST(Rectangle, Conjunction)
     ASSERT_DOUBLE_EQ(a.conjunction(b).right(), 4);
 }
 
-TEST(Rectangle, ConjunctionNonOverlapping)
+TEST(Rectangle, ConjunctionNonOverlapping) // NOLINT
 {
     Rectangle a{{}, 4, 3};
 
     Rectangle above{{2, 3}, 3, 3};
-    ASSERT_DOUBLE_EQ(a.conjunction(above).bottom(), Rectangle::ZERO_RECTANGLE.bottom());
-    ASSERT_DOUBLE_EQ(a.conjunction(above).left(), Rectangle::ZERO_RECTANGLE.left());
-    ASSERT_DOUBLE_EQ(a.conjunction(above).top(), Rectangle::ZERO_RECTANGLE.top());
-    ASSERT_DOUBLE_EQ(a.conjunction(above).right(), Rectangle::ZERO_RECTANGLE.right());
+    ASSERT_DOUBLE_EQ(a.conjunction(above).bottom(), Rectangle::zeroRectangle().bottom());
+    ASSERT_DOUBLE_EQ(a.conjunction(above).left(), Rectangle::zeroRectangle().left());
+    ASSERT_DOUBLE_EQ(a.conjunction(above).top(), Rectangle::zeroRectangle().top());
+    ASSERT_DOUBLE_EQ(a.conjunction(above).right(), Rectangle::zeroRectangle().right());
 
     Rectangle below{{2, -3}, 3, 3};
-    ASSERT_DOUBLE_EQ(a.conjunction(below).bottom(), Rectangle::ZERO_RECTANGLE.bottom());
-    ASSERT_DOUBLE_EQ(a.conjunction(below).left(), Rectangle::ZERO_RECTANGLE.left());
-    ASSERT_DOUBLE_EQ(a.conjunction(below).top(), Rectangle::ZERO_RECTANGLE.top());
-    ASSERT_DOUBLE_EQ(a.conjunction(below).right(), Rectangle::ZERO_RECTANGLE.right());
+    ASSERT_DOUBLE_EQ(a.conjunction(below).bottom(), Rectangle::zeroRectangle().bottom());
+    ASSERT_DOUBLE_EQ(a.conjunction(below).left(), Rectangle::zeroRectangle().left());
+    ASSERT_DOUBLE_EQ(a.conjunction(below).top(), Rectangle::zeroRectangle().top());
+    ASSERT_DOUBLE_EQ(a.conjunction(below).right(), Rectangle::zeroRectangle().right());
 
     Rectangle right{{2, 3}, 4, 3};
-    ASSERT_DOUBLE_EQ(a.conjunction(right).bottom(), Rectangle::ZERO_RECTANGLE.bottom());
-    ASSERT_DOUBLE_EQ(a.conjunction(right).left(), Rectangle::ZERO_RECTANGLE.left());
-    ASSERT_DOUBLE_EQ(a.conjunction(right).top(), Rectangle::ZERO_RECTANGLE.top());
-    ASSERT_DOUBLE_EQ(a.conjunction(right).right(), Rectangle::ZERO_RECTANGLE.right());
+    ASSERT_DOUBLE_EQ(a.conjunction(right).bottom(), Rectangle::zeroRectangle().bottom());
+    ASSERT_DOUBLE_EQ(a.conjunction(right).left(), Rectangle::zeroRectangle().left());
+    ASSERT_DOUBLE_EQ(a.conjunction(right).top(), Rectangle::zeroRectangle().top());
+    ASSERT_DOUBLE_EQ(a.conjunction(right).right(), Rectangle::zeroRectangle().right());
 
     Rectangle left{{2, 3}, -3, 3};
-    ASSERT_DOUBLE_EQ(a.conjunction(left).bottom(), Rectangle::ZERO_RECTANGLE.bottom());
-    ASSERT_DOUBLE_EQ(a.conjunction(left).left(), Rectangle::ZERO_RECTANGLE.left());
-    ASSERT_DOUBLE_EQ(a.conjunction(left).top(), Rectangle::ZERO_RECTANGLE.top());
-    ASSERT_DOUBLE_EQ(a.conjunction(left).right(), Rectangle::ZERO_RECTANGLE.right());
+    ASSERT_DOUBLE_EQ(a.conjunction(left).bottom(), Rectangle::zeroRectangle().bottom());
+    ASSERT_DOUBLE_EQ(a.conjunction(left).left(), Rectangle::zeroRectangle().left());
+    ASSERT_DOUBLE_EQ(a.conjunction(left).top(), Rectangle::zeroRectangle().top());
+    ASSERT_DOUBLE_EQ(a.conjunction(left).right(), Rectangle::zeroRectangle().right());
 }
 
-TEST(Rectangle, ContainsTransformed)
+TEST(Rectangle, ContainsTransformed) // NOLINT
 {
     Rectangle rect{{}, 1, 1};
     Transform t;

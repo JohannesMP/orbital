@@ -49,8 +49,8 @@ public:
 
     void
     step(
-            Decimal const M,
-            Decimal const dt
+            Decimal M,
+            Decimal dt
     );
 
 private:
@@ -58,8 +58,8 @@ private:
     std::string mName;
     Decimal mMass{};      ///< [kg]   Planet mass (m > 0)
     Decimal mRadius{};    ///< [m]    Planet radius (r > 0)
-    vec mPosition;            ///< [m]    Position of body mass center
-    Ellipse mTrajectory;
-    vec mTrajectoryCenter;
+    vec mPosition{};            ///< [m]    Position of body mass center
+    Ellipse mTrajectory{};
+    vec mTrajectoryCenter{};
 
 };

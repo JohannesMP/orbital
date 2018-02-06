@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="sources" pattern="file[orbit]:src//*&amp;&amp;!file[orbit]:src/fmt//*||file[orbit]:test//*" />
+</component>

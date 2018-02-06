@@ -16,7 +16,7 @@ public:
     /**
      * A rectangle with no extent, sitting at position 0.
      */
-    static const Rectangle ZERO_RECTANGLE;
+    static Rectangle zeroRectangle();
 
     /**
      * Construct a rectangle from a point, width and height.

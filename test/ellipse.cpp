@@ -327,7 +327,7 @@ TEST(Ellipse, IntersectionPerpendicularXAxis) // NOLINT
 {
     Ellipse ellipse{2, 0.5};
 
-    auto intersections = ellipse.intersectPoints({{0, -2}, {0, 4}}, true);
+    auto intersections = ellipse.intersectPoints(Line{{0, -2}, {0, 4}}, true);
 
     ASSERT_EQ(intersections.size(), 2);
     ASSERT_NEAR(intersections[0].x, 0, 0.001);

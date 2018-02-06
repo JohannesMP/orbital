@@ -227,24 +227,6 @@ public:
     }
 
     /**
-     * @return Constant begin iterator.
-     */
-    constexpr auto
-    cbegin() const
-    {
-        return mArray.cbegin();
-    }
-
-    /**
-     * @return Constant end iterator.
-     */
-    constexpr auto
-    cend() const
-    {
-        return mArray.cbegin() + mLength;
-    }
-
-    /**
      * @return Serialize array to output stream.
      */
     friend std::ostream &
@@ -254,10 +236,10 @@ public:
     )
     {
         os << "[ ";
-        for (auto const iter = array.cbegin(); iter != array.cend(); iter++)
+        for (auto const iter = array.begin(); iter != array.end(); iter++)
         {
             os << *iter;
-            if (iter + 1 != array.cend())
+            if (iter + 1 != array.end())
             {
                 os << ", ";
             }
