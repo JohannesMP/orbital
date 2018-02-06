@@ -3,7 +3,7 @@
 //
 
 #include <gtest/gtest.h>
-#include <orbital/Rectangle.h>
+#include <orbital/math/Rectangle.h>
 
 TEST(Rectangle, ProperConstructionWithPositiveExtent) // NOLINT
 {

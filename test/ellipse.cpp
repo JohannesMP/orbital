@@ -3,7 +3,7 @@
 //
 
 #include <gtest/gtest.h>
-#include <orbital/Ellipse.h>
+#include <orbital/math/Ellipse.h>
 
 TEST(Ellipse, ProperConstruction) // NOLINT
 {

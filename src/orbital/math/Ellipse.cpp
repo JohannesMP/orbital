@@ -3,7 +3,6 @@
 //
 
 #include "Ellipse.h"
-#include <numeric>
 
 Ellipse::Ellipse(
         Decimal a,

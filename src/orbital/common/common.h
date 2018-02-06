@@ -11,12 +11,13 @@
 #include <sstream>
 #include <string_view>
 #include <memory>
+#include <chrono>
+#include <numeric>
 
 #include <boost/math/constants/constants.hpp>
 
-#include <chrono>
-#include <glm/detail/type_vec.hpp>
 #include <glm/glm.hpp>
+#include <glm/detail/type_vec.hpp>
 
 #include "fmt/printf.h"
 

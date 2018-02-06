@@ -4,10 +4,8 @@
 
 #pragma once
 
-#include "Ellipse.h"
-#include "constants.h"
-#include <glm/glm.hpp>
-#include <experimental/string_view>
+#include <orbital/math/Ellipse.h>
+#include <orbital/common/common.h>
 
 class Body
 {

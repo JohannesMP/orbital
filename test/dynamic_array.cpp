@@ -3,8 +3,8 @@
 //
 
 #include <gtest/gtest.h>
-#include <orbital/DynamicArray.h>
-#include <orbital/constants.h>
+#include <orbital/common/DynamicArray.h>
+#include <orbital/common/common.h>
 
 TEST(DynamicArray, Basic) // NOLINT
 {

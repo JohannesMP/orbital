@@ -3,7 +3,7 @@
 //
 
 #include <gtest/gtest.h>
-#include <orbital/Transform.h>
+#include <orbital/math/Transform.h>
 
 TEST(Transform, DefaultConstructionIsIdentityMatrix) // NOLINT
 {

@@ -2,7 +2,7 @@
 // Created by jim on 23.01.18.
 //
 
-#include "constants.h"
+#include "common.h"
 
 DynamicArray<Decimal, 2>
 quadratic(

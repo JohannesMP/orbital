@@ -1,8 +1,8 @@
 #include <iostream>
 #include <iomanip>
 #include <thread>
-#include "src/orbital/System.h"
-#include "src/orbital/Graphics.h"
+#include "src/orbital/physical/System.h"
+#include "src/orbital/graphics/Graphics.h"
 
 int
 main()

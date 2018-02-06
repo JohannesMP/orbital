@@ -2,9 +2,9 @@
 // Created by jim on 24.01.18.
 //
 
-#include "Ellipse.h"
-#include "Transform.h"
-#include "constants.h"
+#include "../math/Ellipse.h"
+#include "../math/Transform.h"
+#include "../common/common.h"
 #include <list>
 #include <string>
 #include <vector>

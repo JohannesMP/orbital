@@ -3,7 +3,7 @@
 //
 
 #include <gtest/gtest.h>
-#include <orbital/constants.h>
+#include <orbital/common/common.h>
 
 TEST(Integral, NullArea) // NOLINT
 {
