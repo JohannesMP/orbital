@@ -6,13 +6,13 @@
 #include <gtest/gtest.h>
 #include <orbital/constants.h>
 
-TEST(Constants, Validity)
+TEST(Constants, Validity) // NOLINT
 {
     ASSERT_DOUBLE_EQ(G(), 6.67408e-11_df);
     ASSERT_DOUBLE_EQ(au(), 149597870700_df);
 }
 
-TEST(VectorFunctions, Length)
+TEST(VectorFunctions, Length) // NOLINT
 {
     ASSERT_DOUBLE_EQ(length(vec(0, 0)), 0);
     ASSERT_DOUBLE_EQ(length(vec(1, 0)), 1);
@@ -25,7 +25,7 @@ TEST(VectorFunctions, Length)
     ASSERT_DOUBLE_EQ(length(vec(2, -2)), std::sqrt(8));
 }
 
-TEST(VectorFunctions, Distance)
+TEST(VectorFunctions, Distance) // NOLINT
 {
     ASSERT_DOUBLE_EQ(distance(vec(0, 0), vec()), 0);
     ASSERT_DOUBLE_EQ(distance(vec(1, 0), vec()), 1);

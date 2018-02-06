@@ -82,23 +82,8 @@ Ellipse::contains(
         const vec &p
 ) const
 {
-    if (p.x == 0 && p.y == 0)
-    {
-        // The center is guaranteed to be contained:
-        return true;
-    }
-    if (p.y == 0 && p.x <= mA && p.x >= -mA)
-    {
-        // p lies on the x-axis covered be the ellipse:
-        return true;
-    }
-    if (p.x == 0 && p.y <= mB && p.y >= -mB)
-    {
-        // p lies on the y-axis covered by the ellipse:
-        return true;
-    }
-
-    return 2 * mA >= distance(focalPoints()[0], p) + distance(focalPoints()[1], p);
+    return p.x == 0 && p.y == 0 || p.y == 0 && p.x <= mA && p.x >= -mA || p.x == 0 && p.y <= mB && p.y >= -mB ||
+    2 * mA >= distance(focalPoints()[0], p) + distance(focalPoints()[1], p);
 }
 
 Decimal
@@ -137,38 +122,38 @@ Ellipse::clip(
 ) const
 {
     DynamicArray<std::pair<Decimal, Decimal>, 4> result;
-    DynamicArray<Decimal, 8> intersectionPoints;
+    DynamicArray<Decimal, 8> points;
 
     auto appendIntersectionPoints = [&](DynamicArray<vec, 2> points) {
         fmt::print("Try to append {} new intersection points\n", points.size());
         for (auto const &point : points)
         {
             fmt::print("Append intersection point {} mapping to t={}\n", point, pointToT(point));
-            intersectionPoints.emplace_back(pointToT(point));
+            points.emplace_back(pointToT(point));
         }
     };
 
     // Append intersections from line: bottom left - top left
     appendIntersectionPoints(
-            intersectPoints({transform.apply(rect.bottomLeft()), transform.apply(rect.topLeft())}, true));
+            intersectPoints(Line{transform.apply(rect.bottomLeft()), transform.apply(rect.topLeft())}, true));
 
     // Append intersections from line: bottom left - bottom right
     appendIntersectionPoints(
-            intersectPoints({transform.apply(rect.bottomLeft()), transform.apply(rect.bottomRight())}, true));
+            intersectPoints(Line{transform.apply(rect.bottomLeft()), transform.apply(rect.bottomRight())}, true));
 
     // Append intersections from line: top right - top left
     appendIntersectionPoints(
-            intersectPoints({transform.apply(rect.topRight()), transform.apply(rect.topLeft())}, true));
+            intersectPoints(Line{transform.apply(rect.topRight()), transform.apply(rect.topLeft())}, true));
 
     // Append intersections from line: top right - bottom right
     appendIntersectionPoints(
-            intersectPoints({transform.apply(rect.topRight()), transform.apply(rect.bottomRight())}, true));
+            intersectPoints(Line{transform.apply(rect.topRight()), transform.apply(rect.bottomRight())}, true));
 
     // Sort intersection t-parameters:
-    std::sort(intersectionPoints.begin(), intersectionPoints.end());
+    std::sort(points.begin(), points.end());
 
-    fmt::print("Intersection points ({}): ", intersectionPoints.size());
-    for (auto const &i : intersectionPoints)
+    fmt::print("Intersection points ({}): ", points.size());
+    for (auto const &i : points)
     {
         fmt::print("{}", i);
     }
@@ -177,7 +162,7 @@ Ellipse::clip(
     // No intersection points
     // -> Check any point for containment
     // -> false => Complete rect-angle lies outside, therefore the ellipse is visible and nothing is clipped away:
-    if (intersectionPoints.size() < 2)
+    if (points.size() < 2)
     {
         if (!contains(transform.apply(rect.bottomLeft())))
         {
@@ -192,12 +177,12 @@ Ellipse::clip(
     }
 
     // Check whether first section lies within the transformed rect:
-    Decimal t = std::abs(intersectionPoints[1] - intersectionPoints[0]) / 2.0;
+    Decimal t = std::abs(points[1] - points[0]) / 2.0;
     vec p = point(t);
     if (rect.containsTransformed(transform, p))
     {
         // Lies within:
-        for (auto iter = intersectionPoints.begin(); iter != intersectionPoints.end(); iter += 2)
+        for (auto iter = points.begin(); iter != points.end(); iter += 2)
         {
             result.emplace_back(*iter, *(iter + 1));
         }
@@ -205,11 +190,11 @@ Ellipse::clip(
     else
     {
 
-        for (auto iter = intersectionPoints.begin() + 1; iter != intersectionPoints.end(); iter += 2)
+        for (auto iter = points.begin() + 1; iter != points.end(); iter += 2)
         {
             result.emplace_back(*iter, *(iter + 1));
         }
-        result.emplace_back(intersectionPoints.back(), 2_pi + intersectionPoints.front());
+        result.emplace_back(points.back(), 2_pi + points.front());
     }
 }
 

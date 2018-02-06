@@ -12,7 +12,7 @@ class Line
 
 public:
 
-    Line(
+    explicit Line(
             vec const p0,
             vec const p1
     );

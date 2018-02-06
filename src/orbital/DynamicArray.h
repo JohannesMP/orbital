@@ -112,7 +112,7 @@ public:
      * @return First element.
      */
     constexpr const T &
-    front() const
+    front() const // NOLINT
     {
         return mArray.front();
     }
@@ -134,7 +134,7 @@ public:
      * @return Last element.
      */
     constexpr const T &
-    back() const
+    back() const // NOLINT
     {
         return mArray[mLength - 1];
     }
@@ -227,24 +227,6 @@ public:
     }
 
     /**
-     * @return Constant begin iterator.
-     */
-    constexpr auto
-    cbegin() const
-    {
-        return mArray.cbegin();
-    }
-
-    /**
-     * @return Constant end iterator.
-     */
-    constexpr auto
-    cend() const
-    {
-        return mArray.cbegin() + mLength;
-    }
-
-    /**
      * @return Serialize array to output stream.
      */
     friend std::ostream &
@@ -254,10 +236,10 @@ public:
     )
     {
         os << "[ ";
-        for (auto const iter = array.cbegin(); iter != array.cend(); iter++)
+        for (auto const iter = array.begin(); iter != array.end(); iter++)
         {
             os << *iter;
-            if (iter + 1 != array.cend())
+            if (iter + 1 != array.end())
             {
                 os << ", ";
             }
@@ -266,6 +248,10 @@ public:
         return os;
     }
 
+    /**
+     * Size or shrunk the length of active elements directly.
+     * @param size New array size.
+     */
     constexpr void
     resize(
             size_t const size
@@ -281,4 +267,3 @@ private:
     std::array<T, N> mArray;
 
 };
-

@@ -5,22 +5,22 @@
 #include <gtest/gtest.h>
 #include <orbital/constants.h>
 
-TEST(Integral, NullArea)
+TEST(Integral, NullArea) // NOLINT
 {
     ASSERT_DOUBLE_EQ(integral(&sq, 1, 1, 100), 0);
 }
 
-TEST(Integral, SquareFunction)
+TEST(Integral, SquareFunction) // NOLINT
 {
     ASSERT_NEAR(integral(&sq, 1, 2, 100), 2.33, 0.01);
 }
 
-TEST(Integral, SquareFunctionOppositeDirection)
+TEST(Integral, SquareFunctionOppositeDirection) // NOLINT
 {
     ASSERT_NEAR(integral(&sq, 2, 1, 100), -2.33, 0.01);
 }
 
-TEST(Integral, NegatedSquareFunction)
+TEST(Integral, NegatedSquareFunction) // NOLINT
 {
     auto negativeSq = [](Decimal x) {
         return -x * x;
@@ -28,7 +28,7 @@ TEST(Integral, NegatedSquareFunction)
     ASSERT_NEAR(integral(negativeSq, 1, 2, 100), -2.33, 0.01);
 }
 
-TEST(Integral, NegatedSquareFunctionOppositeDirection)
+TEST(Integral, NegatedSquareFunctionOppositeDirection) // NOLINT
 {
     auto negativeSq = [](Decimal x) {
         return -x * x;
@@ -36,17 +36,17 @@ TEST(Integral, NegatedSquareFunctionOppositeDirection)
     ASSERT_NEAR(integral(negativeSq, 2, 1, 100), 2.33, 0.01);
 }
 
-TEST(Integral, SquareFunctionNegative)
+TEST(Integral, SquareFunctionNegative) // NOLINT
 {
     ASSERT_NEAR(integral(&sq, -2, -1, 100), 2.33, 0.01);
 }
 
-TEST(Integral, SquareFunctionNegativeOppositeDirection)
+TEST(Integral, SquareFunctionNegativeOppositeDirection) // NOLINT
 {
     ASSERT_NEAR(integral(&sq, -1, -2, 100), -2.33, 0.01);
 }
 
-TEST(Integral, NegatedSquareFunctionNegative)
+TEST(Integral, NegatedSquareFunctionNegative) // NOLINT
 {
     auto negativeSq = [](Decimal x) {
         return -x * x;
@@ -54,7 +54,7 @@ TEST(Integral, NegatedSquareFunctionNegative)
     ASSERT_NEAR(integral(negativeSq, -2, -1, 100), -2.33, 0.01);
 }
 
-TEST(Integral, NegatedSquareFunctionNegativeOppositeDirection)
+TEST(Integral, NegatedSquareFunctionNegativeOppositeDirection) // NOLINT
 {
     auto negativeSq = [](Decimal x) {
         return -x * x;
@@ -62,7 +62,7 @@ TEST(Integral, NegatedSquareFunctionNegativeOppositeDirection)
     ASSERT_NEAR(integral(negativeSq, -1, -2, 100), 2.33, 0.01);
 }
 
-TEST(Integral, SinusSelfElimination)
+TEST(Integral, SinusSelfElimination) // NOLINT
 {
     auto sin = [](Decimal x) {
         return std::sin(x);
