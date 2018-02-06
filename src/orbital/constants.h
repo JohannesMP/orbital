@@ -12,9 +12,9 @@
 
 #include <boost/math/constants/constants.hpp>
 
-#include <glm/glm.hpp>
-#include <glm/detail/type_vec.hpp>
 #include <chrono>
+#include <glm/detail/type_vec.hpp>
+#include <glm/glm.hpp>
 
 #include "fmt/printf.h"
 
@@ -81,7 +81,7 @@ using mat = glm::tmat3x3<Decimal>;
 using complex = std::complex<Decimal>;
 
 // Import STL chrono literals:
-using namespace std::chrono_literals;
+using namespace std::chrono_literals; // NOLINT
 
 /**
  * Literal suffix to properly use the Decimal type-alias in literals.
@@ -160,7 +160,7 @@ operator "" _pi(
  * Smallest value, to use for 0 in cases 0 is forbidden
  */
 constexpr Decimal
-ZERO()
+zero()
 {
     return std::numeric_limits<Decimal>::epsilon();
 }
@@ -217,14 +217,6 @@ perpendicular(
     return {-v.y, v.x};
 }
 
-template<class T, class TVec>
-T x(
-        TVec &&v
-)
-{
-    return std::forward<TVec>(v).x; // NOLINT
-};
-
 /**
  * Calculate the angle between the vector and the x axis: \f$ arctan2(v_y, v_x) \f$
  */
@@ -248,30 +240,25 @@ template<class TFun>
 Decimal
 integral(
         TFun &&f,
-        Decimal low,
-        Decimal high,
+        Decimal const low,
+        Decimal const high,
         Decimal const resolution
 )
 {
-    bool reverse = false;
-    if (low > high)
-    {
-        std::swap(low, high);
-        reverse = true;
-    }
-
-    Decimal const step = 1 / resolution;
+    // Step points to negative x if high is smaller than low
+    Decimal const step = (high >= low ? 1 : -1) / resolution;
     auto const steps = static_cast<int>((high - low) / step);
-    Decimal sum = 0.0;                    // Area size accumulation
-    Decimal x = low;                      // x starts at the lower bound
 
-    for (int i = 0; i < steps; i++)
+    Decimal sum = 0.0;       // Area size accumulation
+    Decimal x = low;         // x starts at the lower bound
+
+    for (unsigned i = 0; i < steps; i++)
     {
         sum += std::forward<TFun>(f)(x + step * 0.5) * step;
         x += step;
     }
 
-    return !reverse ? sum : -sum;
+    return sum;
 }
 
 /**

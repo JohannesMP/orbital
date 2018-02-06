@@ -2,9 +2,8 @@
 // Created by jim on 24.01.18.
 //
 
-#include <iostream>
-#include <glm/gtx/matrix_transform_2d.hpp>
 #include "Graphics.h"
+#include <glm/gtx/matrix_transform_2d.hpp>
 
 Graphics::Graphics(
         int rows,
@@ -38,7 +37,7 @@ Graphics::Graphics(
     mProjection = glm::scale(mProjection, {1, -1});
 
     // Scale against viewport distort
-    mProjection = glm::scale(mProjection, {rows / (Decimal) cols / CHAR_RATIO, 1});
+    mProjection = glm::scale(mProjection, {rows / static_cast<Decimal>( cols) / CHAR_RATIO, 1});
 
     push();
     updateTransform();

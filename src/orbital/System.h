@@ -4,9 +4,9 @@
 
 #pragma once
 
-#include <list>
-#include <functional>
 #include "Body.h"
+#include <functional>
+#include <list>
 
 /**
  * A system storing a state bound to time.

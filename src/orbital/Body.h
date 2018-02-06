@@ -4,10 +4,10 @@
 
 #pragma once
 
-#include <memory>
-#include <glm/glm.hpp>
-#include "constants.h"
 #include "Ellipse.h"
+#include "constants.h"
+#include <glm/glm.hpp>
+#include <memory>
 
 class Body
 {

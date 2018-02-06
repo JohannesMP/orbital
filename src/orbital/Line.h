@@ -4,8 +4,8 @@
 
 #pragma once
 
-#include <ostream>
 #include "constants.h"
+#include <ostream>
 
 class Line
 {

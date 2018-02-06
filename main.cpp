@@ -4,8 +4,6 @@
 #include "src/orbital/System.h"
 #include "src/orbital/Graphics.h"
 
-[[maybe_unused]] int bar() {}
-
 int
 main()
 {

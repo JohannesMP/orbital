@@ -4,9 +4,9 @@
 
 #pragma once
 
-#include <ostream>
-#include "constants.h"
 #include "Transform.h"
+#include "constants.h"
+#include <ostream>
 
 class Rectangle
 {

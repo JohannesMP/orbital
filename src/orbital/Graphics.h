@@ -2,12 +2,12 @@
 // Created by jim on 24.01.18.
 //
 
+#include "Ellipse.h"
+#include "Transform.h"
+#include "constants.h"
 #include <list>
 #include <string>
 #include <vector>
-#include "constants.h"
-#include "Transform.h"
-#include "Ellipse.h"
 
 #pragma once
 

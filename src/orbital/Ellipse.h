@@ -2,13 +2,13 @@
 // Created by jim on 26.01.18.
 //
 
-#include <array>
-#include <vector>
-#include <ostream>
-#include "constants.h"
+#include "Line.h"
 #include "Rectangle.h"
 #include "Transform.h"
-#include "Line.h"
+#include "constants.h"
+#include <array>
+#include <ostream>
+#include <vector>
 
 #pragma once
 

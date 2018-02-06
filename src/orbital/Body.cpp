@@ -2,8 +2,6 @@
 // Created by jim on 23.01.18.
 //
 
-#include <cmath>
-#include <iostream>
 #include "Body.h"
 
 Body::Body(
@@ -16,7 +14,7 @@ Body::Body(
         : mName{std::move(name)}
         , mMass{mass}
         , mRadius{radius}
-        , mTrajectory{a != 0 ? a : ZERO(), e}
+        , mTrajectory{a != 0 ? a : zero(), e}
 {
     // Position orbiting body (determined by a) to the near focal point of this' trajectory:
     mPosition = mTrajectory.focalPoints()[1];
