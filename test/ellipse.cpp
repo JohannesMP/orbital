@@ -386,6 +386,7 @@ TEST(Ellipse, RectangularClipPartialOverlapFirstQuadrant)
     Ellipse ellipse{2, 0.5};
     Rectangle rect{{1, 1}, {4, 4}};
 
+    std::cout << std::endl;
     auto ts = ellipse.clip(rect, {});
 
     ASSERT_EQ(ts.size(), 1);

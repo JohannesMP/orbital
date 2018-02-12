@@ -11,8 +11,10 @@
       <w>cout</w>
       <w>crbegin</w>
       <w>crend</w>
+      <w>emplace</w>
       <w>endl</w>
       <w>foci</w>
+      <w>imag</w>
       <w>pmatrix</w>
       <w>rbegin</w>
       <w>scanline</w>

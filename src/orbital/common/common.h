@@ -281,11 +281,21 @@ quadratic(
         Decimal const c
 );
 
-Decimal
-average(
-        Decimal const a,
-        Decimal const b
-);
+/**
+ * Compute the average over a given set of values.
+ * @param value First value.
+ * @param rest Rest of values.
+ * @return Average.
+ */
+template<class... Ts>
+constexpr Decimal average(
+        Decimal const value,
+        Ts ...rest
+)
+{
+    std::array<Decimal, sizeof...(rest) + 1> v{{value, rest...}};
+    return std::accumulate(v.begin(), v.end(), 0_df) / v.size();
+}
 
 /**
  * Serialize a complex number: [real]+[imag]ⅈ

@@ -114,63 +114,72 @@ Ellipse::pointToT(const vec v) const
     return v.y >= 0 ? t : 2_pi - t;
 }
 
+/*
+ * How the algorithm works:
+ * 1) Simple store all intersection points between the ellipse and the 4 edge lines.
+ *      Edge case: If a line has 1 intersection, but both end points lie outside of the ellipse,
+ *      the intersection is ignored, since it only touches the ellipse. TODO: outsource to intersectionPoints()
+ *      Edge case: If one line's endpoint lies on the ellipse, it is ignored as well.
+ *    After that, 'points' should have an even number of elements.
+ * 2) Check if the first two elements denote a range covered be the rectangle.
+ *    If so, the elements are already in-order, so their can iteratively copied to the resulting ranges.
+ *    Otherwise, the elements are in shifted-order, so the rectangle covers the range denoted by the second and third,
+ *    fourth and fifth, ... element and the range between the last and the first element. In this case 2π should be
+ *    added to the first element, so it's greater in value than the last element.
+ */
 DynamicArray<std::pair<Decimal, Decimal>, 4>
 Ellipse::clip(
         const Rectangle &rect,
         const Transform &transform
 ) const
 {
-    //DynamicArray<Decimal, 8> points;
+    DynamicArray<Decimal, 8> points;
     DynamicArray<std::pair<Decimal, Decimal>, 4> ranges;
 
-    auto appendIntersectionPoints = [&](DynamicArray<vec, 2> const intersections) {
-        if(intersections.size() < 2) {
-            // Intersections only touching the ellipse are ignored:
+    // Store valid intersections of line, representing a transformed edge of the rectangle:
+    auto storeIntersections = [&](Line const &line) {
+        auto const intersections = intersectPoints(line, true);
+
+        if (intersections.size() == 0)
+        {
             return;
         }
 
-        // Store the range:
-
-        Decimal const t0 = pointToT(intersections.front());
-        Decimal const t1 = pointToT(intersections.back());
-
-        // Rectangle contains either the range [t0, t1] or the *other* side:
-        Decimal const t2 = average(t0, t1);
-
-        if(rect.containsTransformed(transform.inverse(), point(t2)))
+        if (intersections.size() == 1 && !contains(line.point(0)) && !contains(line.point(1)))
         {
-            // Rectangle covers range [t0, t1]:
-            ranges.emplace_back(t0, t1);
+            return;
         }
 
-        else
+        if (intersections.size() == 1 &&
+                ((intersections.front() == line.point(0)) || (intersections.front() == line.point(1))))
         {
-            // Rectangle covers other side, i.e.: [t0, t1 + 2π]
-            // The ... t1 + 2π ... is needed so the range flips over the other side of the ellipse:
-            ranges.emplace_back(t0, t1 + 2_pi);
+            return;
+        }
+
+        for(auto const &i : intersections)
+        {
+            points.emplace_back(pointToT(i));
         }
     };
 
     // Append intersections from line: bottom left - top left
-    appendIntersectionPoints(
-            intersectPoints(Line{transform.apply(rect.bottomLeft()), transform.apply(rect.topLeft())}, true));
+    storeIntersections(Line{transform.apply(rect.bottomLeft()), transform.apply(rect.topLeft())});
 
     // Append intersections from line: bottom left - bottom right
-    appendIntersectionPoints(
-            intersectPoints(Line{transform.apply(rect.bottomLeft()), transform.apply(rect.bottomRight())}, true));
+    storeIntersections(Line{transform.apply(rect.bottomLeft()), transform.apply(rect.bottomRight())});
 
     // Append intersections from line: top right - top left
-    appendIntersectionPoints(
-            intersectPoints(Line{transform.apply(rect.topRight()), transform.apply(rect.topLeft())}, true));
+    storeIntersections(Line{transform.apply(rect.topRight()), transform.apply(rect.topLeft())});
 
     // Append intersections from line: top right - bottom right
-    appendIntersectionPoints(
-            intersectPoints(Line{transform.apply(rect.topRight()), transform.apply(rect.bottomRight())}, true));
+    storeIntersections(Line{transform.apply(rect.topRight()), transform.apply(rect.bottomRight())});
 
-    fmt::print("Intersection ranges: ({}): {}\n", ranges.size(), ranges);
+    std::sort(points.begin(), points.end());
+
+    fmt::print("Intersection points: ({}): {}\n", points.size(), points);
 
     // No intersection ranges:
-    if (ranges.empty())
+    if (points.empty())
     {
         if (rect.containsTransformed(transform.inverse(), {0, 0}) &&
                 rect.containsTransformed(transform.inverse(), {mA, 0}))
@@ -179,7 +188,33 @@ Ellipse::clip(
             // right-most point:
             ranges.emplace_back(0, 2_pi);
         }
-        return ranges;
+    }
+
+    else
+    {
+        assert(points.size() % 2 == 0);
+
+        Decimal const t = average(points[0], points[1]);
+        vec const p = point(t);
+
+        if(rect.containsTransformed(transform.inverse(), p))
+        {
+            // points are in-order, simple copy them:
+            for(auto iter = points.begin(); iter != points.end(); iter += 2)
+            {
+                ranges.emplace_back(*iter, *(iter + 1));
+            }
+        }
+
+        else
+        {
+            // points are in shifted-order:
+            for(auto iter = points.begin() + 1; iter != points.end() - 1; iter++)
+            {
+                ranges.emplace_back(*iter, *(iter + 1));
+            }
+            ranges.emplace_back(points.back(), points.front() + 2_pi);
+        }
     }
 
     return ranges;
