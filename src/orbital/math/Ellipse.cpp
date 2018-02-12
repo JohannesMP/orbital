@@ -120,15 +120,34 @@ Ellipse::clip(
         const Transform &transform
 ) const
 {
-    DynamicArray<std::pair<Decimal, Decimal>, 4> result;
-    DynamicArray<Decimal, 8> points;
+    //DynamicArray<Decimal, 8> points;
+    DynamicArray<std::pair<Decimal, Decimal>, 4> ranges;
 
-    auto appendIntersectionPoints = [&](DynamicArray<vec, 2> points) {
-        fmt::print("Try to append {} new intersection points\n", points.size());
-        for (auto const &point : points)
+    auto appendIntersectionPoints = [&](DynamicArray<vec, 2> const intersections) {
+        if(intersections.size() < 2) {
+            // Intersections only touching the ellipse are ignored:
+            return;
+        }
+
+        // Store the range:
+
+        Decimal const t0 = pointToT(intersections.front());
+        Decimal const t1 = pointToT(intersections.back());
+
+        // Rectangle contains either the range [t0, t1] or the *other* side:
+        Decimal const t2 = average(t0, t1);
+
+        if(rect.containsTransformed(transform.inverse(), point(t2)))
         {
-            fmt::print("Append intersection point {} mapping to t={}\n", point, pointToT(point));
-            points.emplace_back(pointToT(point));
+            // Rectangle covers range [t0, t1]:
+            ranges.emplace_back(t0, t1);
+        }
+
+        else
+        {
+            // Rectangle covers other side, i.e.: [t0, t1 + 2π]
+            // The ... t1 + 2π ... is needed so the range flips over the other side of the ellipse:
+            ranges.emplace_back(t0, t1 + 2_pi);
         }
     };
 
@@ -148,55 +167,22 @@ Ellipse::clip(
     appendIntersectionPoints(
             intersectPoints(Line{transform.apply(rect.topRight()), transform.apply(rect.bottomRight())}, true));
 
-    // Sort intersection t-parameters:
-    std::sort(points.begin(), points.end());
+    fmt::print("Intersection ranges: ({}): {}\n", ranges.size(), ranges);
 
-    fmt::print("Intersection points ({}): ", points.size());
-    for (auto const &i : points)
+    // No intersection ranges:
+    if (ranges.empty())
     {
-        fmt::print("{}", i);
-    }
-    fmt::print("\n");
-
-    // No intersection points
-    // -> Check any point for containment
-    // -> false => Complete rect-angle lies outside, therefore the ellipse is visible and nothing is clipped away:
-    if (points.size() < 2)
-    {
-        if (!contains(transform.apply(rect.bottomLeft())))
+        if (rect.containsTransformed(transform.inverse(), {0, 0}) &&
+                rect.containsTransformed(transform.inverse(), {mA, 0}))
         {
-            fmt::print("Complete ellipse is visible - nothing is clipped\n");
-            result.emplace_back(0, 2_pi);
+            // Complete ellipse is visible, since rectangle contains both, the coordinate origin and the ellipse's
+            // right-most point:
+            ranges.emplace_back(0, 2_pi);
         }
-        else
-        {
-            fmt::print("Complete ellipse is invisible - everything is clipped away\n");
-        }
-        return result;
+        return ranges;
     }
 
-    // Check whether first section lies within the transformed rect:
-    Decimal t = std::abs(points[1] - points[0]) / 2.0;
-    vec p = point(t);
-    if (rect.containsTransformed(transform, p))
-    {
-        // Lies within:
-        for (auto iter = points.begin(); iter != points.end(); iter += 2)
-        {
-            result.emplace_back(*iter, *(iter + 1));
-        }
-    }
-    else
-    {
-
-        for (auto iter = points.begin() + 1; iter != points.end(); iter += 2)
-        {
-            result.emplace_back(*iter, *(iter + 1));
-        }
-        result.emplace_back(points.back(), 2_pi + points.front());
-    }
-
-    return result;
+    return ranges;
 }
 
 std::ostream &

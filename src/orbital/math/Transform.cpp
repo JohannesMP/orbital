@@ -55,3 +55,11 @@ Transform::apply(vec v) const
 {
     return mTransform * vec3{v, 1.0};
 }
+
+Transform
+Transform::inverse() const
+{
+    Transform result;
+    result.mTransform = glm::inverse(mTransform); // todo: transformations do not separate rot/trans/scale
+    return result;
+}

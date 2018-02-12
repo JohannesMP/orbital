@@ -241,7 +241,7 @@ public:
     )
     {
         os << "[ ";
-        for (auto const iter = array.begin(); iter != array.end(); iter++)
+        for (auto iter = array.begin(); iter != array.end(); iter++)
         {
             os << *iter;
             if (iter + 1 != array.end())
@@ -264,6 +264,12 @@ public:
     {
         assert(size <= N);
         mLength = size;
+    }
+
+    constexpr bool const
+    empty()
+    {
+        return 0 == mLength;
     }
 
 private:

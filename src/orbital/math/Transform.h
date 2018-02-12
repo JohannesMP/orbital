@@ -34,6 +34,9 @@ public:
     const mat &
     transformation() const;
 
+    Transform
+    inverse() const;
+
     vec
     apply(
             vec v

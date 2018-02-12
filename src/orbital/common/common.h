@@ -281,6 +281,12 @@ quadratic(
         Decimal const c
 );
 
+Decimal
+average(
+        Decimal const a,
+        Decimal const b
+);
+
 /**
  * Serialize a complex number: [real]+[imag]ⅈ
  */
@@ -311,3 +317,21 @@ operator<<(
 );
 
 } // namespace glm
+
+namespace std {
+
+/**
+ * Serialize a pair:
+ */
+template<class T, class U>
+std::ostream &
+operator<<(
+        std::ostream &os,
+        std::pair<T, U> const &p
+)
+{
+    os << "[ " << p.first << ", " << p.second << " ]";
+    return os;
+}
+
+}

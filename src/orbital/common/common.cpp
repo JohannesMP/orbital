@@ -28,8 +28,16 @@ quadratic(
     Decimal const x1 = (-b + std::sqrt(d)) / (2 * a);
     Decimal const x2 = (-b - std::sqrt(d)) / (2 * a);
     return {std::min(x1, x2), std::max(x1, x2)};
-
 };
+
+Decimal
+average(
+        Decimal const a,
+        Decimal const b
+)
+{
+    return a + (b - a) / 2;
+}
 
 std::ostream &
 operator<<(

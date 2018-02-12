@@ -360,8 +360,6 @@ TEST(Ellipse, Projection) // NOLINT
     ASSERT_DOUBLE_EQ(ellipse.pointAngle(angle(v)).y, ellipse.projection(v).y);
 }
 
-/*
-
 
 TEST(Ellipse, RectangularClipNoOverlap)
 {
@@ -383,10 +381,23 @@ TEST(Ellipse, RectangularClipFullOverlap)
     ASSERT_DOUBLE_EQ(ts[0].second, 2_pi);
 }
 
-TEST(Ellipse, RectangularClipPartialOverlapNoFirstQuadrant)
+TEST(Ellipse, RectangularClipPartialOverlapFirstQuadrant)
 {
     Ellipse ellipse{2, 0.5};
     Rectangle rect{{1, 1}, {4, 4}};
+
+    auto ts = ellipse.clip(rect, {});
+
+    ASSERT_EQ(ts.size(), 1);
+
+    ASSERT_DOUBLE_EQ(ts[0].first, ellipse.tAtY(1));
+    ASSERT_DOUBLE_EQ(ts[0].second, ellipse.tAtX(1));
+}
+
+TEST(Ellipse, RectangularClipPartialOverlapFirstAndFourthQuadrant)
+{
+    Ellipse ellipse{2, 0.5};
+    Rectangle rect{{1, -2}, 2, 4};
 
     std::cout << std::endl << std::endl;
     auto ts = ellipse.clip(rect, {});
@@ -394,9 +405,11 @@ TEST(Ellipse, RectangularClipPartialOverlapNoFirstQuadrant)
 
     ASSERT_EQ(ts.size(), 1);
 
-    ASSERT_DOUBLE_EQ(ts[0].first, 1_pi - ellipse.tAtY(1));
-    ASSERT_DOUBLE_EQ(ts[0].second, 2_pi - std::abs(ellipse.tAtX(1)));
+    ASSERT_DOUBLE_EQ(ts[0].first, 2_pi - ellipse.tAtX(1));
+    ASSERT_DOUBLE_EQ(ts[0].second, 2_pi + ellipse.tAtX(1));
 }
+
+/*
 TEST(Ellipse, RectangularClipPartialOverlapNoSecondQuadrant)
 {
     Ellipse ellipse{2, 0.5};
