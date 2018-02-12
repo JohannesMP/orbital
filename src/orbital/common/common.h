@@ -24,7 +24,7 @@
 #include "DynamicArray.h"
 
 /**
- * \file constants.h Provides general constants and math functions.
+ * \file common.h Provides general constants and math functions.
  *
  * ## Unicode characters:
  *

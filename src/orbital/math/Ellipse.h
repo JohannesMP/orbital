@@ -128,7 +128,8 @@ public:
      * Clips this ellipse to a given rectangle.
      * The calculated ellipse line segments, which are within the rectangle are returned as t-parameter pairs.
      * @param rect Rectangle to clip to.
-     * @return Line using t pairs. Empty of no overlap at all.
+     * @param transform Transform to apply to the rectangle.
+     * @return T pair ranges, denoting ellipse sections lying within the transformed rectangle.
      */
     DynamicArray<std::pair<Decimal, Decimal>, 4>
     clip(
@@ -137,11 +138,29 @@ public:
     ) const;
 
     /**
-     * Compute intersection points for a given line.
+     * Compute intersection points for a given line:
      *
-     * @param p Start point of line.
-     * @param d Direction vector of line.
-     * @return Number of intersections followed by the actual intersection points.
+     * \f$
+     *    E: \frac{x^2}{a^2} + \frac{y^2}{b^2} = 1 \\
+     *    g: \vec{x} = \vec{p} + \lambda \vec{d}
+     * \f$
+     *
+     * g inserted into E:
+     *
+     * \f$
+     *    \frac{ (p_0 + \lambda d_0)^2 }{a^2} +\frac{ (p_1 + \lambda d_1)^2 }{b^2} = 1 \\
+     *    (b^2 d_0^2 + a^2 d_1^2) \lambda^2
+     *    + (2b^2 p_0 d_0 + 2a^2 p_1 d_1) \lambda
+     *    + (b^2 p_0^2 + a^2 p_1^2 - a^2 b^2) = 0
+     * \f$
+     *
+     * Than use the quadratic formula to get \f$ \lambda_0 \f$ and \f$ \lambda_1 \f$
+     *
+     * The intersection points are: \f$ g(\lambda_0) \f$ and \f$ g(\lambda_1) \f$
+     *
+     * @param line Line to intersect with ellipse.
+     * @param clipToLine If true, only points within \f$ 0 \le \lambda \le 1 \f$ are returned.
+     * @return Intersection points.
      */
     DynamicArray<vec, 2>
     intersectPoints(
@@ -225,6 +244,12 @@ public:
             vec const v
     ) const;
 
+    /**
+     * Projects a point to a point on the ellipse, i.e. with the same angle.
+     * @note \f$ \vec{0} \f$ is mapped to \f$ \left( 0, 0 \right) \f$
+     * @param v Point to project.
+     * @return Projected point on ellipse.
+     */
     vec
     projection(
             vec const v
