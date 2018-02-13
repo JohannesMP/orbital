@@ -386,7 +386,6 @@ TEST(Ellipse, RectangularClipPartialOverlapFirstQuadrant) // NOLINT
     Ellipse ellipse{2, 0.5};
     Rectangle rect{{1, 1}, {4, 4}};
 
-    std::cout << std::endl;
     auto ts = ellipse.clip(rect, {});
 
     ASSERT_EQ(ts.size(), 1);
@@ -400,9 +399,7 @@ TEST(Ellipse, RectangularClipPartialOverlapFirstAndFourthQuadrant) // NOLINT
     Ellipse ellipse{2, 0.5};
     Rectangle rect{{1, -2}, 2, 4};
 
-    std::cout << std::endl << std::endl;
     auto ts = ellipse.clip(rect, {});
-    std::cout << std::endl << std::endl;
 
     ASSERT_EQ(ts.size(), 1);
 
@@ -410,7 +407,6 @@ TEST(Ellipse, RectangularClipPartialOverlapFirstAndFourthQuadrant) // NOLINT
     ASSERT_DOUBLE_EQ(ts[0].second, 2_pi + ellipse.tAtX(1));
 }
 
-// TODO: finish test:
 TEST(Ellipse, RectangularClipPartialOverlapNoSecondQuadrant) // NOLINT
 {
     Ellipse ellipse{2, 0.5};
@@ -418,36 +414,21 @@ TEST(Ellipse, RectangularClipPartialOverlapNoSecondQuadrant) // NOLINT
 
     auto ts = ellipse.clip(rect, {});
 
-    ASSERT_EQ(ts.size(), 3);
+    ASSERT_EQ(ts.size(), 1);
 
-    ASSERT_DOUBLE_EQ(ts[0].first, 0_pi);
-    ASSERT_DOUBLE_EQ(ts[0].second, ellipse.tAtY(1));
-
-    ASSERT_DOUBLE_EQ(ts[1].first, 2_pi - std::abs(ellipse.tAtX(-1)));
-    ASSERT_DOUBLE_EQ(ts[1].second, 1.5_pi);
-
-    ASSERT_DOUBLE_EQ(ts[2].first, 1.5_pi);
-    ASSERT_DOUBLE_EQ(ts[2].second, 2_pi);
+    ASSERT_DOUBLE_EQ(ts[0].first, 2_pi - ellipse.tAtX(-1));
+    ASSERT_DOUBLE_EQ(ts[0].second, 2_pi + ellipse.tAtY(1));
 }
 
-/*
-TEST(Ellipse, RectangularClipPartialOverlapNoThirdQuadrant)
+TEST(Ellipse, RectangularClipPartialOverlapNoThirdQuadrant) // NOLINT
 {
     Ellipse ellipse{2, 0.5};
     Rectangle rect{{-1, -1}, {4, 4}};
 
-    std::cout << std::endl << std::endl;
-    auto ts = ellipse.clip(rect);
-    std::cout << std::endl << std::endl;
+    auto ts = ellipse.clip(rect, {});
 
-    ASSERT_EQ(ts.size(), 3);
+    ASSERT_EQ(ts.size(), 1);
 
-    ASSERT_DOUBLE_EQ(ts[0].first, 0_pi);
-    ASSERT_DOUBLE_EQ(ts[0].second, 0.5_pi);
-
-    ASSERT_DOUBLE_EQ(ts[1].first, 0.5_pi);
-    ASSERT_DOUBLE_EQ(ts[1].second, ellipse.tAtX(-1));
-
-    ASSERT_DOUBLE_EQ(ts[2].first, 2_pi - std::abs(ellipse.tAtY(-1)));
-    ASSERT_DOUBLE_EQ(ts[2].second, 2_pi);
-}*/
+    ASSERT_DOUBLE_EQ(ts[0].first, 2_pi + ellipse.tAtY(-1));
+    ASSERT_DOUBLE_EQ(ts[0].second, 2_pi + ellipse.tAtX(-1));
+}

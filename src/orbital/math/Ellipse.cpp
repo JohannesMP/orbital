@@ -176,8 +176,6 @@ Ellipse::clip(
 
     std::sort(points.begin(), points.end());
 
-    fmt::print("Intersection points: ({}): {}\n", points.size(), points);
-
     // No intersection ranges:
     if (points.empty())
     {
