@@ -152,69 +152,6 @@ zero()
 }
 
 /**
- * Square a number: \f$ x^2 \f$
- * @param x Number to square.
- * @return Result.
- */
-constexpr Decimal
-sq(
-        Decimal x
-)
-{
-    return x * x;
-}
-
-/**
- * Calculate vector length: \f$ \left| v \right| \f$
- * @param v Vector.
- * @return Length.
- */
-inline Decimal
-length(
-        vec const &v
-)
-{
-    return std::sqrt(v.x * v.x + v.y * v.y);
-}
-
-/**
- * Calculate vector distance: \f$ \left| v_1 - v_0 \right| \f$
- * @param v0 First vector.
- * @param v1 Second vector.
- * @return Distance.
- */
-inline Decimal
-distance(
-        vec const &v0,
-        vec const &v1
-)
-{
-    return length(vec{v1.x - v0.x, v1.y - v0.y});
-}
-
-/**
- * Computes a counterclockwise-perpendicular 2D vector with the same length.
- */
-inline vec
-perpendicular(
-        vec const v
-)
-{
-    return {-v.y, v.x};
-}
-
-/**
- * Calculate the angle between the vector and the x axis: \f$ arctan2(v_y, v_x) \f$
- */
-inline Decimal
-angle(
-        vec const &v
-)
-{
-    return std::atan2(v.y, v.x);
-}
-
-/**
  * Serialize a complex number: [real]+[imag]ⅈ
  */
 std::ostream &

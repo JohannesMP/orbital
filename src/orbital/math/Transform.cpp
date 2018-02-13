@@ -3,6 +3,7 @@
 //
 
 #include "Transform.h"
+#include "Radian.h"
 #include <glm/gtx/matrix_transform_2d.hpp>
 #include <glm/gtx/transform.hpp>
 
@@ -44,9 +45,9 @@ Transform::scale(Decimal s)
 }
 
 void
-Transform::rotate(Decimal radians)
+Transform::rotate(Radian radians)
 {
-    mRotation = glm::rotate(mRotation, radians);
+    mRotation = glm::rotate(mRotation, radians.getRaw());
     update();
 }
 

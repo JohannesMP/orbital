@@ -86,12 +86,12 @@ TEST(Transform, RotationMatrix) // NOLINT
     auto alpha = 0.25_pi;
     transform.rotate(alpha);
 
-    ASSERT_DOUBLE_EQ(transform.transformation()[0][0], std::cos(alpha));
-    ASSERT_DOUBLE_EQ(transform.transformation()[0][1], std::sin(alpha));
+    ASSERT_DOUBLE_EQ(transform.transformation()[0][0], alpha.cos());
+    ASSERT_DOUBLE_EQ(transform.transformation()[0][1], alpha.sin());
     ASSERT_DOUBLE_EQ(transform.transformation()[0][2], 0);
 
-    ASSERT_DOUBLE_EQ(transform.transformation()[1][0], -std::sin(alpha));
-    ASSERT_DOUBLE_EQ(transform.transformation()[1][1], std::cos(alpha));
+    ASSERT_DOUBLE_EQ(transform.transformation()[1][0], -alpha.sin());
+    ASSERT_DOUBLE_EQ(transform.transformation()[1][1], alpha.cos());
     ASSERT_DOUBLE_EQ(transform.transformation()[1][2], 0);
 
     ASSERT_DOUBLE_EQ(transform.transformation()[2][0], 0);
@@ -106,12 +106,12 @@ TEST(Transform, RotationMatrixNegativeAngle) // NOLINT
     auto alpha = -0.25_pi;
     transform.rotate(alpha);
 
-    ASSERT_DOUBLE_EQ(transform.transformation()[0][0], std::cos(alpha));
-    ASSERT_DOUBLE_EQ(transform.transformation()[0][1], std::sin(alpha));
+    ASSERT_DOUBLE_EQ(transform.transformation()[0][0], alpha.cos());
+    ASSERT_DOUBLE_EQ(transform.transformation()[0][1], alpha.sin());
     ASSERT_DOUBLE_EQ(transform.transformation()[0][2], 0);
 
-    ASSERT_DOUBLE_EQ(transform.transformation()[1][0], -std::sin(alpha));
-    ASSERT_DOUBLE_EQ(transform.transformation()[1][1], std::cos(alpha));
+    ASSERT_DOUBLE_EQ(transform.transformation()[1][0], -alpha.sin());
+    ASSERT_DOUBLE_EQ(transform.transformation()[1][1], alpha.cos());
     ASSERT_DOUBLE_EQ(transform.transformation()[1][2], 0);
 
     ASSERT_DOUBLE_EQ(transform.transformation()[2][0], 0);

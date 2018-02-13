@@ -2,6 +2,7 @@
 // Created by jim on 23.01.18.
 //
 
+#include <orbital/math/elementary.h>
 #include "Body.h"
 
 Body::Body(

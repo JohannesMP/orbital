@@ -54,17 +54,17 @@ Ellipse::point(
     return {mA * t.cos(), mB * t.sin()};
 }
 
-Decimal
+Radian
 Ellipse::arcLength(
-        Decimal ts,
-        Decimal te,
-        Decimal resolution
+        Radian const ts,
+        Radian const te,
+        Radian const resolution
 ) const
 {
     Decimal sqA = sq(mA);
     Decimal sqB = sq(mB);
-    return integral(ts, te, resolution, [&](Decimal x) {
-        return std::sqrt(sqA * sq(std::sin(x)) + sqB * sq(std::cos(x)));
+    return integral(ts, te, resolution, [&](Radian const x) {
+        return Radian{std::sqrt(sqA * sq(x.sin()) + sqB * sq(x.cos()))};
     });
 }
 

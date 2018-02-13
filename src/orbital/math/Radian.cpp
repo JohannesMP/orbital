@@ -60,3 +60,12 @@ Radian::arctan(Decimal const x)
 {
     return Radian{std::atan(x)};
 }
+
+Radian
+Radian::arctan2(
+        Decimal const y,
+        Decimal const x
+)
+{
+    return Radian{std::atan2(y, x)};
+}

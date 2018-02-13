@@ -41,15 +41,21 @@ public:
 
     constexpr bool operator<(
             Radian const &rhs
-    )
+    ) const
     {
         return mRadians < rhs.mRadians;
     }
 
     constexpr Radian
+    operator-() const
+    {
+        return Radian{-mRadians};
+    }
+
+    constexpr Radian
     operator+(
             Radian const &rhs
-    )
+    ) const
     {
         return Radian{mRadians + rhs.mRadians};
     }
@@ -57,7 +63,7 @@ public:
     constexpr Radian
     operator-(
             Radian const &rhs
-    )
+    ) const
     {
         return Radian{mRadians - rhs.mRadians};
     }
@@ -65,7 +71,7 @@ public:
     constexpr Radian
     operator*(
             Radian const &rhs
-    )
+    ) const
     {
         return Radian{mRadians * rhs.mRadians};
     }
@@ -73,7 +79,7 @@ public:
     constexpr Radian
     operator/(
             Radian const &rhs
-    )
+    ) const
     {
         return Radian{mRadians / rhs.mRadians};
     }
@@ -95,6 +101,19 @@ public:
 
     static Radian
     arctan(Decimal const x);
+
+    // TODO: [[deprecated]]
+    Decimal
+    getRaw()
+    {
+        return mRadians;
+    }
+
+    static Radian
+    arctan2(
+            Decimal const y,
+            Decimal const x
+    );
 
 private:
 

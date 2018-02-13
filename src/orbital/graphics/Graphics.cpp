@@ -156,7 +156,7 @@ Graphics::scale(Decimal s)
 }
 
 void
-Graphics::rotate(float theta)
+Graphics::rotate(Radian theta)
 {
     mTransformStack.back().rotate(theta);
     updateTransform();

@@ -176,11 +176,11 @@ public:
      * @param resolution The higher the resolution, the more accurate the result.
      * @return Arc length.
      */
-    Decimal
+    Radian
     arcLength(
-            Decimal ts,
-            Decimal te,
-            Decimal resolution
+            Radian const ts,
+            Radian const te,
+            Radian const resolution
     ) const;
 
     /**

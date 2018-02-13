@@ -5,10 +5,11 @@
 #include <gtest/gtest.h>
 #include <orbital/common/DynamicArray.h>
 #include <orbital/common/common.h>
+#include <orbital/math/Radian.h>
 
 TEST(DynamicArray, Basic) // NOLINT
 {
-    DynamicArray<Decimal, 1> dy;
+    DynamicArray<Radian, 1> dy;
 
     ASSERT_EQ(dy.size(), 0);
     ASSERT_EQ(dy.capacity(), 1);

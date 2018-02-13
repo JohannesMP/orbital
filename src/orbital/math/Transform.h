@@ -5,6 +5,7 @@
 #pragma once
 
 #include <orbital/common/common.h>
+#include "Radian.h"
 
 class Transform
 {
@@ -28,7 +29,7 @@ public:
 
     void
     rotate(
-            Decimal radians
+            Radian radians
     );
 
     const mat &

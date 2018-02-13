@@ -145,7 +145,7 @@ public:
      */
     void
     rotate(
-            float theta
+            Radian theta
     );
 
     /**

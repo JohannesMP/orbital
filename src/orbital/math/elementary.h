@@ -4,11 +4,94 @@
 
 #pragma once
 
+#include "Radian.h"
 #include <orbital/common/common.h>
 #include <orbital/common/range.h>
 
 /**
+ * Compute the average over a given set of values.
+ * @param value First value.
+ * @param rest Rest of values.
+ * @return Average.
+ */
+template<class T, class... Ts>
+constexpr T
+average(
+        T value,
+        Ts ...rest
+)
+{
+    std::array<T, sizeof...(rest) + 1> v{{value, rest...}};
+    return std::accumulate(v.begin(), v.end(), T{0}) / T{v.size()};
+}
+
+/**
+ * Square a number: \f$ x^2 \f$
+ * @param x Number to square.
+ * @return Result.
+ */
+constexpr Decimal
+sq(
+        Decimal x
+)
+{
+    return x * x;
+}
+
+/**
+ * Calculate vector length: \f$ \left| v \right| \f$
+ * @param v Vector.
+ * @return Length.
+ */
+inline Decimal
+length(
+        vec const &v
+)
+{
+    return std::sqrt(v.x * v.x + v.y * v.y);
+}
+
+/**
+ * Calculate vector distance: \f$ \left| v_1 - v_0 \right| \f$
+ * @param v0 First vector.
+ * @param v1 Second vector.
+ * @return Distance.
+ */
+inline Decimal
+distance(
+        vec const &v0,
+        vec const &v1
+)
+{
+    return length(vec{v1.x - v0.x, v1.y - v0.y});
+}
+
+/**
+ * Computes a counterclockwise-perpendicular 2D vector with the same length.
+ */
+inline vec
+perpendicular(
+        vec const v
+)
+{
+    return {-v.y, v.x};
+}
+
+/**
+ * Calculate the angle between the vector and the x axis: \f$ arctan2(v_y, v_x) \f$
+ */
+inline Radian
+angle(
+        vec const &v
+)
+{
+    return Radian::arctan2(v.y, v.x);
+}
+
+/**
  * Integrate a function over a given range: \f$ \int_{low}^{high} f(x) dx \f$
+ * @attention If the resolution is greater than 1, it is required to be able to hold fractional values. As integer
+ * types would truncate to 0, giving integer types in such a case will lead to 0 division.
  * @param f Function to integrate on.
  * @param low Lower integration bound.
  * @param high Upper integration bound.
@@ -33,9 +116,8 @@ integral(
             T const sum,
             auto const i
     ) {
-        return sum +
-                std::apply(std::forward<TFun>(f), std::tuple{std::forward<TFun>(args)..., low + step * (i + T(0.5))}) *
-                        step;
+        return sum + step * T{std::apply(std::forward<TFun>(f),
+                std::tuple{std::forward<TFun>(args)..., low + step * (i + T(0.5))})};
     });
 }
 
@@ -75,19 +157,3 @@ quadratic(
     T const x2 = (-b - std::sqrt(d)) / (2 * a);
     return {std::min(x1, x2), std::max(x1, x2)};
 };
-
-/**
- * Compute the average over a given set of values.
- * @param value First value.
- * @param rest Rest of values.
- * @return Average.
- */
-template<class T, class... Ts>
-constexpr T average(
-        T value,
-        Ts ...rest
-)
-{
-    std::array<T, sizeof...(rest) + 1> v{{value, rest...}};
-    return std::accumulate(v.begin(), v.end(), T{0}) / T{v.size()};
-}
