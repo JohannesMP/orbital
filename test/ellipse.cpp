@@ -361,14 +361,14 @@ TEST(Ellipse, Projection) // NOLINT
 }
 
 
-TEST(Ellipse, RectangularClipNoOverlap)
+TEST(Ellipse, RectangularClipNoOverlap) // NOLINT
 {
     Ellipse ellipse{2, 0.5};
     Rectangle rect{{3, 1}, 4, 5};
     ASSERT_EQ(ellipse.clip(rect, {}).size(), 0);
 }
 
-TEST(Ellipse, RectangularClipFullOverlap)
+TEST(Ellipse, RectangularClipFullOverlap) // NOLINT
 {
     Ellipse ellipse{2, 0.5};
     Rectangle rect{{-2, -2}, {4, 4}};
@@ -381,7 +381,7 @@ TEST(Ellipse, RectangularClipFullOverlap)
     ASSERT_DOUBLE_EQ(ts[0].second, 2_pi);
 }
 
-TEST(Ellipse, RectangularClipPartialOverlapFirstQuadrant)
+TEST(Ellipse, RectangularClipPartialOverlapFirstQuadrant) // NOLINT
 {
     Ellipse ellipse{2, 0.5};
     Rectangle rect{{1, 1}, {4, 4}};
@@ -395,7 +395,7 @@ TEST(Ellipse, RectangularClipPartialOverlapFirstQuadrant)
     ASSERT_DOUBLE_EQ(ts[0].second, ellipse.tAtX(1));
 }
 
-TEST(Ellipse, RectangularClipPartialOverlapFirstAndFourthQuadrant)
+TEST(Ellipse, RectangularClipPartialOverlapFirstAndFourthQuadrant) // NOLINT
 {
     Ellipse ellipse{2, 0.5};
     Rectangle rect{{1, -2}, 2, 4};
@@ -410,13 +410,13 @@ TEST(Ellipse, RectangularClipPartialOverlapFirstAndFourthQuadrant)
     ASSERT_DOUBLE_EQ(ts[0].second, 2_pi + ellipse.tAtX(1));
 }
 
-/*
-TEST(Ellipse, RectangularClipPartialOverlapNoSecondQuadrant)
+// TODO: finish test:
+TEST(Ellipse, RectangularClipPartialOverlapNoSecondQuadrant) // NOLINT
 {
     Ellipse ellipse{2, 0.5};
     Rectangle rect{{-1, 1}, {4, -4}};
 
-    auto ts = ellipse.clip(rect);
+    auto ts = ellipse.clip(rect, {});
 
     ASSERT_EQ(ts.size(), 3);
 
@@ -430,6 +430,7 @@ TEST(Ellipse, RectangularClipPartialOverlapNoSecondQuadrant)
     ASSERT_DOUBLE_EQ(ts[2].second, 2_pi);
 }
 
+/*
 TEST(Ellipse, RectangularClipPartialOverlapNoThirdQuadrant)
 {
     Ellipse ellipse{2, 0.5};
