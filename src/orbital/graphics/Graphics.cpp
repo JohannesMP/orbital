@@ -4,6 +4,7 @@
 
 #include "Graphics.h"
 #include <glm/gtx/matrix_transform_2d.hpp>
+#include <orbital/math/elementary.h>
 
 Graphics::Graphics(
         int rows,
@@ -238,7 +239,7 @@ Graphics::ellipse(const Ellipse &ellipse)
 
     // Since the stepper calculates the pixel distance based on vector subtraction and *not* on ellipse arc length,
     // the ellipse must be divided into 4 quarters
-    stepper(ellipse, 0, 0.5_pi);
+    stepper(ellipse, 0_pi, 0.5_pi);
     stepper(ellipse, 0.5_pi, 1_pi);
     stepper(ellipse, 1_pi, 1.5_pi);
     stepper(ellipse, 1.5_pi, 2_pi);
@@ -247,8 +248,8 @@ Graphics::ellipse(const Ellipse &ellipse)
 void
 Graphics::stepper(
         const Ellipse &ellipse,
-        Decimal ts,
-        Decimal te
+        Radian const ts,
+        Radian const te
 )
 {
     // Calculate distance the painted pixels of the start and end arc would have within the framebuffer:
@@ -261,9 +262,9 @@ Graphics::stepper(
     {
         // Distance between painted pixels in framebuffers spans over at least one pixel,
         // continue stepping in smaller steps:
-        Decimal tHalf = (te - ts) / 2;
-        stepper(ellipse, ts, ts + tHalf);
-        stepper(ellipse, ts + tHalf, te);
+        Radian ta = average(ts, te);
+        stepper(ellipse, ts, ta);
+        stepper(ellipse, ta, te);
     }
 
     else

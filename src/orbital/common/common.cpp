@@ -4,41 +4,6 @@
 
 #include "common.h"
 
-DynamicArray<Decimal, 2>
-quadratic(
-        Decimal const a,
-        Decimal const b,
-        Decimal const c
-)
-{
-    Decimal const d = sq(b) - 4 * a * c;
-
-    if (0 > d)
-    {
-        // No solutions:
-        return {};
-    }
-    if (0 == d)
-    {
-        // One solution, discriminant does not play any role as it's 0 anyway:
-        return {-b / (2 * a)};
-    }
-
-    // Two solutions:
-    Decimal const x1 = (-b + std::sqrt(d)) / (2 * a);
-    Decimal const x2 = (-b - std::sqrt(d)) / (2 * a);
-    return {std::min(x1, x2), std::max(x1, x2)};
-};
-
-Decimal
-average(
-        Decimal const a,
-        Decimal const b
-)
-{
-    return a + (b - a) / 2;
-}
-
 std::ostream &
 operator<<(
         std::ostream &os,

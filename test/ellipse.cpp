@@ -25,8 +25,8 @@ TEST(Ellipse, ParametricForm) // NOLINT
     Ellipse ellipse{2, 0.5};
 
     // 0 π
-    ASSERT_NEAR(ellipse.point(0).x, 2, 0.01);
-    ASSERT_NEAR(ellipse.point(0).y, 0, 0.01);
+    ASSERT_NEAR(ellipse.point(0_pi).x, 2, 0.01);
+    ASSERT_NEAR(ellipse.point(0_pi).y, 0, 0.01);
 
     // 0.25 π
     ASSERT_NEAR(ellipse.point(0.25_pi).x, 1.41, 0.01);
@@ -66,8 +66,8 @@ TEST(Ellipse, ParameterExtraction) // NOLINT
     Ellipse ellipse{2, 0.5};
 
     // 0 π
-    ASSERT_NEAR(ellipse.tAtX(2), 0, 0.01);
-    ASSERT_NEAR(ellipse.tAtY(0), 0, 0.01);
+    ASSERT_NEAR(ellipse.tAtX(2), 0_pi, 0.01_pi);
+    ASSERT_NEAR(ellipse.tAtY(0), 0_pi, 0.01_pi);
 
     // 0.25 π
     ASSERT_NEAR(ellipse.tAtX(1.41), 0.25_pi, 0.01);
@@ -431,4 +431,22 @@ TEST(Ellipse, RectangularClipPartialOverlapNoThirdQuadrant) // NOLINT
 
     ASSERT_DOUBLE_EQ(ts[0].first, 2_pi + ellipse.tAtY(-1));
     ASSERT_DOUBLE_EQ(ts[0].second, 2_pi + ellipse.tAtX(-1));
+}
+
+TEST(Ellipse, RectangularClipPartialWithTransform) // NOLINT
+{
+    Ellipse ellipse{2, 0.5};
+    Rectangle rect{{-sqrt(8) / 2, -sqrt(8) / 2}, {sqrt(8), sqrt(8)}};
+    Transform transform;
+    transform.rotate(0.25_pi);
+
+    fmt::print("bottom-left: {}\n", transform.apply(rect.bottomLeft()));
+
+    auto ts = ellipse.clip(rect, {});
+    fmt::print("ts: {}\n", ts);
+
+    ASSERT_EQ(ts.size(), 2);
+
+    //ASSERT_DOUBLE_EQ(ts[0].first, 2_pi + ellipse.tAtY(-1));
+    //ASSERT_DOUBLE_EQ(ts[0].second, 2_pi + ellipse.tAtX(-1));
 }

@@ -67,5 +67,5 @@ TEST(Integral, SinusSelfElimination) // NOLINT
     auto sin = [](Decimal x) {
         return std::sin(x);
     };
-    ASSERT_NEAR(integral(sin, 0, 2_pi, 100), 0, 0.00001);
+    ASSERT_NEAR(integral(&Radian::sin, 0_pi, 2_pi, 100), 0, 0.00001);
 }

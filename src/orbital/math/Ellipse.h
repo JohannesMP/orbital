@@ -5,10 +5,8 @@
 #include "Line.h"
 #include "Rectangle.h"
 #include "Transform.h"
+#include "Radian.h"
 #include <orbital/common/common.h>
-#include <array>
-#include <ostream>
-#include <vector>
 
 #pragma once
 
@@ -80,7 +78,7 @@ public:
      */
     vec
     point(
-            Decimal t
+            Radian t
     ) const;
 
     /**
@@ -97,7 +95,7 @@ public:
      */
     vec
     pointAngle(
-            Decimal theta
+            Radian theta
     ) const;
 
     /**
@@ -131,7 +129,7 @@ public:
      * @param transform Transform to apply to the rectangle.
      * @return T pair ranges, denoting ellipse sections lying within the transformed rectangle.
      */
-    DynamicArray<std::pair<Decimal, Decimal>, 4>
+    DynamicArray<std::pair<Radian, Radian>, 4>
     clip(
             const Rectangle &rect,
             const Transform &transform
@@ -210,7 +208,7 @@ public:
      * @param x X value
      * @return
      */
-    Decimal
+    Radian
     tAtX(
             Decimal x
     ) const;
@@ -228,7 +226,7 @@ public:
      * @param y Y value
      * @return
      */
-    Decimal
+    Radian
     tAtY(
             Decimal y
     ) const;
@@ -239,7 +237,7 @@ public:
      * @attention Returns only reasonable values if the given points lies on the ellipse.
      * @return T-Parameter.
      */
-    Decimal
+    Radian
     pointToT(
             vec const v
     ) const;

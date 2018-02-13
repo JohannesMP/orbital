@@ -13,6 +13,9 @@
 #include <memory>
 #include <chrono>
 #include <numeric>
+#include <array>
+#include <ostream>
+#include <vector>
 
 #include <boost/math/constants/constants.hpp>
 
@@ -86,6 +89,8 @@ using complex = std::complex<Decimal>;
 // Import STL chrono literals:
 using namespace std::chrono_literals; // NOLINT
 
+using namespace std::literals::string_view_literals; // NOLINT;
+
 /**
  * Literal suffix to properly use the Decimal type-alias in literals.
  */
@@ -135,28 +140,6 @@ au(
 )
 {
     return meters * 1.49597870700e11_df;
-}
-
-/**
- * Literal suffix to multiply a number by π.
- */
-constexpr Decimal
-operator "" _pi(
-        long double literal
-)
-{
-    return static_cast<Decimal>(literal) * boost::math::constants::pi<Decimal>();
-}
-
-/**
- * Literal suffix to multiply a number by π.
- */
-constexpr Decimal
-operator "" _pi(
-        unsigned long long literal
-)
-{
-    return static_cast<Decimal>(literal) * boost::math::constants::pi<Decimal>();
 }
 
 /**
@@ -232,72 +215,6 @@ angle(
 }
 
 /**
- * Integrate a function over a given range: \f$ \int_{low}^{high} f(x) dx \f$
- * @param f Function to integrate on.
- * @param low Lower integration bound.
- * @param high Upper integration bound.
- * @param resolution Resolution per x stepping, i.e. number of function invocations per x.
- * @return Area enclosed by graph and x-axis.
- */
-template<class TFun>
-Decimal
-integral(
-        TFun &&f,
-        Decimal const low,
-        Decimal const high,
-        Decimal const resolution
-)
-{
-    // Step points to negative x if high is smaller than low
-    Decimal const step = (high >= low ? 1 : -1) / resolution;
-    auto const steps = static_cast<int>((high - low) / step);
-
-    Decimal sum = 0.0;       // Area size accumulation
-    Decimal x = low;         // x starts at the lower bound
-
-    for (unsigned i = 0; i < steps; i++)
-    {
-        sum += std::forward<TFun>(f)(x + step * 0.5) * step;
-        x += step;
-    }
-
-    return sum;
-}
-
-/**
- * Computes the quadratic formula: \f$ 0 = ax^2 + bx + c \f$
- *
- * Midnight formula: \f$ x_{1,2} = \frac{ -b \pm \sqrt{b^2 - 4ac} }{2a} \f$
- *
- * @param a A
- * @param b B
- * @param c C
- * @return Count of solutions and an array of solutions in ascending order.
- */
-DynamicArray<Decimal, 2>
-quadratic(
-        Decimal const a,
-        Decimal const b,
-        Decimal const c
-);
-
-/**
- * Compute the average over a given set of values.
- * @param value First value.
- * @param rest Rest of values.
- * @return Average.
- */
-template<class... Ts>
-constexpr Decimal average(
-        Decimal const value,
-        Ts ...rest
-)
-{
-    std::array<Decimal, sizeof...(rest) + 1> v{{value, rest...}};
-    return std::accumulate(v.begin(), v.end(), 0_df) / v.size();
-}
-
-/**
  * Serialize a complex number: [real]+[imag]ⅈ
  */
 std::ostream &
@@ -328,7 +245,7 @@ operator<<(
 
 } // namespace glm
 
-namespace std {
+namespace std { // NOLINT
 
 /**
  * Serialize a pair:

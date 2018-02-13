@@ -225,8 +225,8 @@ private:
     void
     stepper(
             const Ellipse &ellipse,
-            Decimal ts,
-            Decimal te
+            Radian const ts,
+            Radian const te
     );
 
     /**

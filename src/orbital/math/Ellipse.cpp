@@ -3,6 +3,7 @@
 //
 
 #include "Ellipse.h"
+#include "elementary.h"
 
 Ellipse::Ellipse(
         Decimal a,
@@ -47,10 +48,10 @@ Ellipse::focalPoints() const
 
 vec
 Ellipse::point(
-        Decimal t
+        Radian t
 ) const
 {
-    return {mA * std::cos(t), mB * std::sin(t)};
+    return {mA * t.cos(), mB * t.sin()};
 }
 
 Decimal
@@ -62,18 +63,18 @@ Ellipse::arcLength(
 {
     Decimal sqA = sq(mA);
     Decimal sqB = sq(mB);
-    return integral([&](Decimal x) {
+    return integral(ts, te, resolution, [&](Decimal x) {
         return std::sqrt(sqA * sq(std::sin(x)) + sqB * sq(std::cos(x)));
-    }, ts, te, resolution);
+    });
 }
 
 vec
 Ellipse::pointAngle(
-        Decimal theta
+        Radian theta
 ) const
 {
-    Decimal denominator = std::sqrt(sq(mB * std::cos(theta)) + sq(mA * std::sin(theta))) / mA / mB;
-    return {std::cos(theta) / denominator, std::sin(theta) / denominator};
+    Decimal denominator = std::sqrt(sq(mB * theta.cos()) + sq(mA * theta.sin())) / mA / mB;
+    return {theta.cos() / denominator, theta.sin() / denominator};
 }
 
 bool
@@ -85,16 +86,16 @@ Ellipse::contains(
             (2 * mA >= distance(focalPoints()[0], p) + distance(focalPoints()[1], p));
 }
 
-Decimal
+Radian
 Ellipse::tAtX(Decimal x) const
 {
-    return std::acos(x / mA);
+    return Radian::arccos(x / mA);
 }
 
-Decimal
+Radian
 Ellipse::tAtY(Decimal y) const
 {
-    return std::asin(y / mB);
+    return Radian::arcsin(y / mB);
 }
 
 bool
@@ -106,10 +107,10 @@ Ellipse::contains(
             contains(rect.topRight());
 }
 
-Decimal
+Radian
 Ellipse::pointToT(const vec v) const
 {
-    Decimal const t = tAtX(v.x);
+    Radian const t = tAtX(v.x);
     // Since t-from-x calculation can only return t's for positive y values, flip it over if y-value is negative:
     return v.y >= 0 ? t : 2_pi - t;
 }
@@ -127,14 +128,14 @@ Ellipse::pointToT(const vec v) const
  *    fourth and fifth, ... element and the range between the last and the first element. In this case 2π should be
  *    added to the first element, so it's greater in value than the last element.
  */
-DynamicArray<std::pair<Decimal, Decimal>, 4>
+DynamicArray<std::pair<Radian, Radian>, 4>
 Ellipse::clip(
         const Rectangle &rect,
         const Transform &transform
 ) const
 {
-    DynamicArray<Decimal, 8> points;
-    DynamicArray<std::pair<Decimal, Decimal>, 4> ranges;
+    DynamicArray<Radian, 8> points;
+    DynamicArray<std::pair<Radian, Radian>, 4> ranges;
 
     // Store valid intersections of line, representing a transformed edge of the rectangle:
     auto storeIntersections = [&](Line const &line) {
@@ -190,9 +191,9 @@ Ellipse::clip(
 
     else
     {
-        assert(points.size() % 2 == 0);
+        assert((points.size() % 2) == 0);
 
-        Decimal const t = average(points[0], points[1]);
+        Radian const t = average(points[0], points[1]);
         vec const p = point(t);
 
         if(rect.containsTransformed(transform.inverse(), p))
