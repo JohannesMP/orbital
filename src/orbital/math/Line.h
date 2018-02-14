@@ -4,42 +4,63 @@
 
 #pragma once
 
+#include "Rectangle.h"
 #include <orbital/common/common.h>
-#include <ostream>
 
+template<class T>
 class Line
 {
 
 public:
 
-    explicit Line(
-            vec p0,
-            vec p1
-    );
+    Line(
+            tvec<T> const p0,
+            tvec<T> const p1
+    )
+            : mP{p0}
+            , mD{p1 - p0}
+    {
+    }
 
     static Line
     fromDirection(
-            vec p,
-            vec d
-    );
+            tvec<T> const p,
+            tvec<T> const d
+    )
+    {
+        return Line{p, p + d};
+    }
 
-    vec
-    p() const;
+    constexpr vec
+    p() const
+    {
+        return mP;
+    }
 
-    vec
-    d() const;
+    constexpr vec
+    d() const
+    {
+        return mD;
+    }
 
-    vec
+    tvec<T>
     point(
-            Decimal lambda
-    ) const;
+            T const lambda
+    ) const
+    {
+        return mP + lambda * mD;
+    }
 
     bool
     containsByBounds(
-            vec v
-    ) const;
+            tvec<T> const v
+    ) const
+    {
+        Rectangle bounds{mP, mP + mD};
+        return bounds.contains(v);
+    }
 
-    inline std::ostream &
+    std::ostream &
     operator<<(
             std::ostream &os
     )
@@ -50,7 +71,7 @@ public:
 
 private:
 
-    vec mP;
-    vec mD;
+    tvec<T> const mP;
+    tvec<T> const mD;
 
 };

@@ -277,7 +277,7 @@ TEST_CASE("Ellipse", "[math]") // NOLINT
 
     SECTION("intersection")
     {
-        Line line = Line::fromDirection({2, 1}, {2, 1});
+        auto line = Line<Decimal>::fromDirection({2, 1}, {2, 1});
 
         auto intersections = ellipse.intersectPoints(line, false);
 
@@ -290,7 +290,7 @@ TEST_CASE("Ellipse", "[math]") // NOLINT
 
     SECTION("no intersection")
     {
-        Line line = Line::fromDirection({2, 1}, {2, 1});
+        auto line = Line<Decimal>::fromDirection({2, 1}, {2, 1});
 
         auto intersections = ellipse.intersectPoints(line, true);
 
@@ -299,7 +299,7 @@ TEST_CASE("Ellipse", "[math]") // NOLINT
 
     SECTION("partial intersection")
     {
-        Line line = Line::fromDirection(0.1 * vec{2, 1}, {2, 1});
+        auto line = Line<Decimal>::fromDirection(0.1 * vec{2, 1}, {2, 1});
 
         auto intersections = ellipse.intersectPoints(line, true);
 
@@ -310,7 +310,7 @@ TEST_CASE("Ellipse", "[math]") // NOLINT
 
     SECTION("intersection with line, which is perpendicular on x-axis, i.e. gradient is infinite")
     {
-        auto intersections = ellipse.intersectPoints(Line{{0, -2}, {0, 4}}, true);
+        auto intersections = ellipse.intersectPoints(Line<Decimal>{{0, -2}, {0, 4}}, true);
 
         CHECK(intersections.size() == 2);
         CHECK(intersections[0].x == Approx(0).margin(0.001));
@@ -321,7 +321,7 @@ TEST_CASE("Ellipse", "[math]") // NOLINT
 
     SECTION("partial intersection with line, which is perpendicular on x-axis, i.e. gradient is infinite")
     {
-        Line line = Line::fromDirection({0, -2}, {0, 1});
+        auto line = Line<Decimal>::fromDirection({0, -2}, {0, 1});
 
         auto intersections = ellipse.intersectPoints(line, true);
 

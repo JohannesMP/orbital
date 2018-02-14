@@ -71,6 +71,9 @@ using Decimal = double;
  */
 using vec = glm::tvec2<Decimal>;
 
+template<class T>
+using tvec = glm::tvec2<T>;
+
 /**
  * Alias for vector used for affine matrix transformation.
  */

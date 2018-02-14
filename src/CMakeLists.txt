@@ -20,7 +20,6 @@ ADD_LIBRARY(${ORBITAL_LIB}
         orbital/math/Ellipse.h
         orbital/math/Rectangle.cpp
         orbital/math/Rectangle.h
-        orbital/math/Line.cpp
         orbital/math/Line.h
         orbital/common/DynamicArray.h
         orbital/math/Radian.cpp

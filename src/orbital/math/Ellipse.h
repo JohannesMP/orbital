@@ -162,7 +162,7 @@ public:
      */
     DynamicArray<vec, 2>
     intersectPoints(
-            Line const line,
+            Line<Decimal> const line,
             bool const clipToLine
     ) const;
 

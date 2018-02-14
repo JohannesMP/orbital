@@ -138,7 +138,7 @@ Ellipse::clip(
     DynamicArray<std::pair<Radian, Radian>, 4> ranges;
 
     // Store valid intersections of line, representing a transformed edge of the rectangle:
-    auto storeIntersections = [&](Line const &line) {
+    auto storeIntersections = [&](Line<Decimal> const &line) {
         auto const intersections = intersectPoints(line, true);
 
         if (intersections.size() == 0)
@@ -235,7 +235,7 @@ Ellipse::boundingRect() const
 
 DynamicArray<vec, 2>
 Ellipse::intersectPoints(
-        Line const line,
+        Line<Decimal> const line,
         bool const clipToLine
 ) const
 {
