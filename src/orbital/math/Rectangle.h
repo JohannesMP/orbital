@@ -214,9 +214,9 @@ public:
 
 private:
 
-    tvec<T> mBottomLeft;
-    T mW;
-    T mH;
+    tvec<T> const mBottomLeft;
+    T const mW;
+    T const mH;
 
 };
 

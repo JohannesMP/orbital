@@ -28,7 +28,7 @@ System::System(
                 node["radius"].as<Decimal>() * 1000.0_df, au(node["a"].as<Decimal>()), node["e"].as<Decimal>()};
     };
 
-    mCentralBody = deserialize(data["central-body"]);
+    mCentralBody.emplace(deserialize(data["central-body"]));
     for (int i = 0; i < data["bodies"].size(); i++)
     {
         add(deserialize(data["bodies"][i]));
@@ -41,7 +41,7 @@ System::stepSimulation()
 {
     for (Body &body : mBodies)
     {
-        body.step(mCentralBody.getMass(), mDt);
+        body.step(mCentralBody->getMass(), mDt);
     }
 }
 
@@ -55,7 +55,7 @@ System::add(const Body &body)
 void
 System::foreach(std::function<void(Body &)> &&l)
 {
-    l(mCentralBody);
+    l(*mCentralBody);
     for (auto &body : mBodies)
     {
         l(body);
@@ -67,9 +67,9 @@ System::find(
         const std::string_view &name
 )
 {
-    if (name == mCentralBody.getName())
+    if (name == mCentralBody->getName())
     {
-        return mCentralBody;
+        return *mCentralBody;
     }
 
     auto iter = std::find_if(mBodies.begin(), mBodies.end(), [&name](Body &body) {

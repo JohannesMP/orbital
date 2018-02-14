@@ -58,6 +58,6 @@ private:
 
     Decimal mDt;                 ///< [s]    Amount of time between two steps
     std::list<Body> mBodies;
-    Body mCentralBody;
+    std::optional<Body> mCentralBody;
 
 };

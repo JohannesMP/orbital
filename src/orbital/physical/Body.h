@@ -12,8 +12,6 @@ class Body
 
 public:
 
-    Body() = default;
-
     /**
      * Create a new body.
      * @param name Planet name

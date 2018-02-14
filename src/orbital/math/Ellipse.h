@@ -467,10 +467,10 @@ public:
 
 private:
 
-    T mA; // todo: why not const?
-    T mB;
-    T mE;
-    T mFoci;
+    T const mA;
+    T const mB;
+    T const mE;
+    T const mFoci;
 
 };
 

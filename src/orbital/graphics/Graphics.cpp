@@ -260,16 +260,16 @@ Graphics::stepper(
 )
 {
     // Calculate distance the painted pixels of the start and end arc would have within the framebuffer:
-    WorldVector vs = convert<WorldVector>(ellipse.point(ts));
-    WorldVector ve = convert<WorldVector>(ellipse.point(te));
-    Decimal d = distance({mapToFramebuffer(ve)}, {mapToFramebuffer(vs)});
+    WorldVector const vs = convert<WorldVector>(ellipse.point(ts));
+    WorldVector const ve = convert<WorldVector>(ellipse.point(te));
+    Decimal const d = distance({mapToFramebuffer(ve)}, {mapToFramebuffer(vs)});
 
     // 1.4142... is the distance between to diagonal pixels:
     if (1.5 < d)
     {
         // Distance between painted pixels in framebuffers spans over at least one pixel,
         // continue stepping in smaller steps:
-        Radian<Decimal> ta = average(ts, te);
+        Radian<Decimal> const ta = average(ts, te);
         stepper(ellipse, ts, ta);
         stepper(ellipse, ta, te);
     }
