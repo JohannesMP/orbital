@@ -5,6 +5,7 @@
 #include "Graphics.h"
 #include <glm/gtx/matrix_transform_2d.hpp>
 #include <orbital/math/elementary.h>
+#include <orbital/common/convert.h>
 
 Graphics::Graphics(
         size_t const rows,
@@ -55,17 +56,17 @@ Graphics::clear()
 
 void
 Graphics::pixel(
-        FramebufferVector const &vec,
+        WorldVector const &worldVector,
         char const c
 )
 {
-    auto loc = mapToFramebuffer(vec);
-    if (!withinFramebufferBounds(loc))
+    FramebufferVector vec = mapToFramebuffer(worldVector);
+    if (!withinFramebufferBounds(vec))
     {
         return;
     }
 
-    char &target = framebufferPixel(loc);
+    char &target = framebufferPixel(FramebufferLocation{vec});
     if (mOverwrite || (!mOverwrite && ' ' == target))
     {
         target = c;
@@ -74,11 +75,11 @@ Graphics::pixel(
 
 void
 Graphics::label(
-        WorldVector const &pos,
+        WorldVector const &worldVector,
         std::string_view const &text
 )
 {
-    auto vec = mapToFramebuffer(pos);
+    auto vec = mapToFramebuffer(worldVector);
     if (!withinFramebufferBounds(vec))
     {
         return;
@@ -108,7 +109,7 @@ Graphics::label(
     }
 }
 
-Graphics::FramebufferVector
+FramebufferVector
 Graphics::mapToFramebuffer(
         WorldVector const &vec
 )
@@ -259,8 +260,8 @@ Graphics::stepper(
 )
 {
     // Calculate distance the painted pixels of the start and end arc would have within the framebuffer:
-    vec vs = ellipse.point(ts);
-    vec ve = ellipse.point(te);
+    WorldVector vs = convert<WorldVector>(ellipse.point(ts));
+    WorldVector ve = convert<WorldVector>(ellipse.point(te));
     Decimal d = distance({mapToFramebuffer(ve)}, {mapToFramebuffer(vs)});
 
     // 1.4142... is the distance between to diagonal pixels:
@@ -296,7 +297,7 @@ Graphics::rows() const
 
 char &
 Graphics::framebufferPixel(
-        const Graphics::FramebufferLocation &loc
+        const FramebufferLocation &loc
 )
 {
     return mScanlines.at(loc.y).at(loc.x);
@@ -304,7 +305,7 @@ Graphics::framebufferPixel(
 
 char const &
 Graphics::framebufferPixel(
-        Graphics::FramebufferLocation const &loc
+        FramebufferLocation const &loc
 ) const
 {
     return mScanlines.at(loc.y).at(loc.x);

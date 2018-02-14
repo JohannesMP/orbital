@@ -22,6 +22,13 @@ ADD_LIBRARY(${ORBITAL_LIB}
         orbital/math/Rectangle.h
         orbital/math/Line.cpp
         orbital/math/Line.h
-        orbital/common/DynamicArray.h orbital/math/Radian.cpp orbital/math/Radian.h orbital/math/elementary.h)
+        orbital/common/DynamicArray.h
+        orbital/math/Radian.cpp
+        orbital/math/Radian.h
+        orbital/math/elementary.h
+        orbital/common/convert.h
+        orbital/graphics/FramebufferLocation.h
+        orbital/graphics/FramebufferVector.h
+        )
 
 TARGET_LINK_LIBRARIES(${ORBITAL_LIB} yaml-cpp fmt)

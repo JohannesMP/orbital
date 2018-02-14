@@ -1,6 +1,7 @@
 #include <iostream>
 #include <iomanip>
 #include <thread>
+#include <orbital/common/convert.h>
 #include "src/orbital/physical/System.h"
 #include "src/orbital/graphics/Graphics.h"
 
@@ -31,7 +32,7 @@ main()
             graphics.resetTransform();
             //graphics.rotate(0.5_pi);
             graphics.scale(1 / au(1.6));
-            graphics.translate(-earth.getPosition());
+            graphics.translate(convert<Graphics::WorldVector>(-earth.getPosition()));
         }
 
         // Render:
@@ -41,13 +42,13 @@ main()
         system.foreach([&](Body &body) {
 
             graphics.push();
-            graphics.translate(body.getTrajectory().focalPoints()[0]);
+            graphics.translate(convert<Graphics::WorldVector>(body.getTrajectory().focalPoints()[0]));
             graphics.overwrite(false);
             graphics.ellipse(body.getTrajectory());
             graphics.overwrite(true);
             graphics.pop();
 
-            graphics.label(body.getPosition(), body.getName());
+            graphics.label(convert<Graphics::WorldVector>(body.getPosition()), body.getName());
         });
 
         graphics.border();

@@ -9,6 +9,8 @@
 #include <string>
 #include <string_view>
 #include <vector>
+#include "FramebufferVector.h"
+#include "FramebufferLocation.h"
 
 #pragma once
 
@@ -21,15 +23,12 @@ class Graphics
 
 public:
 
-    /**
-     * A position of a pixel within the framebuffer.
-     * Can have negative values, since a framebuffer location is nothing else but an position within the framebuffer
-     * coordinate space. Whether or not the location lies within the framebuffers bounds has nothing do to with the
-     * location itself and can be tested using withinFramebufferBounds().
-     */
-    using FramebufferLocation = glm::tvec2<std::size_t>;
-    using WorldVector = vec;
-    using FramebufferVector = vec;
+    struct WorldVector
+            : public vec
+    {
+        using vec::vec;
+    };
+
 
     /**
      * Character width to height ration.
@@ -81,24 +80,24 @@ public:
 
     /**
      * Write a string at a position.
-     * @param pos Untransformed position.
+     * @param worldVector Untransformed position.
      * @param text Text to write.
      */
     void
     label(
-            WorldVector const &pos,
+            WorldVector const &worldVector,
             std::string_view const &text
     );
 
     /**
      * Write a single character to a position.
-     * @param vec Untransformed position.
+     * @param worldVector Untransformed position.
      * @param c Character to write.
      */
     void
     pixel(
-            FramebufferVector const &vec,
-            char c
+            WorldVector const &worldVector,
+            char const c
     );
 
     /**
@@ -144,7 +143,7 @@ public:
      */
     void
     scale(
-            Decimal const s
+            Decimal s
     );
 
     /**
@@ -153,7 +152,7 @@ public:
      */
     void
     rotate(
-            Radian const theta
+            Radian theta
     );
 
     /**
