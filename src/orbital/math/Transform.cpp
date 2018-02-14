@@ -2,8 +2,8 @@
 // Created by jim on 25.01.18.
 //
 
-#include "Transform.h"
 #include "Radian.h"
+#include "Transform.h"
 #include <glm/gtx/matrix_transform_2d.hpp>
 #include <glm/gtx/transform.hpp>
 
@@ -61,6 +61,6 @@ Transform
 Transform::inverse() const
 {
     Transform result;
-    result.mTransform = glm::inverse(mTransform); // todo: transformations do not separate rot/trans/scale
+    result.mTransform = glm::inverse(mTransform);
     return result;
 }

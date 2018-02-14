@@ -4,8 +4,8 @@
 
 #pragma once
 
-#include <orbital/common/common.h>
 #include "Radian.h"
+#include <orbital/common/common.h>
 
 class Transform
 {

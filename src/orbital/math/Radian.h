@@ -94,16 +94,15 @@ public:
     tan() const;
 
     static Radian
-    arcsin(Decimal const x);
+    arcsin(Decimal x);
 
     static Radian
-    arccos(Decimal const x);
+    arccos(Decimal x);
 
     static Radian
-    arctan(Decimal const x);
+    arctan(Decimal x);
 
-    // TODO: [[deprecated]]
-    Decimal
+    constexpr Decimal
     getRaw()
     {
         return mRadians;
@@ -111,8 +110,8 @@ public:
 
     static Radian
     arctan2(
-            Decimal const y,
-            Decimal const x
+            Decimal y,
+            Decimal x
     );
 
 private:

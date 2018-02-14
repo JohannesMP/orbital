@@ -2,8 +2,8 @@
 // Created by jim on 23.01.18.
 //
 
-#include <orbital/math/elementary.h>
 #include "Body.h"
+#include <orbital/math/elementary.h>
 
 Body::Body(
         std::string_view const name,
@@ -12,7 +12,7 @@ Body::Body(
         Decimal const a,
         Decimal const e
 )
-        : mName{std::move(name)}
+        : mName{name}
         , mMass{mass}
         , mRadius{radius}
         , mTrajectory{a != 0 ? a : zero(), e}

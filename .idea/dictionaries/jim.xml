@@ -21,6 +21,8 @@
       <w>rbegin</w>
       <w>scanline</w>
       <w>scanlines</w>
+      <w>sqrt</w>
+      <w>yaml</w>
     </words>
   </dictionary>
 </component>

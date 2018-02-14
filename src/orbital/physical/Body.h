@@ -4,8 +4,8 @@
 
 #pragma once
 
-#include <orbital/math/Ellipse.h>
 #include <orbital/common/common.h>
+#include <orbital/math/Ellipse.h>
 
 class Body
 {

@@ -4,23 +4,23 @@
 
 #pragma once
 
+#include <array>
+#include <chrono>
 #include <complex>
 #include <functional>
 #include <iostream>
+#include <memory>
+#include <numeric>
+#include <ostream>
 #include <ostream>
 #include <sstream>
 #include <string_view>
-#include <memory>
-#include <chrono>
-#include <numeric>
-#include <array>
-#include <ostream>
 #include <vector>
 
 #include <boost/math/constants/constants.hpp>
 
-#include <glm/glm.hpp>
 #include <glm/detail/type_vec.hpp>
+#include <glm/glm.hpp>
 
 #include "fmt/printf.h"
 
@@ -198,4 +198,4 @@ operator<<(
     return os;
 }
 
-}
+} // namespace std

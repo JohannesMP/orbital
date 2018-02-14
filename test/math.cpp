@@ -5,6 +5,7 @@
 
 #include <gtest/gtest.h>
 #include <orbital/common/common.h>
+#include <orbital/math/elementary.h>
 
 TEST(Constants, Validity) // NOLINT
 {

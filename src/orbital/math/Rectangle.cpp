@@ -135,7 +135,7 @@ Rectangle::conjunction(const Rectangle &rhs) const
         return zeroRectangle();
     }
 
-    return {{std::max(left(), rhs.left()), std::max(bottom(), rhs.bottom())},
+    return Rectangle{{std::max(left(), rhs.left()), std::max(bottom(), rhs.bottom())},
             {std::min(right(), rhs.right()), std::min(top(), rhs.top())}};
 }
 

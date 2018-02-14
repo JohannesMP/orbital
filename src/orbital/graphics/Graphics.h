@@ -2,13 +2,13 @@
 // Created by jim on 24.01.18.
 //
 
-#include "../math/Ellipse.h"
-#include "../math/Transform.h"
-#include "../common/common.h"
+#include <orbital/common/common.h>
+#include <orbital/math/Ellipse.h>
+#include <orbital/math/Transform.h>
 #include <list>
 #include <string>
-#include <vector>
 #include <string_view>
+#include <vector>
 
 #pragma once
 

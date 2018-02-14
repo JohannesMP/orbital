@@ -232,7 +232,7 @@ operator<<(
 Rectangle
 Ellipse::boundingRect() const
 {
-    return {{-mA, -mB}, {mA, mB}};
+    return Rectangle{{-mA, -mB}, {mA, mB}};
 }
 
 DynamicArray<vec, 2>

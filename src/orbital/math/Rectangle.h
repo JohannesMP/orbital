@@ -24,7 +24,7 @@ public:
      * @param w Width, can be negative.
      * @param h Height, can be negative.
      */
-    Rectangle(
+    explicit Rectangle(
             vec const &p,
             Decimal const w,
             Decimal const h
@@ -35,7 +35,7 @@ public:
      * @param p First point.
      * @param q Second point.
      */
-    Rectangle(
+    explicit Rectangle(
             vec const &p,
             vec const &q
     );

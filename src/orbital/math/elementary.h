@@ -17,10 +17,11 @@
 template<class T, class... Ts>
 constexpr T
 average(
-        T value,
-        Ts ...rest
+        T const value,
+        Ts const ...rest
 )
 {
+    (void) value;
     std::array<T, sizeof...(rest) + 1> v{{value, rest...}};
     return std::accumulate(v.begin(), v.end(), T{0}) / T{v.size()};
 }
@@ -32,7 +33,7 @@ average(
  */
 constexpr Decimal
 sq(
-        Decimal x
+        Decimal const x
 )
 {
     return x * x;
@@ -45,7 +46,7 @@ sq(
  */
 inline Decimal
 length(
-        vec const &v
+        vec const v
 )
 {
     return std::sqrt(v.x * v.x + v.y * v.y);
@@ -59,8 +60,8 @@ length(
  */
 inline Decimal
 distance(
-        vec const &v0,
-        vec const &v1
+        vec const v0,
+        vec const v1
 )
 {
     return length(vec{v1.x - v0.x, v1.y - v0.y});
@@ -82,7 +83,7 @@ perpendicular(
  */
 inline Radian
 angle(
-        vec const &v
+        vec const v
 )
 {
     return Radian::arctan2(v.y, v.x);
