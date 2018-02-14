@@ -8,7 +8,7 @@ ADD_EXECUTABLE(${ORBITAL_TEST}
         ellipse.cpp
         integral.cpp
         rectangle.cpp
-        transform.cpp common.h common.cpp)
+        transform.cpp common.h common.cpp vector.cpp)
 
 TARGET_LINK_LIBRARIES(${ORBITAL_TEST} orbital_lib pthread)
 

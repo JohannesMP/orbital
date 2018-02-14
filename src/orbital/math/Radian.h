@@ -28,12 +28,13 @@ public:
      * Serialize a radian value.
      * Prints this value divided by π.
      */
-    std::ostream &
+    friend std::ostream &
     operator<<(
-            std::ostream &os
+            std::ostream &os,
+            Radian const &radian
     )
     {
-        os << (mRadians / boost::math::constants::pi<Decimal>()) << "π";
+        os << (radian.mRadians / boost::math::constants::pi<Decimal>()) << "π";
         return os;
     }
 

@@ -140,7 +140,7 @@ public:
     ) const
     {
         return (vec.x == 0 && vec.y == 0) || (vec.y == 0 && vec.x <= mA && vec.x >= -mA) || (vec.x == 0 && vec.y <= mB && vec.y >= -mB) ||
-                (2 * mA >= distance(focalPoints()[0], vec) + distance(focalPoints()[1], vec));
+                (2 * mA >= vectorDistance(focalPoints()[0], vec) + vectorDistance(focalPoints()[1], vec));
     }
 
     /**
@@ -456,12 +456,13 @@ public:
     /**
      * Serialize ellipse to stream.
      */
-    std::ostream &
+    friend std::ostream &
     operator<<(
-            std::ostream &os
-    ) const
+            std::ostream &os,
+            Ellipse const &ellipse
+    )
     {
-        os << "a=" << mA << " b=" << mB << " e=" << mE;
+        os << "a=" << ellipse.mA << " b=" << ellipse.mB << " e=" << ellipse.mE;
         return os;
     }
 

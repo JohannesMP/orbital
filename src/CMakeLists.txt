@@ -24,6 +24,6 @@ ADD_LIBRARY(${ORBITAL_LIB}
         orbital/common/convert.h
         orbital/graphics/FramebufferLocation.h
         orbital/graphics/FramebufferVector.h
-        )
+        orbital/math/Vector.h)
 
 TARGET_LINK_LIBRARIES(${ORBITAL_LIB} yaml-cpp fmt)

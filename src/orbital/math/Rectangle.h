@@ -203,12 +203,13 @@ public:
         return v.x >= left() && v.x <= right() && v.y <= top() && v.y >= bottom();
     }
 
-    std::ostream &
+    friend std::ostream &
     operator<<(
-            std::ostream &os
-    ) const
+            std::ostream &os,
+            Rectangle const &rectangle
+    )
     {
-        os << "rect{" << mBottomLeft << "->" << mW << 'x' << mH << "}";
+        os << "rect{" << rectangle.mBottomLeft << "->" << rectangle.mW << 'x' << rectangle.mH << "}";
         return os;
     }
 

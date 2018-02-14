@@ -239,10 +239,8 @@ Graphics::ellipse(const Ellipse<Decimal> &ellipse)
     vec ur = mapToWorld({columns() - 1, 0});
     if (ellipse.contains(Rectangle<Decimal>{ll, ur}))
     {
-        //std::cout << "Skip ellipse rendering" << std::endl;
         return;
     }
-    //std::cout << "Render ellipse ..." << std::endl;
 
     // Since the stepper calculates the pixel distance based on vector subtraction and *not* on ellipse arc length,
     // the ellipse must be divided into 4 quarters
@@ -260,9 +258,9 @@ Graphics::stepper(
 )
 {
     // Calculate distance the painted pixels of the start and end arc would have within the framebuffer:
-    WorldVector const vs = convert<WorldVector>(ellipse.point(ts));
-    WorldVector const ve = convert<WorldVector>(ellipse.point(te));
-    Decimal const d = distance({mapToFramebuffer(ve)}, {mapToFramebuffer(vs)});
+    auto const vs = convert<WorldVector>(ellipse.point(ts));
+    auto const ve = convert<WorldVector>(ellipse.point(te));
+    Decimal const d = vectorDistance(mapToFramebuffer(ve), mapToFramebuffer(vs));
 
     // 1.4142... is the distance between to diagonal pixels:
     if (1.5 < d)

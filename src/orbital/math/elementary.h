@@ -59,7 +59,7 @@ length(
  * @return Distance.
  */
 inline Decimal
-distance(
+vectorDistance(
         vec const v0,
         vec const v1
 )

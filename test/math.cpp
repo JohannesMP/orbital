@@ -46,11 +46,11 @@ TEST_CASE("VectorFunctions", "[math]") // NOLINT
 
     SECTION("distance between two vectors")
     {
-        CHECK(distance(vec(0, 0), vec()) == Approx(0));
-        CHECK(distance(vec(1, 0), vec()) == Approx(1));
-        CHECK(distance(vec(0, 1), vec()) == Approx(1));
-        CHECK(distance(vec(-1, 0), vec()) == Approx(1));
-        CHECK(distance(vec(0, -1), vec()) == Approx(1));
+        CHECK(vectorDistance(vec(0, 0), vec()) == Approx(0));
+        CHECK(vectorDistance(vec(1, 0), vec()) == Approx(1));
+        CHECK(vectorDistance(vec(0, 1), vec()) == Approx(1));
+        CHECK(vectorDistance(vec(-1, 0), vec()) == Approx(1));
+        CHECK(vectorDistance(vec(0, -1), vec()) == Approx(1));
     }
 }
 

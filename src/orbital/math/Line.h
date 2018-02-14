@@ -60,12 +60,13 @@ public:
         return bounds.contains(v);
     }
 
-    std::ostream &
+    friend std::ostream &
     operator<<(
-            std::ostream &os
+            std::ostream &os,
+            Line const &line
     )
     {
-        os << mP << " + λ" << mD;
+        os << line.mP << " + λ" << line.mD;
         return os;
     }
 

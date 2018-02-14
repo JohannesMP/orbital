@@ -37,7 +37,7 @@ range(
  * @param min Lower range bound, inclusive.
  * @param max Upper range bound, exclusive.
  * @param init Initializer value, value passed to first invocation of fun.
- * @param fun Function to call.
+ * @param fun Function to call. Arguments to `std::apply()` in that order: `fun`, `args`, `init`, `<current index>`.
  * @param args Arguments to pass, see std::apply().
  * @return Return value from last invocation.
  */
