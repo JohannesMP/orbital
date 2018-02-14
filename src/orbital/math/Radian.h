@@ -162,7 +162,7 @@ private:
  */
 constexpr Radian
 operator "" _pi(
-        long double literal // NOLINT
+        long double literal
 )
 {
     return Radian{static_cast<Decimal>(literal)} * boost::math::constants::pi<Decimal>();

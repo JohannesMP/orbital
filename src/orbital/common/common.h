@@ -107,7 +107,7 @@ operator "" _df(
  */
 constexpr Decimal
 operator "" _df(
-        unsigned long long literal
+        unsigned long long literal // NOLINT
 )
 {
     return static_cast<Decimal>(literal);

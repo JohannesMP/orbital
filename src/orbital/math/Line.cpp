@@ -39,16 +39,6 @@ Line::containsByBounds(vec const v) const
     return bounds.contains(v);
 }
 
-std::ostream &
-operator<<(
-        std::ostream &os,
-        Line const &line
-)
-{
-    os << line.mP << " + λ" << line.mD;
-    return os;
-}
-
 Line
 Line::fromDirection(
         vec const p,

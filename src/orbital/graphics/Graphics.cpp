@@ -7,8 +7,8 @@
 #include <orbital/math/elementary.h>
 
 Graphics::Graphics(
-        int rows,
-        int cols
+        size_t const rows,
+        size_t cols
 )
 {
     if (0 == rows)
@@ -18,13 +18,13 @@ Graphics::Graphics(
 
     if (0 == cols)
     {
-        cols = static_cast<int>(rows / CHAR_RATIO);
+        cols = static_cast<size_t>(rows / charRatio());
     }
 
-    mScanlines.resize(static_cast<unsigned long>(rows));
+    mScanlines.resize(rows);
     for (auto &scanline : mScanlines)
     {
-        scanline.resize(static_cast<unsigned long>(cols));
+        scanline.resize(cols);
     }
     clear();
 
@@ -38,7 +38,7 @@ Graphics::Graphics(
     mProjection = glm::scale(mProjection, {1, -1});
 
     // Scale against viewport distort
-    mProjection = glm::scale(mProjection, {rows / static_cast<Decimal>( cols) / CHAR_RATIO, 1});
+    mProjection = glm::scale(mProjection, {rows / static_cast<Decimal>(cols) / charRatio(), 1});
 
     push();
     updateTransform();
@@ -289,11 +289,11 @@ Graphics::rows() const
 char &
 Graphics::framebufferPixel(const Graphics::FramebufferLocation &loc)
 {
-    return mScanlines.at(static_cast<unsigned long>(loc.y)).at(static_cast<unsigned long>(loc.x));
+    return mScanlines.at(loc.y).at(loc.x);
 }
 
 char const &
 Graphics::framebufferPixel(const Graphics::FramebufferLocation &loc) const
 {
-    return mScanlines.at(static_cast<unsigned long>(loc.y)).at(static_cast<unsigned long>(loc.x));
+    return mScanlines.at(loc.y).at(loc.x);
 }

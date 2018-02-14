@@ -2,10 +2,10 @@
 // Created by jim on 24.01.18.
 //
 
+#include <list>
 #include <orbital/common/common.h>
 #include <orbital/math/Ellipse.h>
 #include <orbital/math/Transform.h>
-#include <list>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -27,12 +27,16 @@ public:
      * coordinate space. Whether or not the location lies within the framebuffers bounds has nothing do to with the
      * location itself and can be tested using withinFramebufferBounds().
      */
-    using FramebufferLocation = glm::ivec2;
+    using FramebufferLocation = glm::tvec2<std::size_t>;
 
     /**
      * Character width to height ration.
      */
-    static constexpr Decimal CHAR_RATIO = 1 / 2.0;
+    static constexpr Decimal
+    charRatio()
+    {
+        return 1 / 2.0;
+    }
 
     /**
      * Create a new graphics with a given count of rows and columns.
@@ -41,8 +45,8 @@ public:
      * @param cols Count of columns.
      */
     explicit Graphics(
-            int rows = 21,
-            int cols = 0
+            size_t rows = 21,
+            size_t cols = 0
     );
 
     /**
@@ -225,8 +229,8 @@ private:
     void
     stepper(
             const Ellipse &ellipse,
-            Radian const ts,
-            Radian const te
+            Radian ts,
+            Radian te
     );
 
     /**

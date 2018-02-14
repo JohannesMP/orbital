@@ -191,8 +191,6 @@ Ellipse::clip(
 
     else
     {
-        assert((points.size() % 2) == 0);
-
         Radian const t = average(points[0], points[1]);
         vec const p = point(t);
 

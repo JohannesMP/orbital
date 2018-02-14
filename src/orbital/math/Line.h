@@ -13,14 +13,14 @@ class Line
 public:
 
     explicit Line(
-            vec const p0,
-            vec const p1
+            vec p0,
+            vec p1
     );
 
     static Line
     fromDirection(
-            vec const p,
-            vec const d
+            vec p,
+            vec d
     );
 
     vec
@@ -31,19 +31,22 @@ public:
 
     vec
     point(
-            Decimal const lambda
+            Decimal lambda
     ) const;
 
     bool
     containsByBounds(
-            vec const v
+            vec v
     ) const;
 
-    friend std::ostream &
+    inline std::ostream &
     operator<<(
-            std::ostream &os,
-            Line const &line
-    );
+            std::ostream &os
+    )
+    {
+        os << mP << " + λ" << mD;
+        return os;
+    }
 
 private:
 

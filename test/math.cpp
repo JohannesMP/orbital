@@ -6,6 +6,7 @@
 #include <orbital/math/elementary.h>
 
 #include "catch/catch.hpp"
+#include "common.h"
 
 TEST_CASE("Constants", "[math]") // NOLINT
 {
@@ -63,5 +64,20 @@ TEST_CASE("Radians", "[math]")
         CHECK(radian - radian == 0_pi);
         CHECK(radian * 2 == 4_pi);
         CHECK(radian / 2 == 1_pi);
+    }
+
+    SECTION("trigonometric functions")
+    {
+        CHECK(radian.sin() == Approx{0}.margin(0.000001));
+        CHECK(radian.cos() == Approx{1}.margin(0.000001));
+        CHECK(radian.tan() == Approx{0}.margin(0.000001));
+    }
+
+    SECTION("inverse trigonometric functions")
+    {
+        CHECK(Radian::arcsin(1) == approx(0.5_pi).margin(0.000001));
+        CHECK(Radian::arccos(1) == approx(0_pi).margin(0.000001));
+        CHECK(Radian::arctan(1) == Approx{std::atan(1)}.margin(0.000001));
+        CHECK(Radian::arctan2(2, 3) == Approx{std::atan2(2, 3)}.margin(0.000001));
     }
 }
