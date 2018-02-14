@@ -184,7 +184,7 @@ public:
     DynamicArray<std::pair<Radian<T>, Radian<T>>, 4>
     clip(
             Rectangle<T> const &rect,
-            Transform const &transform
+            Transform<T> const &transform
     ) const
     {
         DynamicArray<Radian<T>, 8> points;

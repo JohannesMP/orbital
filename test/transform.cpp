@@ -7,10 +7,10 @@
 
 TEST_CASE("Matrix", "[math]") // NOLINT
 {
+    Transform<Decimal> transform;
 
     SECTION("default construction is identity matrix")
     {
-        Transform transform;
 
         CHECK(transform.transformation()[0][0] == Approx(1));
         CHECK(transform.transformation()[0][1] == Approx(0));
@@ -27,7 +27,6 @@ TEST_CASE("Matrix", "[math]") // NOLINT
 
     SECTION("reset to identity matrix")
     {
-        Transform transform;
         transform.translate({1, 2});
         transform.scale(4);
         transform.rotate(-1_pi);
@@ -48,7 +47,6 @@ TEST_CASE("Matrix", "[math]") // NOLINT
 
     SECTION("translation matrix")
     {
-        Transform transform;
         transform.translate({3, 4});
 
         CHECK(transform.transformation()[0][0] == Approx(1));
@@ -66,7 +64,6 @@ TEST_CASE("Matrix", "[math]") // NOLINT
 
     SECTION("scale matrix")
     {
-        Transform transform;
         transform.scale(2);
 
         CHECK(transform.transformation()[0][0] == Approx(2));
@@ -84,8 +81,6 @@ TEST_CASE("Matrix", "[math]") // NOLINT
 
     SECTION("rotation matrix")
     {
-        Transform transform;
-
         auto alpha = 0.25_pi;
         transform.rotate(alpha);
 
@@ -104,8 +99,6 @@ TEST_CASE("Matrix", "[math]") // NOLINT
 
     SECTION("rotation matrix with negative angle")
     {
-        Transform transform;
-
         auto alpha = -0.25_pi;
         transform.rotate(alpha);
 

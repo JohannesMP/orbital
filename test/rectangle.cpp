@@ -179,7 +179,7 @@ TEST_CASE("Rectangle", "[math]") // NOLINT
     SECTION("contains a transformed point")
     {
         Rectangle<Decimal> rect{{}, 1, 1};
-        Transform t;
+        Transform<Decimal> t;
         t.scale(0.5);
 
         CHECK_FALSE(rect.containsTransformed(t, {1, 1}));

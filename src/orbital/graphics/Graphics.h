@@ -191,7 +191,7 @@ private:
     /**
      * Stack of transformations.
      */
-    std::list<Transform> mTransformStack;
+    std::list<Transform<Decimal>> mTransformStack;
 
     /**
      * Projection matrix, calculated once.

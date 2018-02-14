@@ -14,7 +14,6 @@ ADD_LIBRARY(${ORBITAL_LIB}
         orbital/physical/Body.h
         orbital/graphics/Graphics.cpp
         orbital/graphics/Graphics.h
-        orbital/math/Transform.cpp
         orbital/math/Transform.h
         orbital/math/Ellipse.h
         orbital/math/Rectangle.h

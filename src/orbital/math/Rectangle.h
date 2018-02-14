@@ -95,7 +95,7 @@ public:
      */
     bool
     containsTransformed(
-            Transform const transform,
+            Transform<T> const transform,
             vec const p
     ) const
     {
