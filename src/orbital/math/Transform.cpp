@@ -15,13 +15,7 @@ Transform::Transform()
 void
 Transform::reset()
 {
-    mTransform = mRotation = mScale = mTranslation = identityMatrix();
-}
-
-void
-Transform::update()
-{
-    mTransform = mRotation * mScale * mTranslation;
+    mTransform = identityMatrix();
 }
 
 mat const &
@@ -33,22 +27,19 @@ Transform::transformation() const
 void
 Transform::translate(const vec &v)
 {
-    mTranslation = glm::translate(mTranslation, vec{v});
-    update();
+    mTransform = glm::translate(mTransform, vec{v});
 }
 
 void
 Transform::scale(Decimal const s)
 {
-    mScale = glm::scale(mScale, vec{s, s});
-    update();
+    mTransform = glm::scale(mTransform, vec{s, s});
 }
 
 void
 Transform::rotate(Radian<Decimal> const radians)
 {
-    mRotation = glm::rotate(mRotation, radians.getRaw()); // NOLINT
-    update();
+    mTransform = glm::rotate(mTransform, radians.getRaw());
 }
 
 vec

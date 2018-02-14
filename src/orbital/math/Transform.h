@@ -44,14 +44,8 @@ public:
     ) const;
 
 private:
-
-    mat mTranslation;
-    mat mScale;
-    mat mRotation;
+    
     mat mTransform;
-
-    void
-    update();
 
 };
 
