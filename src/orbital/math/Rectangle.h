@@ -6,17 +6,12 @@
 
 #include "Transform.h"
 #include "orbital/common/common.h"
-#include <ostream>
 
+template<class T>
 class Rectangle
 {
 
 public:
-
-    /**
-     * A rectangle with no extent, sitting at position 0.
-     */
-    static Rectangle zeroRectangle();
 
     /**
      * Construct a rectangle from a point, width and height.
@@ -24,11 +19,14 @@ public:
      * @param w Width, can be negative.
      * @param h Height, can be negative.
      */
-    explicit Rectangle(
-            vec const &p,
-            Decimal const w,
-            Decimal const h
-    );
+    Rectangle(
+            tvec<T> const p,
+            T const w,
+            T const h
+    )
+            : Rectangle{p, {p.x + w, p.y + h}}
+    {
+    }
 
     /**
      * Construct a rectangle spanning over two points.
@@ -36,9 +34,23 @@ public:
      * @param q Second point.
      */
     explicit Rectangle(
-            vec const &p,
-            vec const &q
-    );
+            tvec<T> const p,
+            tvec<T> const q
+    )
+            : mBottomLeft{std::min(p.x, q.x), std::min(p.y, q.y)}
+            , mW{std::abs(q.x - p.x)}
+            , mH{std::abs(q.y - p.y)}
+    {
+    }
+
+    /**
+     * A rectangle with no extent, sitting at position 0.
+     */
+    static Rectangle zeroRectangle()
+    {
+        return Rectangle{{}, 0, 0};
+    }
+
 
     /**
      * Create a conjunction rectangle from this and another rectangle.
@@ -47,8 +59,33 @@ public:
      */
     Rectangle
     conjunction(
-            Rectangle const &rhs
-    ) const;
+            const Rectangle rhs
+    ) const
+    {
+        if (top() <= rhs.bottom())
+        {
+            // rhs lies above this rect
+            return zeroRectangle();
+        }
+        if (bottom() >= rhs.top())
+        {
+            // rhs lies below this rect
+            return zeroRectangle();
+        }
+        if (left() >= rhs.right())
+        {
+            // rhs lies right
+            return zeroRectangle();
+        }
+        if (right() <= rhs.left())
+        {
+            // rhs lies left
+            return zeroRectangle();
+        }
+
+        return Rectangle{{std::max(left(), rhs.left()), std::max(bottom(), rhs.bottom())},
+                {std::min(right(), rhs.right()), std::min(top(), rhs.top())}};
+    }
 
     /**
      * Checks whether a given point lies within the area covered by this transformed rectangle.
@@ -60,66 +97,126 @@ public:
     containsTransformed(
             Transform const transform,
             vec const p
-    ) const;
+    ) const
+    {
+        vec const a = transform.apply(bottomLeft());
+        vec const s = a - transform.apply(topLeft());
+        vec const t = transform.apply(bottomRight()) - a;
+
+        T theta = (p.x + s.x - a.x) / t.x;
+        T mu = (p.y - a.y) / (t.y * theta - s.y);
+        T lambda = (p.x + s.x * mu - a.x) / t.x;
+
+        // Both, mu and lambda must be [0;1], otherwise they refer to a point outside the rect:
+        return mu >= 0 && mu <= 1 && lambda >= 0 && lambda <= 1;
+    }
 
     vec
-    extent() const;
+    extent() const
+    {
+        return {right() - left(), top() - bottom()};
+    }
 
-    Decimal
-    top() const;
+    T
+    top() const
+    {
+        return mBottomLeft.y + mH;
+    }
 
-    Decimal
-    bottom() const;
+    T
+    bottom() const
+    {
+        return mBottomLeft.y;
+    }
 
-    Decimal
-    left() const;
+    T
+    left() const
+    {
+        return mBottomLeft.x;
+    }
 
-    Decimal
-    right() const;
-
-    vec
-    bottomLeft() const;
-
-    vec
-    topLeft() const;
-
-    vec
-    bottomRight() const;
-
-    vec
-    topRight() const;
-
-    vec
-    leftCenter() const;
-
-    vec
-    rightCenter() const;
+    T
+    right() const
+    {
+        return mBottomLeft.x + mW;
+    }
 
     vec
-    topCenter() const;
+    bottomLeft() const
+    {
+        return mBottomLeft;
+    }
 
     vec
-    bottomCenter() const;
+    topLeft() const
+    {
+        return {mBottomLeft.x, mBottomLeft.y + mH};
+    }
 
     vec
-    center() const;
+    bottomRight() const
+    {
+        return {mBottomLeft.x + mW, mBottomLeft.y};
+    }
+
+    vec
+    topRight() const
+    {
+        return {mBottomLeft.x + mW, mBottomLeft.y + mH};
+    }
+
+    vec
+    leftCenter() const
+    {
+        return {mBottomLeft.x, mBottomLeft.y + mH / 2};
+    }
+
+    vec
+    rightCenter() const
+    {
+        return {mBottomLeft.x + mW, mBottomLeft.y + mH / 2};
+    }
+
+    vec
+    topCenter() const
+    {
+        return {mBottomLeft.x + mW / 2, mBottomLeft.y + mH};
+    }
+
+    vec
+    bottomCenter() const
+    {
+        return {mBottomLeft.x + mW / 2, mBottomLeft.y};
+    }
+
+    vec
+    center() const
+    {
+        return {mBottomLeft.x + mW / 2, mBottomLeft.y + mH / 2};
+    }
 
     bool
     contains(
             vec const v
-    ) const;
+    ) const
+    {
+        return v.x >= left() && v.x <= right() && v.y <= top() && v.y >= bottom();
+    }
 
-    friend std::ostream &
+    std::ostream &
     operator<<(
-            std::ostream &os,
-            const Rectangle &rectangle
-    );
+            std::ostream &os
+    ) const
+    {
+        os << "rect{" << mBottomLeft << "->" << mW << 'x' << mH << "}";
+        return os;
+    }
 
 private:
 
-    vec mBottomLeft;
-    Decimal mW;
-    Decimal mH;
+    tvec<T> mBottomLeft;
+    T mW;
+    T mH;
 
 };
 

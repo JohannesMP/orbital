@@ -119,7 +119,7 @@ public:
      */
     bool
     contains(
-            const Rectangle &rect
+            const Rectangle<Decimal> &rect
     ) const;
 
     /**
@@ -131,7 +131,7 @@ public:
      */
     DynamicArray<std::pair<Radian<Decimal>, Radian<Decimal>>, 4>
     clip(
-            const Rectangle &rect,
+            const Rectangle<Decimal> &rect,
             const Transform &transform
     ) const;
 
@@ -256,7 +256,7 @@ public:
     /**
      * @return Bounding rectangle.
      */
-    Rectangle
+    Rectangle<Decimal>
     boundingRect() const;
 
     /**

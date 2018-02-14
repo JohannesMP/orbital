@@ -56,7 +56,7 @@ public:
             tvec<T> const v
     ) const
     {
-        Rectangle bounds{mP, mP + mD};
+        Rectangle<Decimal> bounds{mP, mP + mD};
         return bounds.contains(v);
     }
 

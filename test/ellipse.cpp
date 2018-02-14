@@ -354,13 +354,13 @@ TEST_CASE("Ellipse", "[math]") // NOLINT
 
     SECTION("rectangular clip without any overlap")
     {
-        Rectangle rect{{3, 1}, 4, 5};
+        Rectangle<Decimal> rect{{3, 1}, 4, 5};
         CHECK(ellipse.clip(rect, {}).size() == 0);
     }
 
     SECTION("rectangular clip with complete overlap")
     {
-        Rectangle rect{{-2, -2}, {4, 4}};
+        Rectangle<Decimal> rect{{-2, -2}, {4, 4}};
 
         auto ts = ellipse.clip(rect, {});
 
@@ -372,7 +372,7 @@ TEST_CASE("Ellipse", "[math]") // NOLINT
 
     SECTION("partial rectangular clip with no ellipse section in first quadrant")
     {
-        Rectangle rect{{1, 1}, {4, 4}};
+        Rectangle<Decimal> rect{{1, 1}, {4, 4}};
 
         auto ts = ellipse.clip(rect, {});
 
@@ -384,7 +384,7 @@ TEST_CASE("Ellipse", "[math]") // NOLINT
 
     SECTION("partial rectangular clip with no ellipse section in second quadrant")
     {
-        Rectangle rect{{-1, 1}, {4, -4}};
+        Rectangle<Decimal> rect{{-1, 1}, {4, -4}};
 
         auto ts = ellipse.clip(rect, {});
 
@@ -396,7 +396,7 @@ TEST_CASE("Ellipse", "[math]") // NOLINT
 
     SECTION("partial rectangular clip with no ellipse section in third quadrant")
     {
-        Rectangle rect{{-1, -1}, {4, 4}};
+        Rectangle<Decimal> rect{{-1, -1}, {4, 4}};
 
         auto ts = ellipse.clip(rect, {});
 
@@ -408,7 +408,7 @@ TEST_CASE("Ellipse", "[math]") // NOLINT
 
     SECTION("partial rectangular clip with one contiguous section in first and fourth quadrant")
     {
-        Rectangle rect{{1, -2}, 2, 4};
+        Rectangle<Decimal> rect{{1, -2}, 2, 4};
 
         auto ts = ellipse.clip(rect, {});
 
@@ -421,7 +421,7 @@ TEST_CASE("Ellipse", "[math]") // NOLINT
     /*
     SECTION("rectangular clip with transformed rectangle")
     {
-        Rectangle rect{{-sqrt(8) / 2, -sqrt(8) / 2}, {sqrt(8), sqrt(8)}};
+        Rectangle<Decimal> rect{{-sqrt(8) / 2, -sqrt(8) / 2}, {sqrt(8), sqrt(8)}};
         Transform transform;
         transform.rotate(0.25_pi);
 

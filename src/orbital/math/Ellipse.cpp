@@ -100,7 +100,7 @@ Ellipse::tAtY(Decimal y) const
 
 bool
 Ellipse::contains(
-        const Rectangle &rect
+        const Rectangle<Decimal> &rect
 ) const
 {
     return contains(rect.bottomLeft()) && contains(rect.bottomRight()) && contains(rect.topLeft()) &&
@@ -122,22 +122,22 @@ Ellipse::pointToT(const vec v) const
  *      the intersection is ignored, since it only touches the ellipse. TODO: outsource to intersectionPoints()
  *      Edge case: If one line's endpoint lies on the ellipse, it is ignored as well.
  *    After that, 'points' should have an even number of elements.
- * 2) Check if the first two elements denote a range covered be the rectangle.
+ * 2) Check if the first two elements denote a range covered be the Rectangle<Decimal>.
  *    If so, the elements are already in-order, so their can iteratively copied to the resulting ranges.
- *    Otherwise, the elements are in shifted-order, so the rectangle covers the range denoted by the second and third,
+ *    Otherwise, the elements are in shifted-order, so the Rectangle covers the range denoted by the second and third,
  *    fourth and fifth, ... element and the range between the last and the first element. In this case 2π should be
  *    added to the first element, so it's greater in value than the last element.
  */
 DynamicArray<std::pair<Radian<Decimal>, Radian<Decimal>>, 4>
 Ellipse::clip(
-        const Rectangle &rect,
+        const Rectangle<Decimal> &rect,
         const Transform &transform
 ) const
 {
     DynamicArray<Radian<Decimal>, 8> points;
     DynamicArray<std::pair<Radian<Decimal>, Radian<Decimal>>, 4> ranges;
 
-    // Store valid intersections of line, representing a transformed edge of the rectangle:
+    // Store valid intersections of line, representing a transformed edge of the Rectangle<Decimal>:
     auto storeIntersections = [&](Line<Decimal> const &line) {
         auto const intersections = intersectPoints(line, true);
 
@@ -183,7 +183,7 @@ Ellipse::clip(
         if (rect.containsTransformed(transform.inverse(), {0, 0}) &&
                 rect.containsTransformed(transform.inverse(), {mA, 0}))
         {
-            // Complete ellipse is visible, since rectangle contains both, the coordinate origin and the ellipse's
+            // Complete ellipse is visible, since Rectangle<Decimal> contains both, the coordinate origin and the ellipse's
             // right-most point:
             ranges.emplace_back(0, 2_pi);
         }
@@ -227,10 +227,10 @@ operator<<(
     return os;
 }
 
-Rectangle
+Rectangle<Decimal>
 Ellipse::boundingRect() const
 {
-    return Rectangle{{-mA, -mB}, {mA, mB}};
+    return Rectangle<Decimal>{{-mA, -mB}, {mA, mB}};
 }
 
 DynamicArray<vec, 2>

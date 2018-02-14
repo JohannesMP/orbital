@@ -237,7 +237,7 @@ Graphics::ellipse(const Ellipse &ellipse)
     // i.e. no lines are visible anyway.
     vec ll = mapToWorld({0, rows() - 1});
     vec ur = mapToWorld({columns() - 1, 0});
-    if (ellipse.contains(Rectangle{ll, ur}))
+    if (ellipse.contains(Rectangle<Decimal>{ll, ur}))
     {
         //std::cout << "Skip ellipse rendering" << std::endl;
         return;
