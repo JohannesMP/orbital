@@ -23,7 +23,7 @@ average(
 {
     (void) value;
     std::array<T, sizeof...(rest) + 1> v{{value, rest...}};
-    return std::accumulate(v.begin(), v.end(), T{0}) / T{v.size()};
+    return std::accumulate(v.begin(), v.end(), T{0}) / v.size();
 }
 
 /**
@@ -100,11 +100,11 @@ angle(
  * @param resolution Resolution per x stepping, i.e. number of function invocations per x.
  * @return Area enclosed by graph and x-axis.
  */
-template<class TFun, class... TArgs, class T, class TLow, class THigh>
-constexpr T
+template<class TFun, class... TArgs, class T, class Tx>
+constexpr Tx
 integral(
-        TLow const low,
-        THigh const high,
+        Tx const low,
+        Tx const high,
         T const resolution,
         TFun &&f,
         TArgs &&...args
@@ -114,12 +114,12 @@ integral(
     T const step = (low < high ? T{1} : T{-1}) / resolution;
     auto const steps = (high - low) / step;
 
-    return reduce_range(T{}, steps, T{}, [&](
-            T const sum,
+    return reduce_range(Tx{}, steps, Tx{}, [&](
+            Tx const sum,
             auto const i
     ) {
-        return sum + step * T{std::apply(std::forward<TFun>(f),
-                std::tuple{std::forward<TFun>(args)..., low + step * (i + T(0.5))})};
+        return sum + Tx{std::apply(std::forward<TFun>(f),
+                std::tuple{std::forward<TFun>(args)..., low + (i + Tx(0.5)) * step})} * step;
     });
 }
 

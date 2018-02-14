@@ -14,7 +14,7 @@
     <inspection_tool class="ChainedEqualityJS" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="ChainedFunctionCallJS" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="ClangTidyInspection" enabled="true" level="WARNING" enabled_by_default="true">
-      <option name="clangTidyChecks" value="*,-cppcoreguidelines-pro-type-union-access,-cppcoreguidelines-pro-type-vararg,-google-runtime-int" />
+      <option name="clangTidyChecks" value="*,-cppcoreguidelines-pro-type-union-access,-cppcoreguidelines-pro-type-vararg" />
     </inspection_tool>
     <inspection_tool class="ConditionalExpressionJS" enabled="true" level="WARNING" enabled_by_default="true" />
     <inspection_tool class="ConditionalExpressionWithIdenticalBranchesJS" enabled="true" level="WARNING" enabled_by_default="true" />

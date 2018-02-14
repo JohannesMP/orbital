@@ -223,48 +223,48 @@ TEST_CASE("Ellipse", "[math]") // NOLINT
 
     SECTION("ArcLength")
     {
-        CHECK(ellipse.arcLength(0_pi, 0_pi, 100_pi) == Approx(0.0).margin(0.0001));
-        CHECK(ellipse.arcLength(0_pi, 0.25_pi, 1000_pi) == Approx(1.4).margin(0.1));
-        CHECK(ellipse.arcLength(0_pi, 0.5_pi, 1000_pi) == Approx(2.93).margin(0.01));
-        CHECK(ellipse.arcLength(0_pi, 0.75_pi, 1000_pi) == Approx(4.47).margin(0.01));
-        CHECK(ellipse.arcLength(0_pi, 1_pi, 1000_pi) == Approx(5.87).margin(0.01));
-        CHECK(ellipse.arcLength(0_pi, 1.25_pi, 1000_pi) == Approx(7.27).margin(0.01));
-        CHECK(ellipse.arcLength(0_pi, 1.5_pi, 1000_pi) == Approx(8.8).margin(0.01));
-        CHECK(ellipse.arcLength(0_pi, 1.75_pi, 1000_pi) == Approx(10.34).margin(0.01));
-        CHECK(ellipse.arcLength(0_pi, 2_pi, 1000_pi) == Approx(11.74).margin(0.01));
+        CHECK(ellipse.arcLength(0_pi, 0_pi, 100) == Approx(0.0).margin(0.0001));
+        CHECK(ellipse.arcLength(0_pi, 0.25_pi, 1000) == Approx(1.4).margin(0.1));
+        CHECK(ellipse.arcLength(0_pi, 0.5_pi, 1000) == Approx(2.93).margin(0.01));
+        CHECK(ellipse.arcLength(0_pi, 0.75_pi, 1000) == Approx(4.47).margin(0.01));
+        CHECK(ellipse.arcLength(0_pi, 1_pi, 1000) == Approx(5.87).margin(0.01));
+        CHECK(ellipse.arcLength(0_pi, 1.25_pi, 1000) == Approx(7.27).margin(0.01));
+        CHECK(ellipse.arcLength(0_pi, 1.5_pi, 1000) == Approx(8.8).margin(0.01));
+        CHECK(ellipse.arcLength(0_pi, 1.75_pi, 1000) == Approx(10.34).margin(0.01));
+        CHECK(ellipse.arcLength(0_pi, 2_pi, 1000) == Approx(11.74).margin(0.01));
 
-        CHECK(ellipse.arcLength(1_pi, 1_pi, 100_pi) == Approx(0.0).margin(0.0001));
-        CHECK(ellipse.arcLength(1_pi, 1.25_pi, 1000_pi) == Approx(1.4).margin(0.1));
-        CHECK(ellipse.arcLength(1_pi, 1.5_pi, 1000_pi) == Approx(2.93).margin(0.01));
-        CHECK(ellipse.arcLength(1_pi, 1.75_pi, 1000_pi) == Approx(4.47).margin(0.01));
-        CHECK(ellipse.arcLength(1_pi, 2_pi, 1000_pi) == Approx(5.87).margin(0.01));
-        CHECK(ellipse.arcLength(1_pi, 2.25_pi, 1000_pi) == Approx(7.27).margin(0.01));
-        CHECK(ellipse.arcLength(1_pi, 2.5_pi, 1000_pi) == Approx(8.8).margin(0.01));
-        CHECK(ellipse.arcLength(1_pi, 2.75_pi, 1000_pi) == Approx(10.34).margin(0.01));
-        CHECK(ellipse.arcLength(1_pi, 3_pi, 1000_pi) == Approx(11.74).margin(0.01));
+        CHECK(ellipse.arcLength(1_pi, 1_pi, 100) == Approx(0.0).margin(0.0001));
+        CHECK(ellipse.arcLength(1_pi, 1.25_pi, 1000) == Approx(1.4).margin(0.1));
+        CHECK(ellipse.arcLength(1_pi, 1.5_pi, 1000) == Approx(2.93).margin(0.01));
+        CHECK(ellipse.arcLength(1_pi, 1.75_pi, 1000) == Approx(4.47).margin(0.01));
+        CHECK(ellipse.arcLength(1_pi, 2_pi, 1000) == Approx(5.87).margin(0.01));
+        CHECK(ellipse.arcLength(1_pi, 2.25_pi, 1000) == Approx(7.27).margin(0.01));
+        CHECK(ellipse.arcLength(1_pi, 2.5_pi, 1000) == Approx(8.8).margin(0.01));
+        CHECK(ellipse.arcLength(1_pi, 2.75_pi, 1000) == Approx(10.34).margin(0.01));
+        CHECK(ellipse.arcLength(1_pi, 3_pi, 1000) == Approx(11.74).margin(0.01));
     }
 
     SECTION("negative arc length")
     {
-        CHECK(ellipse.arcLength(0_pi, -0_pi, 100_pi) == Approx(-0.0).margin(0.0001));
-        CHECK(ellipse.arcLength(0_pi, -0.25_pi, 1000_pi) == Approx(-1.4).margin(0.1));
-        CHECK(ellipse.arcLength(0_pi, -0.5_pi, 1000_pi) == Approx(-2.93).margin(0.01));
-        CHECK(ellipse.arcLength(0_pi, -0.75_pi, 1000_pi) == Approx(-4.47).margin(0.01));
-        CHECK(ellipse.arcLength(0_pi, -1_pi, 1000_pi) == Approx(-5.87).margin(0.01));
-        CHECK(ellipse.arcLength(0_pi, -1.25_pi, 1000_pi) == Approx(-7.27).margin(0.01));
-        CHECK(ellipse.arcLength(0_pi, -1.5_pi, 1000_pi) == Approx(-8.8).margin(0.01));
-        CHECK(ellipse.arcLength(0_pi, -1.75_pi, 1000_pi) == Approx(-10.34).margin(0.01));
-        CHECK(ellipse.arcLength(0_pi, -2_pi, 1000_pi) == Approx(-11.74).margin(0.01));
+        CHECK(ellipse.arcLength(0_pi, -0_pi, 100) == Approx(-0.0).margin(0.0001));
+        CHECK(ellipse.arcLength(0_pi, -0.25_pi, 1000) == Approx(-1.4).margin(0.1));
+        CHECK(ellipse.arcLength(0_pi, -0.5_pi, 1000) == Approx(-2.93).margin(0.01));
+        CHECK(ellipse.arcLength(0_pi, -0.75_pi, 1000) == Approx(-4.47).margin(0.01));
+        CHECK(ellipse.arcLength(0_pi, -1_pi, 1000) == Approx(-5.87).margin(0.01));
+        CHECK(ellipse.arcLength(0_pi, -1.25_pi, 1000) == Approx(-7.27).margin(0.01));
+        CHECK(ellipse.arcLength(0_pi, -1.5_pi, 1000) == Approx(-8.8).margin(0.01));
+        CHECK(ellipse.arcLength(0_pi, -1.75_pi, 1000) == Approx(-10.34).margin(0.01));
+        CHECK(ellipse.arcLength(0_pi, -2_pi, 1000) == Approx(-11.74).margin(0.01));
 
-        CHECK(ellipse.arcLength(-1_pi, -1_pi, 100_pi) == Approx(-0.0).margin(0.0001));
-        CHECK(ellipse.arcLength(-1_pi, -1.25_pi, 1000_pi) == Approx(-1.4).margin(0.1));
-        CHECK(ellipse.arcLength(-1_pi, -1.5_pi, 1000_pi) == Approx(-2.93).margin(0.01));
-        CHECK(ellipse.arcLength(-1_pi, -1.75_pi, 1000_pi) == Approx(-4.47).margin(0.01));
-        CHECK(ellipse.arcLength(-1_pi, -2_pi, 1000_pi) == Approx(-5.87).margin(0.01));
-        CHECK(ellipse.arcLength(-1_pi, -2.25_pi, 1000_pi) == Approx(-7.27).margin(0.01));
-        CHECK(ellipse.arcLength(-1_pi, -2.5_pi, 1000_pi) == Approx(-8.8).margin(0.01));
-        CHECK(ellipse.arcLength(-1_pi, -2.75_pi, 1000_pi) == Approx(-10.34).margin(0.01));
-        CHECK(ellipse.arcLength(-1_pi, -3_pi, 1000_pi) == Approx(-11.74).margin(0.01));
+        CHECK(ellipse.arcLength(-1_pi, -1_pi, 100) == Approx(-0.0).margin(0.0001));
+        CHECK(ellipse.arcLength(-1_pi, -1.25_pi, 1000) == Approx(-1.4).margin(0.1));
+        CHECK(ellipse.arcLength(-1_pi, -1.5_pi, 1000) == Approx(-2.93).margin(0.01));
+        CHECK(ellipse.arcLength(-1_pi, -1.75_pi, 1000) == Approx(-4.47).margin(0.01));
+        CHECK(ellipse.arcLength(-1_pi, -2_pi, 1000) == Approx(-5.87).margin(0.01));
+        CHECK(ellipse.arcLength(-1_pi, -2.25_pi, 1000) == Approx(-7.27).margin(0.01));
+        CHECK(ellipse.arcLength(-1_pi, -2.5_pi, 1000) == Approx(-8.8).margin(0.01));
+        CHECK(ellipse.arcLength(-1_pi, -2.75_pi, 1000) == Approx(-10.34).margin(0.01));
+        CHECK(ellipse.arcLength(-1_pi, -3_pi, 1000) == Approx(-11.74).margin(0.01));
     }
 
     SECTION("bounding rect")

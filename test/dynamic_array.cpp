@@ -36,18 +36,18 @@ TEST_CASE("DynamicArray", "[common]") // NOLINT
         CHECK(array.capacity() == 5);
     }
 
-    SECTION("Iterators")
+    SECTION("iterating")
     {
         CHECK(array.push_back(3) == 3);
 
-        CHECK(*array.begin() == Approx(3));
-        CHECK(*constantArray.begin() == Approx(3));
+        CHECK(*array.begin() == 3);
+        CHECK(*constantArray.begin() == 3);
 
         CHECK(std::distance(array.begin(), array.end()) == 1);
         CHECK(std::distance(constantArray.begin(), constantArray.end()) == 1);
     }
 
-    SECTION("FrontBack")
+    SECTION("front and back getter")
     {
         array.push_back(3);
 

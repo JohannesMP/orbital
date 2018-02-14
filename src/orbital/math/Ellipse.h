@@ -180,7 +180,7 @@ public:
     arcLength(
             Radian const ts,
             Radian const te,
-            Radian const resolution
+            Decimal const resolution
     ) const;
 
     /**

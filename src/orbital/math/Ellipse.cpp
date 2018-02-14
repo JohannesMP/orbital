@@ -58,14 +58,14 @@ Radian
 Ellipse::arcLength(
         Radian const ts,
         Radian const te,
-        Radian const resolution
+        Decimal const resolution
 ) const
 {
     Decimal sqA = sq(mA);
     Decimal sqB = sq(mB);
-    return integral(ts, te, resolution, [&](Radian const x) {
+    return Radian{integral(ts, te, resolution, [&](Radian const x) {
         return Radian{std::sqrt(sqA * sq(x.sin()) + sqB * sq(x.cos()))};
-    });
+    })};
 }
 
 vec

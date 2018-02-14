@@ -41,11 +41,11 @@ range(
  * @param args Arguments to pass, see std::apply().
  * @return Return value from last invocation.
  */
-template<class TMin, class TMax, class T, class... TArgs, class TFun>
+template<class TBounds, class T, class... TArgs, class TFun>
 constexpr T
 reduce_range(
-        TMin const min,
-        TMax const max,
+        TBounds const min,
+        TBounds const max,
         T const init,
         TFun &&fun,
         TArgs &&...args
@@ -57,5 +57,5 @@ reduce_range(
     }
 
     auto result = std::apply(std::forward<TFun>(fun), std::tuple{std::forward<TFun>(args)..., init, min});
-    return reduce_range(min + TMin(1), max, result, std::forward<TFun>(fun), std::forward<TFun>(args)...);
+    return reduce_range(min + TBounds(1), max, result, std::forward<TFun>(fun), std::forward<TFun>(args)...);
 }

@@ -46,6 +46,38 @@ public:
         return mRadians < rhs.mRadians;
     }
 
+    constexpr bool
+    operator>(
+            Radian const &rhs
+    ) const
+    {
+        return rhs > *this;
+    }
+
+    constexpr bool
+    operator==(
+            Radian const &rhs
+    ) const
+    {
+        return !(*this < rhs) && !(rhs < *this);
+    }
+
+    constexpr bool
+    operator<=(
+            Radian const &rhs
+    ) const
+    {
+        return (*this < rhs) || (*this == rhs);
+    }
+
+    constexpr bool
+    operator>=(
+            Radian const &rhs
+    ) const
+    {
+        return (*this > rhs) || (*this == rhs);
+    }
+
     constexpr Radian
     operator-() const
     {
@@ -68,20 +100,22 @@ public:
         return Radian{mRadians - rhs.mRadians};
     }
 
+    template<class T>
     constexpr Radian
     operator*(
-            Radian const &rhs
+            T const &rhs
     ) const
     {
-        return Radian{mRadians * rhs.mRadians};
+        return Radian{mRadians * rhs};
     }
 
+    template<class T>
     constexpr Radian
     operator/(
-            Radian const &rhs
+            T const &rhs
     ) const
     {
-        return Radian{mRadians / rhs.mRadians};
+        return Radian{mRadians / rhs};
     }
 
     Decimal
@@ -128,10 +162,10 @@ private:
  */
 constexpr Radian
 operator "" _pi(
-        long double literal
+        long double literal // NOLINT
 )
 {
-    return Radian{static_cast<Decimal>(literal)} * Radian{boost::math::constants::pi<Decimal>()};
+    return Radian{static_cast<Decimal>(literal)} * boost::math::constants::pi<Decimal>();
 }
 
 /**
@@ -139,8 +173,8 @@ operator "" _pi(
  */
 constexpr Radian
 operator "" _pi(
-        unsigned long long literal
+        unsigned long long literal // NOLINT
 )
 {
-    return Radian{static_cast<Decimal>(literal)} * Radian{boost::math::constants::pi<Decimal>()};
+    return Radian{static_cast<Decimal>(literal)} * boost::math::constants::pi<Decimal>();
 }

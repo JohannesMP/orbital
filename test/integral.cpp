@@ -68,9 +68,9 @@ TEST_CASE("Integral", "[math]") // NOLINT
         CHECK(integral(-1_df, -2_df, 100_df, negativeSq) == Approx(2.33_df).margin(0.01_df));
     }
 
-    SECTION("integrating sinus results in 0 due to self-ellimination")
+    SECTION("integrating sinus results in 0 due to self-elimination")
     {
-        CHECK(integral(0_pi, 2_pi, 100_pi, &Radian::sin) == Approx(0).margin(0.00001));
+        CHECK(integral(0_pi, 2_pi, 10000_df, &Radian::sin) == Approx(0).margin(0.00001));
     }
 
 }

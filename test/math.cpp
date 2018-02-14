@@ -52,3 +52,16 @@ TEST_CASE("VectorFunctions", "[math]") // NOLINT
         CHECK(distance(vec(0, -1), vec()) == Approx(1));
     }
 }
+
+TEST_CASE("Radians", "[math]")
+{
+    Radian radian{2_pi};
+
+    SECTION("math operators")
+    {
+        CHECK(radian + radian == 4_pi);
+        CHECK(radian - radian == 0_pi);
+        CHECK(radian * 2 == 4_pi);
+        CHECK(radian / 2 == 1_pi);
+    }
+}
