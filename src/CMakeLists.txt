@@ -16,7 +16,6 @@ ADD_LIBRARY(${ORBITAL_LIB}
         orbital/graphics/Graphics.h
         orbital/math/Transform.cpp
         orbital/math/Transform.h
-        orbital/math/Ellipse.cpp
         orbital/math/Ellipse.h
         orbital/math/Rectangle.h
         orbital/math/Line.h

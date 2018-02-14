@@ -106,7 +106,7 @@ public:
      */
     void
     ellipse(
-            Ellipse const &ellipse
+            Ellipse<Decimal> const &ellipse
     );
 
     /**
@@ -246,7 +246,7 @@ private:
      */
     void
     stepper(
-            Ellipse const &ellipse,
+            Ellipse<Decimal> const &ellipse,
             Radian<Decimal> ts,
             Radian<Decimal> te
     );

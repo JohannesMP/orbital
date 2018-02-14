@@ -39,7 +39,7 @@ public:
     const vec &
     getPosition() const;
 
-    const Ellipse &
+    const Ellipse<Decimal> &
     getTrajectory() const;
 
     void
@@ -54,7 +54,7 @@ private:
     Decimal mMass{};      ///< [kg]   Planet mass (m > 0)
     Decimal mRadius{};    ///< [m]    Planet radius (r > 0)
     vec mPosition{};            ///< [m]    Position of body mass center
-    Ellipse mTrajectory{};
+    Ellipse<Decimal> mTrajectory;
     vec mTrajectoryCenter{};
 
 };

@@ -67,7 +67,7 @@ Body::getPosition() const
     return mPosition;
 }
 
-Ellipse const &
+Ellipse<Decimal> const &
 Body::getTrajectory() const
 {
     return mTrajectory;

@@ -9,7 +9,7 @@
 
 TEST_CASE("Ellipse", "[math]") // NOLINT
 {
-    Ellipse ellipse{2, 0.5};
+    Ellipse<Decimal> ellipse{2, 0.5};
 
     SECTION("proper construction")
     {

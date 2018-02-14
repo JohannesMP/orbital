@@ -231,7 +231,7 @@ Graphics::transformation()
 }
 
 void
-Graphics::ellipse(const Ellipse &ellipse)
+Graphics::ellipse(const Ellipse<Decimal> &ellipse)
 {
     // Skip ellipse rendering if the viewport is completely contained by the ellipse shape,
     // i.e. no lines are visible anyway.
@@ -254,7 +254,7 @@ Graphics::ellipse(const Ellipse &ellipse)
 
 void
 Graphics::stepper(
-        const Ellipse &ellipse,
+        const Ellipse<Decimal> &ellipse,
         Radian<Decimal> const ts,
         Radian<Decimal> const te
 )
