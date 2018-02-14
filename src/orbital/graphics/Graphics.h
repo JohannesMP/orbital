@@ -28,6 +28,8 @@ public:
      * location itself and can be tested using withinFramebufferBounds().
      */
     using FramebufferLocation = glm::tvec2<std::size_t>;
+    using WorldVector = vec;
+    using FramebufferVector = vec;
 
     /**
      * Character width to height ration.
@@ -69,12 +71,12 @@ public:
     /**
      * Map framebuffer coordinates to transform space coordinates, i.e. the transformed coordinated which would map
      * to this framebuffer coordinate.
-     * @param loc Framebuffer coordinate
+     * @param vec Framebuffer coordinate
      * @return Mapped to transformed space.
      */
-    vec
-    mapToTransformed(
-            const FramebufferLocation &loc
+    WorldVector
+    mapToWorld(
+            FramebufferVector const &vec
     );
 
     /**
@@ -84,18 +86,18 @@ public:
      */
     void
     label(
-            vec pos,
-            std::basic_string_view<char> const &text
+            WorldVector const &pos,
+            std::string_view const &text
     );
 
     /**
      * Write a single character to a position.
-     * @param pos Untransformed position.
+     * @param vec Untransformed position.
      * @param c Character to write.
      */
     void
     pixel(
-            vec pos,
+            FramebufferVector const &vec,
             char c
     );
 
@@ -104,7 +106,9 @@ public:
      * @param ellipse Ellipse to draw.
      */
     void
-    ellipse(const Ellipse &ellipse);
+    ellipse(
+            Ellipse const &ellipse
+    );
 
     /**
      * Add a new layer of transformation, being marked as the current one.
@@ -131,7 +135,7 @@ public:
      */
     void
     translate(
-            const vec &v
+            WorldVector const &v
     );
 
     /**
@@ -140,7 +144,7 @@ public:
      */
     void
     scale(
-            Decimal s
+            Decimal const s
     );
 
     /**
@@ -149,7 +153,7 @@ public:
      */
     void
     rotate(
-            Radian theta
+            Radian const theta
     );
 
     /**
@@ -162,13 +166,13 @@ public:
     /**
      * @return Count of framebuffer columns.
      */
-    int
+    std::size_t
     columns() const;
 
     /**
      * @return Count of framebuffer rows.
      */
-    int
+    std::size_t
     rows() const;
 
     /**
@@ -180,14 +184,29 @@ public:
     /**
      * @return Total transform, including of the whole transformation stack, i.e. considering all layers.
      */
-    const mat &
+    mat const &
     transformation();
 
 private:
 
-    std::list<Transform> mTransformStack;   ///< Stack of transformations.
-    mat mProjection;                  ///< Projection matrix, calculated once.
-    mat mTransform;                   ///< Total transform, update every time the transform stack is modified.
+    /**
+     * Stack of transformations.
+     */
+    std::list<Transform> mTransformStack;
+
+    /**
+     * Projection matrix, calculated once.
+     */
+    mat mProjection;
+
+    /**
+     * Total transform, update every time the transform stack is modified.
+     */
+    mat mTransform;
+
+    /**
+     * Overwrite content in framebuffer flag.
+     */
     bool mOverwrite;
 
     /**
@@ -197,12 +216,12 @@ private:
 
     /**
      * Maps an untransformed vector to the framebuffer coordinate space.
-     * @param v Vector to map.
+     * @param vec Vector to map.
      * @return Location within framebuffer.
      */
-    FramebufferLocation
+    FramebufferVector
     mapToFramebuffer(
-            const vec &v
+            WorldVector const &vec
     );
 
     /**
@@ -215,9 +234,9 @@ private:
      * @param v Location to check for.
      * @return True if framebuffer location is within the framebuffer size, and therefore legally accessible.
      */
-    constexpr bool
+    bool
     withinFramebufferBounds(
-            const FramebufferLocation &v
+            FramebufferVector const &v
     ) const;
 
     /**
@@ -228,7 +247,7 @@ private:
      */
     void
     stepper(
-            const Ellipse &ellipse,
+            Ellipse const &ellipse,
             Radian ts,
             Radian te
     );
@@ -240,7 +259,7 @@ private:
      */
     char &
     framebufferPixel(
-            const FramebufferLocation &loc
+            FramebufferLocation const &loc
     );
 
     /**
@@ -250,7 +269,7 @@ private:
      */
     const char &
     framebufferPixel(
-            const FramebufferLocation &loc
+            FramebufferLocation const &loc
     ) const;
 
 };

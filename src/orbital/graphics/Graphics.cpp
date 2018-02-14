@@ -55,11 +55,11 @@ Graphics::clear()
 
 void
 Graphics::pixel(
-        vec pos,
-        char c
+        FramebufferVector const &vec,
+        char const c
 )
 {
-    auto loc = mapToFramebuffer(pos);
+    auto loc = mapToFramebuffer(vec);
     if (!withinFramebufferBounds(loc))
     {
         return;
@@ -74,19 +74,21 @@ Graphics::pixel(
 
 void
 Graphics::label(
-        vec pos,
+        WorldVector const &pos,
         std::string_view const &text
 )
 {
-    auto loc = mapToFramebuffer(pos);
-    if (!withinFramebufferBounds(loc))
+    auto vec = mapToFramebuffer(pos);
+    if (!withinFramebufferBounds(vec))
     {
         return;
     }
 
+    FramebufferLocation loc{vec};
+
     // If text length exceeds scanline length from a given column,
     // the text must be trimmed to a smaller size to avoid:
-    auto span = std::min<int>(static_cast<int>(text.length()), columns() - loc.x);
+    auto span = std::min(text.length(), columns() - loc.x);
 
     if (mOverwrite)
     {
@@ -106,22 +108,20 @@ Graphics::label(
     }
 }
 
-Graphics::FramebufferLocation
+Graphics::FramebufferVector
 Graphics::mapToFramebuffer(
-        const vec &v
+        WorldVector const &vec
 )
 {
-    vec3 transformed = mTransform * vec3{v, 1.0};
-    return transformed;
+    return mTransform * vec3{vec, 1.0};
 }
 
-vec
-Graphics::mapToTransformed(
-        const FramebufferLocation &loc
+Graphics::WorldVector
+Graphics::mapToWorld(
+        FramebufferVector const &vec
 )
 {
-    vec3 v = glm::inverse(mTransform) * vec3{loc, 1.0};
-    return v;
+    return glm::inverse(mTransform) * vec3{vec, 1.0};
 }
 
 void
@@ -142,21 +142,27 @@ Graphics::border()
 }
 
 void
-Graphics::translate(const vec &v)
+Graphics::translate(
+        WorldVector const &v
+)
 {
     mTransformStack.back().translate(v);
     updateTransform();
 }
 
 void
-Graphics::scale(Decimal s)
+Graphics::scale(
+        Decimal const s
+)
 {
     mTransformStack.back().scale(s);
     updateTransform();
 }
 
 void
-Graphics::rotate(Radian theta)
+Graphics::rotate(
+        Radian const theta
+)
 {
     mTransformStack.back().rotate(theta);
     updateTransform();
@@ -173,7 +179,7 @@ Graphics::updateTransform()
     mTransform = mProjection * view;
 }
 
-int
+std::size_t
 Graphics::columns() const
 {
     return static_cast<int>(mScanlines[0].length());
@@ -196,9 +202,9 @@ Graphics::present()
     std::cout << std::flush;
 }
 
-constexpr bool
+bool
 Graphics::withinFramebufferBounds(
-        const FramebufferLocation &v
+        const FramebufferVector &v
 ) const
 {
     return v.y >= 0 && v.y < rows() && v.x >= 0 && v.x < columns();
@@ -228,8 +234,8 @@ Graphics::ellipse(const Ellipse &ellipse)
 {
     // Skip ellipse rendering if the viewport is completely contained by the ellipse shape,
     // i.e. no lines are visible anyway.
-    vec ll = mapToTransformed({0, rows() - 1});
-    vec ur = mapToTransformed({columns() - 1, 0});
+    vec ll = mapToWorld({0, rows() - 1});
+    vec ur = mapToWorld({columns() - 1, 0});
     if (ellipse.contains(Rectangle{ll, ur}))
     {
         //std::cout << "Skip ellipse rendering" << std::endl;
@@ -275,25 +281,31 @@ Graphics::stepper(
 }
 
 void
-Graphics::overwrite(bool b)
+Graphics::overwrite(
+        bool const b
+)
 {
     mOverwrite = b;
 }
 
-int
+std::size_t
 Graphics::rows() const
 {
     return static_cast<int>(mScanlines.size());
 }
 
 char &
-Graphics::framebufferPixel(const Graphics::FramebufferLocation &loc)
+Graphics::framebufferPixel(
+        const Graphics::FramebufferLocation &loc
+)
 {
     return mScanlines.at(loc.y).at(loc.x);
 }
 
 char const &
-Graphics::framebufferPixel(const Graphics::FramebufferLocation &loc) const
+Graphics::framebufferPixel(
+        Graphics::FramebufferLocation const &loc
+) const
 {
     return mScanlines.at(loc.y).at(loc.x);
 }
