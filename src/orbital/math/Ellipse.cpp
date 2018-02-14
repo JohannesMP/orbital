@@ -48,29 +48,29 @@ Ellipse::focalPoints() const
 
 vec
 Ellipse::point(
-        Radian t
+        Radian<Decimal> t
 ) const
 {
     return {mA * t.cos(), mB * t.sin()};
 }
 
-Radian
+Radian<Decimal>
 Ellipse::arcLength(
-        Radian const ts,
-        Radian const te,
+        Radian<Decimal> const ts,
+        Radian<Decimal> const te,
         Decimal const resolution
 ) const
 {
     Decimal sqA = sq(mA);
     Decimal sqB = sq(mB);
-    return Radian{integral(ts, te, resolution, [&](Radian const x) {
-        return Radian{std::sqrt(sqA * sq(x.sin()) + sqB * sq(x.cos()))};
+    return Radian<Decimal>{integral(ts, te, resolution, [&](Radian<Decimal> const x) {
+        return Radian<Decimal>{std::sqrt(sqA * sq(x.sin()) + sqB * sq(x.cos()))};
     })};
 }
 
 vec
 Ellipse::pointAngle(
-        Radian theta
+        Radian<Decimal> theta
 ) const
 {
     Decimal denominator = std::sqrt(sq(mB * theta.cos()) + sq(mA * theta.sin())) / mA / mB;
@@ -86,16 +86,16 @@ Ellipse::contains(
             (2 * mA >= distance(focalPoints()[0], p) + distance(focalPoints()[1], p));
 }
 
-Radian
+Radian<Decimal>
 Ellipse::tAtX(Decimal x) const
 {
-    return Radian::arccos(x / mA);
+    return Radian<Decimal>::arccos(x / mA);
 }
 
-Radian
+Radian<Decimal>
 Ellipse::tAtY(Decimal y) const
 {
-    return Radian::arcsin(y / mB);
+    return Radian<Decimal>::arcsin(y / mB);
 }
 
 bool
@@ -107,10 +107,10 @@ Ellipse::contains(
             contains(rect.topRight());
 }
 
-Radian
+Radian<Decimal>
 Ellipse::pointToT(const vec v) const
 {
-    Radian const t = tAtX(v.x);
+    Radian<Decimal> const t = tAtX(v.x);
     // Since t-from-x calculation can only return t's for positive y values, flip it over if y-value is negative:
     return v.y >= 0 ? t : 2_pi - t;
 }
@@ -128,14 +128,14 @@ Ellipse::pointToT(const vec v) const
  *    fourth and fifth, ... element and the range between the last and the first element. In this case 2π should be
  *    added to the first element, so it's greater in value than the last element.
  */
-DynamicArray<std::pair<Radian, Radian>, 4>
+DynamicArray<std::pair<Radian<Decimal>, Radian<Decimal>>, 4>
 Ellipse::clip(
         const Rectangle &rect,
         const Transform &transform
 ) const
 {
-    DynamicArray<Radian, 8> points;
-    DynamicArray<std::pair<Radian, Radian>, 4> ranges;
+    DynamicArray<Radian<Decimal>, 8> points;
+    DynamicArray<std::pair<Radian<Decimal>, Radian<Decimal>>, 4> ranges;
 
     // Store valid intersections of line, representing a transformed edge of the rectangle:
     auto storeIntersections = [&](Line<Decimal> const &line) {
@@ -191,7 +191,7 @@ Ellipse::clip(
 
     else
     {
-        Radian const t = average(points[0], points[1]);
+        Radian<Decimal> const t = average(points[0], points[1]);
         vec const p = point(t);
 
         if(rect.containsTransformed(transform.inverse(), p))

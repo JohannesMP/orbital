@@ -22,7 +22,6 @@ ADD_LIBRARY(${ORBITAL_LIB}
         orbital/math/Rectangle.h
         orbital/math/Line.h
         orbital/common/DynamicArray.h
-        orbital/math/Radian.cpp
         orbital/math/Radian.h
         orbital/math/elementary.h
         orbital/common/convert.h

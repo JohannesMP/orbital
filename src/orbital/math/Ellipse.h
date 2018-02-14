@@ -78,7 +78,7 @@ public:
      */
     vec
     point(
-            Radian t
+            Radian<Decimal> t
     ) const;
 
     /**
@@ -95,7 +95,7 @@ public:
      */
     vec
     pointAngle(
-            Radian theta
+            Radian<Decimal> theta
     ) const;
 
     /**
@@ -129,7 +129,7 @@ public:
      * @param transform Transform to apply to the rectangle.
      * @return T pair ranges, denoting ellipse sections lying within the transformed rectangle.
      */
-    DynamicArray<std::pair<Radian, Radian>, 4>
+    DynamicArray<std::pair<Radian<Decimal>, Radian<Decimal>>, 4>
     clip(
             const Rectangle &rect,
             const Transform &transform
@@ -176,10 +176,10 @@ public:
      * @param resolution The higher the resolution, the more accurate the result.
      * @return Arc length.
      */
-    Radian
+    Radian<Decimal>
     arcLength(
-            Radian const ts,
-            Radian const te,
+            Radian<Decimal> const ts,
+            Radian<Decimal> const te,
             Decimal const resolution
     ) const;
 
@@ -208,7 +208,7 @@ public:
      * @param x X value
      * @return
      */
-    Radian
+    Radian<Decimal>
     tAtX(
             Decimal x
     ) const;
@@ -226,7 +226,7 @@ public:
      * @param y Y value
      * @return
      */
-    Radian
+    Radian<Decimal>
     tAtY(
             Decimal y
     ) const;
@@ -237,7 +237,7 @@ public:
      * @attention Returns only reasonable values if the given points lies on the ellipse.
      * @return T-Parameter.
      */
-    Radian
+    Radian<Decimal>
     pointToT(
             vec const v
     ) const;

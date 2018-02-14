@@ -148,11 +148,11 @@ public:
 
     /**
      * Add rotation to the current transform.
-     * @param theta Amount of rotation, in radians.
+     * @param theta Amount of rotation, in Radians.
      */
     void
     rotate(
-            Radian theta
+            Radian<Decimal> theta
     );
 
     /**
@@ -247,8 +247,8 @@ private:
     void
     stepper(
             Ellipse const &ellipse,
-            Radian ts,
-            Radian te
+            Radian<Decimal> ts,
+            Radian<Decimal> te
     );
 
     /**

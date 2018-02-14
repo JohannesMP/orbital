@@ -81,12 +81,13 @@ perpendicular(
 /**
  * Calculate the angle between the vector and the x axis: \f$ arctan2(v_y, v_x) \f$
  */
-inline Radian
+template<class T>
+Radian<T>
 angle(
-        vec const v
+        tvec<T> const v
 )
 {
-    return Radian::arctan2(v.y, v.x);
+    return Radian<T>::arctan2(v.y, v.x);
 }
 
 /**

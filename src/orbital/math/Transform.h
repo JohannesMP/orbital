@@ -29,7 +29,7 @@ public:
 
     void
     rotate(
-            Radian radians
+            Radian<Decimal> radians
     );
 
     const mat &

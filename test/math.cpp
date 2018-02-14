@@ -75,9 +75,9 @@ TEST_CASE("Radians", "[math]")
 
     SECTION("inverse trigonometric functions")
     {
-        CHECK(Radian::arcsin(1) == approx(0.5_pi).margin(0.000001));
-        CHECK(Radian::arccos(1) == approx(0_pi).margin(0.000001));
-        CHECK(Radian::arctan(1) == Approx{std::atan(1)}.margin(0.000001));
-        CHECK(Radian::arctan2(2, 3) == Approx{std::atan2(2, 3)}.margin(0.000001));
+        CHECK(Radian<Decimal>::arcsin(1) == approx(0.5_pi).margin(0.000001));
+        CHECK(Radian<Decimal>::arccos(1) == approx(0_pi).margin(0.000001));
+        CHECK(Radian<Decimal>::arctan(1) == Approx{std::atan(1)}.margin(0.000001));
+        CHECK(Radian<Decimal>::arctan2(2, 3) == Approx{std::atan2(2, 3)}.margin(0.000001));
     }
 }

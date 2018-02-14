@@ -162,7 +162,7 @@ Graphics::scale(
 
 void
 Graphics::rotate(
-        Radian const theta
+        Radian<Decimal> const theta
 )
 {
     mTransformStack.back().rotate(theta);
@@ -255,8 +255,8 @@ Graphics::ellipse(const Ellipse &ellipse)
 void
 Graphics::stepper(
         const Ellipse &ellipse,
-        Radian const ts,
-        Radian const te
+        Radian<Decimal> const ts,
+        Radian<Decimal> const te
 )
 {
     // Calculate distance the painted pixels of the start and end arc would have within the framebuffer:
@@ -269,7 +269,7 @@ Graphics::stepper(
     {
         // Distance between painted pixels in framebuffers spans over at least one pixel,
         // continue stepping in smaller steps:
-        Radian ta = average(ts, te);
+        Radian<Decimal> ta = average(ts, te);
         stepper(ellipse, ts, ta);
         stepper(ellipse, ta, te);
     }

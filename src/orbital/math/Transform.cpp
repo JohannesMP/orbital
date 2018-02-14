@@ -38,14 +38,14 @@ Transform::translate(const vec &v)
 }
 
 void
-Transform::scale(Decimal s)
+Transform::scale(Decimal const s)
 {
     mScale = glm::scale(mScale, vec{s, s});
     update();
 }
 
 void
-Transform::rotate(Radian radians)
+Transform::rotate(Radian<Decimal> const radians)
 {
     mRotation = glm::rotate(mRotation, radians.getRaw()); // NOLINT
     update();
