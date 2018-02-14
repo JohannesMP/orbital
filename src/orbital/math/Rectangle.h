@@ -99,9 +99,9 @@ public:
             vec const p
     ) const
     {
-        vec const a = transform.apply(bottomLeft());
-        vec const s = a - transform.apply(topLeft());
-        vec const t = transform.apply(bottomRight()) - a;
+        vec const a = transform.applied(bottomLeft());
+        vec const s = a - transform.applied(topLeft());
+        vec const t = transform.applied(bottomRight()) - a;
 
         T theta = (p.x + s.x - a.x) / t.x;
         T mu = (p.y - a.y) / (t.y * theta - s.y);

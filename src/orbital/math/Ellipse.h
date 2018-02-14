@@ -217,16 +217,16 @@ public:
         };
 
         // Append intersections from line: bottom left - top left
-        storeIntersections(Line<T>{transform.apply(rect.bottomLeft()), transform.apply(rect.topLeft())});
+        storeIntersections(Line<T>{transform.applied(rect.bottomLeft()), transform.applied(rect.topLeft())});
 
         // Append intersections from line: bottom left - bottom right
-        storeIntersections(Line<T>{transform.apply(rect.bottomLeft()), transform.apply(rect.bottomRight())});
+        storeIntersections(Line<T>{transform.applied(rect.bottomLeft()), transform.applied(rect.bottomRight())});
 
         // Append intersections from line: top right - top left
-        storeIntersections(Line<T>{transform.apply(rect.topRight()), transform.apply(rect.topLeft())});
+        storeIntersections(Line<T>{transform.applied(rect.topRight()), transform.applied(rect.topLeft())});
 
         // Append intersections from line: top right - bottom right
-        storeIntersections(Line<T>{transform.apply(rect.topRight()), transform.apply(rect.bottomRight())});
+        storeIntersections(Line<T>{transform.applied(rect.topRight()), transform.applied(rect.bottomRight())});
 
         std::sort(points.begin(), points.end());
 

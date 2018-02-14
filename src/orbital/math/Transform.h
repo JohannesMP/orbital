@@ -21,34 +21,38 @@ public:
     {
     }
 
-    void
+    Transform &
     reset()
     {
         mTransform = identityMatrix();
+        return *this;
     }
 
-    void
+    Transform &
     translate(
             tvec<T> const &v
     )
     {
         mTransform = glm::translate(mTransform, v);
+        return *this;
     }
 
-    void
+    Transform &
     scale(
             T const s
     )
     {
         mTransform = glm::scale(mTransform, tvec<T>{s, s});
+        return *this;
     }
 
-    void
+    Transform &
     rotate(
             Radian<T> const radians
     )
     {
         mTransform = glm::rotate(mTransform, radians.getRaw());
+        return *this;
     }
 
     const mat &
@@ -66,7 +70,7 @@ public:
     }
 
     tvec<T>
-    apply(
+    applied(
             tvec<T> const vec
     ) const
     {
