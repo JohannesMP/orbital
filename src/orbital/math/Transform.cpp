@@ -47,7 +47,7 @@ Transform::scale(Decimal s)
 void
 Transform::rotate(Radian radians)
 {
-    mRotation = glm::rotate(mRotation, radians.getRaw());
+    mRotation = glm::rotate(mRotation, radians.getRaw()); // NOLINT
     update();
 }
 

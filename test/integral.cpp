@@ -2,69 +2,75 @@
 // Created by jim on 28.01.18.
 //
 
-#include <gtest/gtest.h>
+#include "catch/catch.hpp"
+#include "common.h"
 #include <orbital/common/common.h>
 #include <orbital/math/Radian.h>
 #include <orbital/math/elementary.h>
 
-TEST(Integral, NullArea) // NOLINT
+TEST_CASE("Integral", "[math]") // NOLINT
 {
-    ASSERT_DOUBLE_EQ(integral(1_df, 1_df, 100_df, &sq), 0_df);
-}
 
-TEST(Integral, SquareFunction) // NOLINT
-{
-    ASSERT_NEAR(integral(1_df, 2_df, 100_df, &sq), 2.33_df, 0.01_df);
-}
+    SECTION("null area due same bounds results in 0")
+    {
+        CHECK(integral(1_df, 1_df, 100_df, &sq) == Approx(0_df));
+    }
 
-TEST(Integral, SquareFunctionOppositeDirection) // NOLINT
-{
-    ASSERT_NEAR(integral(2_df, 1_df, 100_df, &sq), -2.33_df, 0.01_df);
-}
+    SECTION("integrating square function")
+    {
+        CHECK(integral(1_df, 2_df, 100_df, &sq) == Approx(2.33_df).margin(0.01_df));
+    }
 
-TEST(Integral, NegatedSquareFunction) // NOLINT
-{
-    auto negativeSq = [](Decimal x) {
-        return -x * x;
-    };
-    ASSERT_NEAR(integral(1_df, 2_df, 100_df, negativeSq), -2.33_df, 0.01_df);
-}
+    SECTION("integrating square function in opposite direction")
+    {
+        CHECK(integral(2_df, 1_df, 100_df, &sq) == Approx(-2.33_df).margin(0.01_df));
+    }
 
-TEST(Integral, NegatedSquareFunctionOppositeDirection) // NOLINT
-{
-    auto negativeSq = [](Decimal x) {
-        return -x * x;
-    };
-    ASSERT_NEAR(integral(2_df, 1_df, 100_df, negativeSq), 2.33_df, 0.01_df);
-}
+    SECTION("integrating negated square function")
+    {
+        auto negativeSq = [](Decimal x) {
+            return -x * x;
+        };
+        CHECK(integral(1_df, 2_df, 100_df, negativeSq) == Approx(-2.33_df).margin(0.01_df));
+    }
 
-TEST(Integral, SquareFunctionNegative) // NOLINT
-{
-    ASSERT_NEAR(integral(-2_df, -1_df, 100_df, &sq), 2.33_df, 0.01_df);
-}
+    SECTION("integrating negated square function in opposite direction")
+    {
+        auto negativeSq = [](Decimal x) {
+            return -x * x;
+        };
+        CHECK(integral(2_df, 1_df, 100_df, negativeSq) == Approx(2.33_df).margin(0.01_df));
+    }
 
-TEST(Integral, SquareFunctionNegativeOppositeDirection) // NOLINT
-{
-    ASSERT_NEAR(integral(-1_df, -2_df, 100_df, &sq), -2.33_df, 0.01_df);
-}
+    SECTION("integrating square function on negative x-axis side")
+    {
+        CHECK(integral(-2_df, -1_df, 100_df, &sq) == Approx(2.33_df).margin(0.01_df));
+    }
 
-TEST(Integral, NegatedSquareFunctionNegative) // NOLINT
-{
-    auto negativeSq = [](Decimal x) {
-        return -x * x;
-    };
-    ASSERT_NEAR(integral(-2_df, -1_df, 100_df, negativeSq), -2.33_df, 0.01_df);
-}
+    SECTION("integrating square function on negative x-axis side in opposite direction")
+    {
+        CHECK(integral(-1_df, -2_df, 100_df, &sq) == Approx(-2.33_df).margin(0.01_df));
+    }
 
-TEST(Integral, NegatedSquareFunctionNegativeOppositeDirection) // NOLINT
-{
-    auto negativeSq = [](Decimal x) {
-        return -x * x;
-    };
-    ASSERT_NEAR(integral(-1_df, -2_df, 100_df, negativeSq), 2.33_df, 0.01_df);
-}
+    SECTION("integrating negated square function on negative x-axis side")
+    {
+        auto negativeSq = [](Decimal x) {
+            return -x * x;
+        };
+        CHECK(integral(-2_df, -1_df, 100_df, negativeSq) == Approx(-2.33_df).margin(0.01_df));
+    }
 
-TEST(Integral, SinusSelfElimination) // NOLINT
-{
-    ASSERT_NEAR(integral(0_pi, 2_pi, 100_pi, &Radian::sin).getRaw(), 0, 0.00001);
+    SECTION("integrating negated square function on negative x-axis side in opposite direction")
+    {
+        auto negativeSq = [](Decimal x) {
+            return -x * x;
+        };
+        CHECK(integral(-1_df, -2_df, 100_df, negativeSq) == Approx(2.33_df).margin(0.01_df));
+    }
+
+    SECTION("integrating sinus results in 0 due to self-ellimination")
+    {
+        CHECK(integral(0_pi, 2_pi, 100_pi, &Radian::sin) == Approx(0).margin(0.00001));
+    }
+
 }

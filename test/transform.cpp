@@ -2,119 +2,123 @@
 // Created by jim on 29.01.18.
 //
 
-#include <gtest/gtest.h>
+#include "catch/catch.hpp"
 #include <orbital/math/Transform.h>
 
-TEST(Transform, DefaultConstructionIsIdentityMatrix) // NOLINT
+TEST_CASE("Matrix", "[math]") // NOLINT
 {
-    Transform transform;
 
-    ASSERT_DOUBLE_EQ(transform.transformation()[0][0], 1);
-    ASSERT_DOUBLE_EQ(transform.transformation()[0][1], 0);
-    ASSERT_DOUBLE_EQ(transform.transformation()[0][2], 0);
+    SECTION("default construction is identity matrix")
+    {
+        Transform transform;
 
-    ASSERT_DOUBLE_EQ(transform.transformation()[1][0], 0);
-    ASSERT_DOUBLE_EQ(transform.transformation()[1][1], 1);
-    ASSERT_DOUBLE_EQ(transform.transformation()[1][2], 0);
+        CHECK(transform.transformation()[0][0] == Approx(1));
+        CHECK(transform.transformation()[0][1] == Approx(0));
+        CHECK(transform.transformation()[0][2] == Approx(0));
 
-    ASSERT_DOUBLE_EQ(transform.transformation()[2][0], 0);
-    ASSERT_DOUBLE_EQ(transform.transformation()[2][1], 0);
-    ASSERT_DOUBLE_EQ(transform.transformation()[2][2], 1);
-}
+        CHECK(transform.transformation()[1][0] == Approx(0));
+        CHECK(transform.transformation()[1][1] == Approx(1));
+        CHECK(transform.transformation()[1][2] == Approx(0));
 
-TEST(Transform, ResetToIdentityMatrix) // NOLINT
-{
-    Transform transform;
-    transform.translate({1, 2});
-    transform.scale(4);
-    transform.rotate(-1_pi);
-    transform.reset();
+        CHECK(transform.transformation()[2][0] == Approx(0));
+        CHECK(transform.transformation()[2][1] == Approx(0));
+        CHECK(transform.transformation()[2][2] == Approx(1));
+    }
 
-    ASSERT_DOUBLE_EQ(transform.transformation()[0][0], 1);
-    ASSERT_DOUBLE_EQ(transform.transformation()[0][1], 0);
-    ASSERT_DOUBLE_EQ(transform.transformation()[0][2], 0);
+    SECTION("reset to identity matrix")
+    {
+        Transform transform;
+        transform.translate({1, 2});
+        transform.scale(4);
+        transform.rotate(-1_pi);
+        transform.reset();
 
-    ASSERT_DOUBLE_EQ(transform.transformation()[1][0], 0);
-    ASSERT_DOUBLE_EQ(transform.transformation()[1][1], 1);
-    ASSERT_DOUBLE_EQ(transform.transformation()[1][2], 0);
+        CHECK(transform.transformation()[0][0] == Approx(1));
+        CHECK(transform.transformation()[0][1] == Approx(0));
+        CHECK(transform.transformation()[0][2] == Approx(0));
 
-    ASSERT_DOUBLE_EQ(transform.transformation()[2][0], 0);
-    ASSERT_DOUBLE_EQ(transform.transformation()[2][1], 0);
-    ASSERT_DOUBLE_EQ(transform.transformation()[2][2], 1);
-}
+        CHECK(transform.transformation()[1][0] == Approx(0));
+        CHECK(transform.transformation()[1][1] == Approx(1));
+        CHECK(transform.transformation()[1][2] == Approx(0));
 
-TEST(Transform, TranslationMatrix) // NOLINT
-{
-    Transform transform;
-    transform.translate({3, 4});
+        CHECK(transform.transformation()[2][0] == Approx(0));
+        CHECK(transform.transformation()[2][1] == Approx(0));
+        CHECK(transform.transformation()[2][2] == Approx(1));
+    }
 
-    ASSERT_DOUBLE_EQ(transform.transformation()[0][0], 1);
-    ASSERT_DOUBLE_EQ(transform.transformation()[0][1], 0);
-    ASSERT_DOUBLE_EQ(transform.transformation()[0][2], 0);
+    SECTION("translation matrix")
+    {
+        Transform transform;
+        transform.translate({3, 4});
 
-    ASSERT_DOUBLE_EQ(transform.transformation()[1][0], 0);
-    ASSERT_DOUBLE_EQ(transform.transformation()[1][1], 1);
-    ASSERT_DOUBLE_EQ(transform.transformation()[1][2], 0);
+        CHECK(transform.transformation()[0][0] == Approx(1));
+        CHECK(transform.transformation()[0][1] == Approx(0));
+        CHECK(transform.transformation()[0][2] == Approx(0));
 
-    ASSERT_DOUBLE_EQ(transform.transformation()[2][0], 3); // x-translation
-    ASSERT_DOUBLE_EQ(transform.transformation()[2][1], 4); // y-translation
-    ASSERT_DOUBLE_EQ(transform.transformation()[2][2], 1);
-}
+        CHECK(transform.transformation()[1][0] == Approx(0));
+        CHECK(transform.transformation()[1][1] == Approx(1));
+        CHECK(transform.transformation()[1][2] == Approx(0));
 
-TEST(Transform, ScaleMatrix) // NOLINT
-{
-    Transform transform;
-    transform.scale(2);
+        CHECK(transform.transformation()[2][0] == Approx(3));
+        CHECK(transform.transformation()[2][1] == Approx(4));
+        CHECK(transform.transformation()[2][2] == Approx(1));
+    }
 
-    ASSERT_DOUBLE_EQ(transform.transformation()[0][0], 2);
-    ASSERT_DOUBLE_EQ(transform.transformation()[0][1], 0);
-    ASSERT_DOUBLE_EQ(transform.transformation()[0][2], 0);
+    SECTION("scale matrix")
+    {
+        Transform transform;
+        transform.scale(2);
 
-    ASSERT_DOUBLE_EQ(transform.transformation()[1][0], 0);
-    ASSERT_DOUBLE_EQ(transform.transformation()[1][1], 2);
-    ASSERT_DOUBLE_EQ(transform.transformation()[1][2], 0);
+        CHECK(transform.transformation()[0][0] == Approx(2));
+        CHECK(transform.transformation()[0][1] == Approx(0));
+        CHECK(transform.transformation()[0][2] == Approx(0));
 
-    ASSERT_DOUBLE_EQ(transform.transformation()[2][0], 0);
-    ASSERT_DOUBLE_EQ(transform.transformation()[2][1], 0);
-    ASSERT_DOUBLE_EQ(transform.transformation()[2][2], 1);
-}
+        CHECK(transform.transformation()[1][0] == Approx(0));
+        CHECK(transform.transformation()[1][1] == Approx(2));
+        CHECK(transform.transformation()[1][2] == Approx(0));
 
-TEST(Transform, RotationMatrix) // NOLINT
-{
-    Transform transform;
+        CHECK(transform.transformation()[2][0] == Approx(0));
+        CHECK(transform.transformation()[2][1] == Approx(0));
+        CHECK(transform.transformation()[2][2] == Approx(1));
+    }
 
-    auto alpha = 0.25_pi;
-    transform.rotate(alpha);
+    SECTION("rotation matrix")
+    {
+        Transform transform;
 
-    ASSERT_DOUBLE_EQ(transform.transformation()[0][0], alpha.cos());
-    ASSERT_DOUBLE_EQ(transform.transformation()[0][1], alpha.sin());
-    ASSERT_DOUBLE_EQ(transform.transformation()[0][2], 0);
+        auto alpha = 0.25_pi;
+        transform.rotate(alpha);
 
-    ASSERT_DOUBLE_EQ(transform.transformation()[1][0], -alpha.sin());
-    ASSERT_DOUBLE_EQ(transform.transformation()[1][1], alpha.cos());
-    ASSERT_DOUBLE_EQ(transform.transformation()[1][2], 0);
+        CHECK(transform.transformation()[0][0] == Approx(alpha.cos()));
+        CHECK(transform.transformation()[0][1] == Approx(alpha.sin()));
+        CHECK(transform.transformation()[0][2] == Approx(0));
 
-    ASSERT_DOUBLE_EQ(transform.transformation()[2][0], 0);
-    ASSERT_DOUBLE_EQ(transform.transformation()[2][1], 0);
-    ASSERT_DOUBLE_EQ(transform.transformation()[2][2], 1);
-}
+        CHECK(transform.transformation()[1][0] == Approx(-alpha.sin()));
+        CHECK(transform.transformation()[1][1] == Approx(alpha.cos()));
+        CHECK(transform.transformation()[1][2] == Approx(0));
 
-TEST(Transform, RotationMatrixNegativeAngle) // NOLINT
-{
-    Transform transform;
+        CHECK(transform.transformation()[2][0] == Approx(0));
+        CHECK(transform.transformation()[2][1] == Approx(0));
+        CHECK(transform.transformation()[2][2] == Approx(1));
+    }
 
-    auto alpha = -0.25_pi;
-    transform.rotate(alpha);
+    SECTION("rotation matrix with negative angle")
+    {
+        Transform transform;
 
-    ASSERT_DOUBLE_EQ(transform.transformation()[0][0], alpha.cos());
-    ASSERT_DOUBLE_EQ(transform.transformation()[0][1], alpha.sin());
-    ASSERT_DOUBLE_EQ(transform.transformation()[0][2], 0);
+        auto alpha = -0.25_pi;
+        transform.rotate(alpha);
 
-    ASSERT_DOUBLE_EQ(transform.transformation()[1][0], -alpha.sin());
-    ASSERT_DOUBLE_EQ(transform.transformation()[1][1], alpha.cos());
-    ASSERT_DOUBLE_EQ(transform.transformation()[1][2], 0);
+        CHECK(transform.transformation()[0][0] == Approx(alpha.cos()));
+        CHECK(transform.transformation()[0][1] == Approx(alpha.sin()));
+        CHECK(transform.transformation()[0][2] == Approx(0));
 
-    ASSERT_DOUBLE_EQ(transform.transformation()[2][0], 0);
-    ASSERT_DOUBLE_EQ(transform.transformation()[2][1], 0);
-    ASSERT_DOUBLE_EQ(transform.transformation()[2][2], 1);
+        CHECK(transform.transformation()[1][0] == Approx(-alpha.sin()));
+        CHECK(transform.transformation()[1][1] == Approx(alpha.cos()));
+        CHECK(transform.transformation()[1][2] == Approx(0));
+
+        CHECK(transform.transformation()[2][0] == Approx(0));
+        CHECK(transform.transformation()[2][1] == Approx(0));
+        CHECK(transform.transformation()[2][2] == Approx(1));
+    }
 }

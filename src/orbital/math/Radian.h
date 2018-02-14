@@ -103,7 +103,7 @@ public:
     arctan(Decimal x);
 
     constexpr Decimal
-    getRaw()
+    getRaw() const
     {
         return mRadians;
     }

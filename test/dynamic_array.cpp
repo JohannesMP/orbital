@@ -2,60 +2,67 @@
 // Created by jim on 05.02.18.
 //
 
-#include <gtest/gtest.h>
+#include "catch/catch.hpp"
 #include <orbital/common/DynamicArray.h>
 #include <orbital/common/common.h>
-#include <orbital/math/Radian.h>
 
-TEST(DynamicArray, Basic) // NOLINT
+TEST_CASE("DynamicArray", "[common]") // NOLINT
 {
-    DynamicArray<Radian, 1> dy;
 
-    ASSERT_EQ(dy.size(), 0);
-    ASSERT_EQ(dy.capacity(), 1);
+    DynamicArray<int, 5> array;
+    auto const &constantArray = array;
 
-    dy.push_back(1_pi);
+    CHECK(array.size() == 0);
+    CHECK(array.capacity() == 5);
 
-    ASSERT_EQ(dy.size(), 1);
-    ASSERT_EQ(dy.capacity(), 1);
+    SECTION("appending does change size but not capacity")
+    {
+        array.push_back(26);
 
-    // Capacity would be exceeded:
-    ASSERT_ANY_THROW(dy.push_back(1_pi));
-    ASSERT_EQ(dy.size(), 1);
-    ASSERT_EQ(dy.capacity(), 1);
-}
+        CHECK(array.size() == 1);
+        CHECK(array.capacity() == 5);
+    }
 
-TEST(DynamicArray, Iterators) // NOLINT
-{
-    DynamicArray<Decimal, 5> dy;
-    auto const &constantDy = dy;
+    SECTION("exceeding capacity throws exception")
+    {
+        for (auto i = array.size(); i < array.capacity(); i++)
+        {
+            array.push_back({});
+        }
 
-    ASSERT_DOUBLE_EQ(dy.push_back(3), 3);
+        CHECK_THROWS(array.push_back({}));
 
-    ASSERT_DOUBLE_EQ(*dy.begin(), 3);
-    ASSERT_DOUBLE_EQ(*constantDy.begin(), 3);
+        CHECK(array.size() == 5);
+        CHECK(array.capacity() == 5);
+    }
 
-    ASSERT_EQ(std::distance(dy.begin(), dy.end()), 1);
-    ASSERT_EQ(std::distance(constantDy.begin(), constantDy.end()), 1);
-}
+    SECTION("Iterators")
+    {
+        CHECK(array.push_back(3) == 3);
 
-TEST(DynamicArray, FrontBack) // NOLINT
-{
-    DynamicArray<Decimal, 5> dy;
-    auto const &constantDy = dy;
+        CHECK(*array.begin() == Approx(3));
+        CHECK(*constantArray.begin() == Approx(3));
 
-    dy.push_back(3);
+        CHECK(std::distance(array.begin(), array.end()) == 1);
+        CHECK(std::distance(constantArray.begin(), constantArray.end()) == 1);
+    }
 
-    ASSERT_EQ(dy.front(), 3);
-    ASSERT_EQ(constantDy.front(), 3);
-    ASSERT_EQ(dy.back(), 3);
-    ASSERT_EQ(constantDy.back(), 3);
+    SECTION("FrontBack")
+    {
+        array.push_back(3);
 
-    dy.push_back(5);
+        CHECK(array.front() == 3);
+        CHECK(constantArray.front() == 3);
+        CHECK(array.back() == 3);
+        CHECK(constantArray.back() == 3);
 
-    ASSERT_EQ(dy.front(), 3);
-    ASSERT_EQ(constantDy.front(), 3);
-    ASSERT_EQ(dy.back(), 5);
-    ASSERT_EQ(constantDy.back(), 5);
+        array.push_back(5);
+
+        CHECK(array.front() == 3);
+        CHECK(constantArray.front() == 3);
+        CHECK(array.back() == 5);
+        CHECK(constantArray.back() == 5);
+    }
+
 }
 

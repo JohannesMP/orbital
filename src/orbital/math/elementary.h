@@ -94,6 +94,7 @@ angle(
  * @attention If the resolution is greater than 1, it is required to be able to hold fractional values. As integer
  * types would truncate to 0, giving integer types in such a case will lead to 0 division.
  * @param f Function to integrate on.
+ * @param args Arguments to pass to f, see std::apply().
  * @param low Lower integration bound.
  * @param high Upper integration bound.
  * @param resolution Resolution per x stepping, i.e. number of function invocations per x.

@@ -244,7 +244,7 @@ public:
 
     /**
      * Projects a point to a point on the ellipse, i.e. with the same angle.
-     * @note \f$ \vec{0} \f$ is mapped to \f$ \left( 0, 0 \right) \f$
+     * @attention Mapping \f$ \vec{0} \f$ will result in `nan`.
      * @param v Point to project.
      * @return Projected point on ellipse.
      */

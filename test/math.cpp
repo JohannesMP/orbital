@@ -2,50 +2,53 @@
 // Created by jim on 29.01.18.
 //
 
-
-#include <gtest/gtest.h>
 #include <orbital/common/common.h>
 #include <orbital/math/elementary.h>
 
-TEST(Constants, Validity) // NOLINT
+#include "catch/catch.hpp"
+
+TEST_CASE("Constants", "[math]") // NOLINT
 {
-    ASSERT_DOUBLE_EQ(G(), 6.67408e-11_df);
-    ASSERT_DOUBLE_EQ(au(), 149597870700_df);
+    CHECK(G() == Approx(6.67408e-11_df));
+    CHECK(au() == Approx(149597870700_df));
+
+    SECTION("identity matrix has valid values")
+    {
+        CHECK(identityMatrix()[0][0] == Approx(1));
+        CHECK(identityMatrix()[0][1] == Approx(0));
+        CHECK(identityMatrix()[0][2] == Approx(0));
+
+        CHECK(identityMatrix()[1][0] == Approx(0));
+        CHECK(identityMatrix()[1][1] == Approx(1));
+        CHECK(identityMatrix()[1][2] == Approx(0));
+
+        CHECK(identityMatrix()[2][0] == Approx(0));
+        CHECK(identityMatrix()[2][1] == Approx(0));
+        CHECK(identityMatrix()[2][2] == Approx(1));
+    }
 }
 
-TEST(VectorFunctions, Length) // NOLINT
+TEST_CASE("VectorFunctions", "[math]") // NOLINT
 {
-    ASSERT_DOUBLE_EQ(length(vec(0, 0)), 0);
-    ASSERT_DOUBLE_EQ(length(vec(1, 0)), 1);
-    ASSERT_DOUBLE_EQ(length(vec(0, 1)), 1);
-    ASSERT_DOUBLE_EQ(length(vec(1, 1)), std::sqrt(2));
-    ASSERT_DOUBLE_EQ(length(vec(2, 2)), std::sqrt(8));
-    ASSERT_DOUBLE_EQ(length(vec(-1, 0)), 1);
-    ASSERT_DOUBLE_EQ(length(vec(0, -1)), 1);
-    ASSERT_DOUBLE_EQ(length(vec(-1, 1)), std::sqrt(2));
-    ASSERT_DOUBLE_EQ(length(vec(2, -2)), std::sqrt(8));
-}
+    SECTION("vector length")
+    {
+        CHECK(length(vec(0, 0)) == Approx(0));
+        CHECK(length(vec(1, 0)) == Approx(1));
+        CHECK(length(vec(0, 1)) == Approx(1));
+        CHECK(length(vec(1, 1)) == Approx(std::sqrt(2)));
+        CHECK(length(vec(2, 2)) == Approx(std::sqrt(8)));
+        CHECK(length(vec(-1, 0)) == Approx(1));
+        CHECK(length(vec(0, -1)) == Approx(1));
+        CHECK(length(vec(-1, 1)) == Approx(std::sqrt(2)));
+        CHECK(length(vec(2, -2)) == Approx(std::sqrt(8)));
+    }
 
-TEST(VectorFunctions, Distance) // NOLINT
-{
-    ASSERT_DOUBLE_EQ(distance(vec(0, 0), vec()), 0);
-    ASSERT_DOUBLE_EQ(distance(vec(1, 0), vec()), 1);
-    ASSERT_DOUBLE_EQ(distance(vec(0, 1), vec()), 1);
-    ASSERT_DOUBLE_EQ(distance(vec(-1, 0), vec()), 1);
-    ASSERT_DOUBLE_EQ(distance(vec(0, -1), vec()), 1);
-}
-
-TEST(Constants, IdentityMatrix) // NOLINT
-{
-    ASSERT_DOUBLE_EQ(identityMatrix()[0][0], 1);
-    ASSERT_DOUBLE_EQ(identityMatrix()[0][1], 0);
-    ASSERT_DOUBLE_EQ(identityMatrix()[0][2], 0);
-
-    ASSERT_DOUBLE_EQ(identityMatrix()[1][0], 0);
-    ASSERT_DOUBLE_EQ(identityMatrix()[1][1], 1);
-    ASSERT_DOUBLE_EQ(identityMatrix()[1][2], 0);
-
-    ASSERT_DOUBLE_EQ(identityMatrix()[2][0], 0);
-    ASSERT_DOUBLE_EQ(identityMatrix()[2][1], 0);
-    ASSERT_DOUBLE_EQ(identityMatrix()[2][2], 1);
+    SECTION("distance between two vectors")
+    {
+        CHECK(distance(vec(0, 0), vec()) == Approx(0));
+        CHECK(distance(vec(1, 0), vec()) == Approx(1));
+        CHECK(distance(vec(0, 1), vec()) == Approx(1));
+        CHECK(distance(vec(-1, 0), vec()) == Approx(1));
+        CHECK(distance(vec(0, -1), vec()) == Approx(1));
+    }
 }

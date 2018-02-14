@@ -11,7 +11,7 @@ ADD_CUSTOM_COMMAND(
 )
 ADD_CUSTOM_TARGET(planets DEPENDS planets.yml)
 
-# Build src:
+# Build library:
 ADD_SUBDIRECTORY(src)
 
 # Build main executable:
